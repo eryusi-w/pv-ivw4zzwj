@@ -1,0 +1,99 @@
+<!-- write.mjs가 소제목 위에 이미지를 넣는다. <img> 태그는 넣지 않는다. -->
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>문제 제기: 설치형 로컬 AI가 필요한 이유</h2>
+<p>로컬 LLM을 쓰려면 보통 Ollama나 llama.cpp를 깔고, 양자화 모델을 고르고, VRAM 계산을 하고, GGUF 파일을 받아야 합니다. 처음엔 간단해 보여도, 어떤 모델이 내 GPU에 맞는지, 어느 양자화가 품질과 속도의 균형이 좋은지, 인퍼런스 엔진이 뭘 지원하는지는 결국 사용자가 알아야 합니다.</p>
+<p>그런데 요즘은 "앱을 깔면 알아서 되는" 수준의 도구가 나옵니다. <code>Niko1221/Strata</code>가 그중 하나입니다.</p>
+
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">
+  모델을 고르고, 엔진을 받고, 대화하고, 코딩 도구에 연결까지 — 설치 파일 하나로 끝내는 로컬 AI 플랫폼입니다.
+</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>무엇인가: Strata</h2>
+<p>Strata는 "내 컴퓨터에서 강력한 AI를 돌리자"는 슬로건의 오픈소스 로컬 AI 앱입니다. MIT 라이선스, GitHub 별 4만 개. 데스크톱 앱(Windows·Linux·macOS)과 터미널 앱 두 가지 형태로 제공됩니다.</p>
+<p>계정도 필요 없고, 클라우드도 거치지 않습니다. 채팅·코딩·이미지 작업을 로컬에서 처리하고, Claude Code·Codex CLI·OpenCode 같은 코딩 도구와는 OpenAI·Anthropic 호환 API로 연결됩니다.</p>
+<p>README가 권장하는 모델은 ISTA-DASLab 제공분이 먼저이고, 그다음 Unsloth 등 호환 공급자가 뒤를 잇습니다. Qwen3.8-Flash-Next, Qwen3.6-35B-A3B, DeepSeekV4.1-Flash-1017 같은 최신 모델을 양자화 팩별로 골라 쓸 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>설치 두 가지 길: 앱과 터미널</h2>
+<p>데스크톱 앱은 릴리스 페이지에서 설치 파일을 받으면 됩니다. 첫 실행 때 자기 GPU에 맞는 엔진을 자동으로 다운로드합니다.</p>
+<pre><code># Linux / macOS 터미널 설치
+curl -fsSL https://github.com/Niko1221/Strata/releases/latest/download/install.sh -o install.sh && sh install.sh
+
+# Windows PowerShell
+irm https://github.com/Niko1221/Strata/releases/latest/download/install.ps1 | iex</code></pre>
+<p>터미널로 설치했다면 새 터미널을 열고 <code>strata launch</code>를 실행합니다. 안내에 따라 모델을 받아 시작하면 됩니다. 업데이트는 같은 설치 명령을 다시 실행하면 됩니다.</p>
+<p>소스 빌드와 Docker도 지원합니다. 문서는 <code>docs/SOURCE_INSTALL.md</code>, <code>docs/DOCKER.md</code>에 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>하드웨어: 어디까지 되나</h2>
+<p>지원 목록이 꽤 깁니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<thead>
+<tr style="background:#f5f7fa;">
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">하드웨어</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">NVIDIA GeForce RTX 20·30·40·50 시리즈</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">Windows·Linux</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">AMD Radeon RX 7700·7800·7900, RX 9060·9070, AI PRO R9700</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">AMD HIP 경로</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">AMD Ryzen AI Max(스트릭스 헤일로)</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">Windows</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">Apple Silicon M1 이상</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">64GB 이상, DeepSeek는 텍스트 전용</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">Intel Arc</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">Linux만</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">NVIDIA DGX Spark</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">Linux</td>
+</tr>
+</tbody>
+</table>
+<p>DeepSeekV4.1-Flash 같은 큰 모델은 메모리에 안 들어가는 부분을 SSD에서 읽는 방식이라 디스크 여유가 수백 GB 필요합니다. README의 실측 예로 RTX 5070 12GB에서 출력 4~6 토큰/초, RTX 3060에서 9~11 토큰/초가 나옵니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>모델 고르기: 양자화 팩이 전부다</h2>
+<p>Strata의 모델 선택은 양자화 팩 단위입니다. 같은 모델이라도 Q2_0부터 Q8_0까지, UD-IQ4_XS 같은 Unsloth 팩까지 선택지가 나뉩니다. README는 "뭘 고를지 모르겠으면" 모델별 호환 표로 메모리 요구량을 확인하라고 안내합니다.</p>
+<p>예를 들어 Qwen3.8-Flash-Next는 ISTA-DASLab의 Q2_0·IQ2_XS·IQ3_XXS·IQ3_S를 권장하고, 코딩용으로는 더 작은 IQ1_M도 있습니다. Unsloth는 UD-IQ4_XS부터 Q8_0까지 더 큰 팩을 제공합니다. DeepSeekV4.1-Flash-1017은 1.75~2.25bpw 세트(다운로드 239~274GB)와 전문가를 절반으로 줄인 Coder 세트(191GB)가 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>코딩 도구 연결: strata connect</h2>
+<p>Strata를 켜두면 <code>strata connect</code>가 Claude Code·Codex CLI·OpenCode·oh-my-pi·Hermes Agent·OpenClaw 등 연동 방법을 보여 줍니다. OpenAI·Anthropic 호환 API를 제공하기 때문에 지원 도구가 많습니다.</p>
+<pre><code># 터미널 앱에서
+strata connect
+
+# 데스크톱 앱과 터미널 앱 모두 지원</code></pre>
+<p>로컬 모델을 코딩 에이전트의 백엔드로 쓰는 구조라, API 키 없이 오프라인으로 돌릴 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>첫 실행에서 일어나는 일</h2>
+<p>설치 후 <code>strata launch</code>를 치면 안내에 따라 모델을 고르고 다운로드합니다. 데스크톱 앱은 첫 실행 때 GPU에 맞는 엔진을 받습니다. 이후에는 채팅·코딩·이미지 작업을 같은 창에서 처리하고, 속도·메모리·최근 요청을 모니터링할 수 있습니다.</p>
+<p>README의 하드웨어 표를 보면 "빠르다"와 "돌아간다"는 다릅니다. RTX 5070에서 4~6 토큰/초는 대화용으로는 느리고, 코딩 에이전트의 긴 추론에는 더 느립니다. 그래도 로컬·무료·오프라인이라는 점이 가치입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>한계와 주의</h2>
+<p>로컬 추론의 물리적 한계는 그대로입니다. 큰 모델은 디스크를 많이 쓰고(DeepSeek 세트는 200GB+), 속도는 클라우드 API보다 느립니다. Apple Silicon 64GB 이상에서 DeepSeek는 텍스트 전용이라는 제한도 있습니다.</p>
+<p>모델 라이선스도 별개입니다. Strata 자체는 MIT지만, 받아 쓰는 모델(ISTA-DASLab, Unsloth, Qwen, DeepSeek 등)은 각자의 라이선스를 따릅니다. 문서에 크레딧과 모델 라이선스 정리가 따로 있습니다.</p>
+<p>지원 하드웨어 목록에 없는 GPU면 돌아갈 가능성이 낮습니다. Intel Arc는 Linux만, AMD RX 6000 시리즈는 실험 단계라고 명시돼 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>도입 전 체크리스트</h2>
+<div style="background:#f0fdf4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#166534;">확인할 것 4가지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 하드웨어 — GPU가 지원 목록에 있는지, VRAM·RAM·디스크 여유 계산</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 모델 — 용도(대화/코딩/이미지)에 맞는 양자화 팩과 라이선스 선택</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 속도 — 토큰/초 기대치를 README 실측표로 먼저 확인</p>
+<p style="margin:0;font-size:15px;line-height:1.6;color:#166534;">✓ 연결 — <code>strata connect</code>로 쓸 코딩 도구가 지원 목록에 있는지</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>정리</h2>
+<p>Strata는 로컬 AI의 "설치 지옥"을 앱 하나로 줄인 프로젝트입니다. 모델 선택·엔진 설치·대화·코딩 도구 연결까지 한 흐름이고, MIT 라이선스에 계정도 필요 없습니다.</p>
+<p>오늘 해 볼 일은 간단합니다. 지원하는 GPU라면 데스크톱 앱이나 <code>strata launch</code>로 시작해 보세요. 첫 실행 때 엔진이 자동으로 깔리는 걸 보면 "로컬 AI가 이 정도로 쉬워졌나"가 체감됩니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">
+참고: <a href="https://github.com/Niko1221/Strata" target="_blank" style="color:#555;text-decoration:none;">Niko1221/Strata</a> (MIT, GitHub 별 4만, 2026-11 기준)
+</p>

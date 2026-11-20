@@ -1,0 +1,49 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">"내 컴퓨터에서 AI를 돌리고 싶다"는 생각이 들면 후보가 세 개로 좁혀집니다. Ollama, LM Studio, Jan — 셋 다 로컬 LLM을 다루지만 철학이 다릅니다. 어떤 걸 골라야 할지 비교해 봤습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">세 도구 한눈에 비교</h2>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">Ollama</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">LM Studio</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">Jan</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">MIT 오픈소스</td><td style="border:1px solid #e5e8eb;padding:10px;">클로즈드(개인 무료)</td><td style="border:1px solid #e5e8eb;padding:10px;">오픈소스</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>GitHub 스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">약 18.7만</td><td style="border:1px solid #e5e8eb;padding:10px;">공식 저장소 없음</td><td style="border:1px solid #e5e8eb;padding:10px;">약 4.6만</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타일</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">CLI 중심 + 경량 앱</td><td style="border:1px solid #e5e8eb;padding:10px;">GUI 완성형 앱</td><td style="border:1px solid #e5e8eb;padding:10px;">ChatGPT 대안 앱</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>API</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">OpenAI 호환 로컬 서버</td><td style="border:1px solid #e5e8eb;padding:10px;">로컬 서버 제공</td><td style="border:1px solid #e5e8eb;padding:10px;">내장 채팅 중심</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">Ollama — 개발자와 자동화向き</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">터미널 명령 하나로 모델을 받고 실행하는 런타임입니다. Kimi, GLM, DeepSeek, Qwen, Gemma 같은 최신 모델을 바로 지원하고, OpenAI 호환 API를 로컬에 열어주기 때문에 기존 앱에 붙이기 가장 쉽습니다. 스크립트와 파이프라인에 넣을 때 사실상 표준입니다.</p>
+
+<pre><code>ollama run qwen3:8b</code></pre>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">LM Studio — GUI로 시작하는 분向き</h2>
+
+<p style="font-size:15px;line-height:1.5;margin:0 0 16px 0;">설치 후 모델을 검색해 다운로드하고 채팅까지 GUI에서 끝내는 완성형 앱입니다. Hugging Face 모델을 바로 쓸 수 있고 대화 UI가 친절합니다. 클로즈드 소스지만 개인 사용은 무료이고, 회사 도입은 별도 라이선스가 필요합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">Jan — ChatGPT처럼 쓰는 오픈소스</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">"100% 오프라인에서 돌아가는 ChatGPT 대안"을 표방하는 앱입니다. 모델을 내려받아 바로 대화할 수 있고, 오픈소스라 직접 수정하거나 셀프호스팅할 수 있습니다. 개발자 도구보다는 일반 사용자에게 ChatGPT 경험을 주는 데 초점이 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">어떤 걸 골라야 할까</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">앱·스크립트에 로컬 LLM을 붙일 계획 → <strong>Ollama</strong></li>
+<li style="margin:0 0 8px 0;line-height:1.7;">GUI로 모델을 골라 채팅만 즐길 계획 → <strong>LM Studio</strong> 또는 <strong>Jan</strong></li>
+<li style="margin:0 0 8px 0;line-height:1.7;">오픈소스를 원칙으로 삼는 팀 → <strong>Ollama</strong> 또는 <strong>Jan</strong></li>
+</ul>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">공통으로 모델 파일은 비슷하게 무거우니, GPU가 없다면 3B~8B급 소형 모델부터 시작하세요. 셋 다 같은 GGUF 계열 모델을 쓰는 경우가 많아 처음엔 아무거나 써 보고 옮겨도 됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">로컬 LLM 도구는 "런타임+API"(Ollama), "완성형 채팅 앱"(LM Studio·Jan)으로 나뉩니다. 자동화·개발 연동이 목적이면 Ollama, 그냥 채팅이 목적이면 LM Studio나 Jan이 편합니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: github.com/ollama/ollama (MIT), github.com/janhq/jan (오픈소스), lmstudio.ai (개인 무료)</p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467172373" target="_blank" style="color:#2f5bd7;text-decoration:none;">Ollama로 내 컴퓨터에서 LLM 돌리는 법</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224476099433" target="_blank" style="color:#2f5bd7;text-decoration:none;">671B 오픈 LLM을 직접 돌리는 법 (DeepSeek-V3)</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467174507" target="_blank" style="color:#2f5bd7;text-decoration:none;">34개 무료 LLM을 하나로 묶는 FreeLLMAPI</a></p>

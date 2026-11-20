@@ -1,0 +1,53 @@
+<!-- write.mjs가 소제목 위에 이미지를 넣는다. <img> 태그는 넣지 않는다. -->
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">문제 제기</h2>
+<p>AI 코딩 에이전트가 대규모 코드베이스를 탐색하고 수정할 때, 가장 큰 어려움은 '컨텍스트 스위칭(Context Switching)'과 '효과적인 코드 검색'입니다. 에이전트는 방대한 양의 코드 중에서 관련 있는 부분을 찾아내야 하지만, 기존의 검색 도구는 정확도가 낮고, 기호 기반 검색(line number, keyword)은 semantic한 이해를 제공하지 못해, 엉뚱한 위치의 코드를 수정하거나 필요 없는 파일을 열게 만드는 주범입니다.</p>
+<p>특히 headroom는 이러한 문제를 해결하기 위해 AI 에이전트가 '무엇을 읽고 수정해야 하는지'에 집중할 수 있게끔, 불필요한 노이즈를 제거하고 핵심 기호만 정확히 찾아주는 컨텍스트 압축 레이어입니다. 그렇지 않으면 에이전트는 수천 개의 import문과 주석, dead code 사이에서 진을 빼며 실제 업무에 집중하지 못하는 상황에 처합니다.</p>
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">무엇인가</h2>
+<p>headroom는 AI 에이전트를 위한 '컨텍스트 압축층(Context Compression Layer)'입니다. 55,957 토큰에 이르는巨大한 에이전트 프롬프트를, 모델에 실제로 전달되는 24,340 토큰으로 압축합니다. 이는 단순히 토큰을 잘라내는 것이 아니라, FATAL 라인(item 67)을 포함하여 byte for byte로 생존하는 핵심 기호만을 선별해냅니다.</p>
+<p>headroom는 에이전트가 코드베이스를 탐색하고 이해하는 방식을 근본적으로 바꿉니다. 1) 불필요한 import와 export를 제거하고, 2) 실제 비즈니스 로직에 기여하는 기호만 추출하며, 3) 코드의 의존 관계 중에서 실제로 실행에 영향을 주는 부분만을 파악합니다. 그 결과, AI 에이전트는 훨씬 더 가벼운 컨텍스트에서 더 정확한 판단을 내릴 수 있게 됩니다.</p>
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">동작 원리</h2>
+<p>headroom는 git 히스토리, import 분석, 기호 사용 통계를 기반으로 동작합니다. 주요 단계는 다음과 같습니다.</p>
+<ol>
+<li>코드베이스 전체 스캔: 모든 파일의 import/export, 함수/클래스 정의, 사용 패턴을 분석</li>
+<li>중요도 점수 매기기: 각 기호가 실제 실행 경로에 몇 번 기여하는지, 어떤 리전(region)에서 자주 호출되는지 점수화</li>
+<li>노이즈 필터링: 실제 비즈니스 로직에 기여하지 않는 dead code, 주석, 테스팅 관련 코드 제거</li>
+<li>핵심 기호 추출: FATAL 라인 및 critical item들 byte for byte로 보존하며 압축된 프롬프트 생성</li>
+</ol>
+<p>이 압축된 프롬프트는 모델에 전달되며, AI 에이전트는 훨씬 더 효율적으로 코드를 이해하고 수정할 수 있습니다.</p>
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 첫 실행</h2>
+<p>headroom는 npm을 통해 설치할 수 있습니다. 터미널에서 다음 명령을 실행하세요.</p>
+<pre><code>npm install headroom-ai</code></pre>
+<p>설치가 완료된 후, 현재 프로젝트 폴더로 이동하여 headroom를 초기화합니다.</p>
+<pre><code>headroom init</code></pre>
+<p>초기화가 완료되면, AI 에이전트를 실행할 때마다 headroom가 자동으로 컨텍스트를 압축하여 가벼운 상태로 유지합니다. 별도의 설정 없이 즉시 효력을 발휘합니다.</p>
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 사용법</h2>
+<p>headroom의 진정한 힘은 '명령어 기반의 정밀 제어'에 있습니다. AI 에이전트가 특정 모듈을 탐색하거나 수정할 때, 다음 명령어를 사용해 headroom의 기능을 제어할 수 있습니다.</p>
+<pre><code># 컨텍스트 전체 출력 (압축 안 함)
+headroom status
+
+# 특정 디렉토리만 압축
+headroom compress --path src/components
+
+# FATAL 라인 포함 여부 확인
+headroom check --fatal
+
+# 압축된 컨텍스트 미리 보기
+headroom preview</code></pre>
+<p>특히 headroom는 프롬프트 엔지니어링과 결합할 경우 그 효과가 배가됩니다. AI 에이전트에 "headroom로 압축된 컨텍스트로 이 버그를 수정해줘"와 같이 프롬프트를 주면, 에이전트는 불필요한 코드 없이 핵심 로직에만 집중하여 문제를 해결합니다.</p>
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">결과 읽는 법</h2>
+<p>headroom가 효과적으로 작동하고 있는지 확인하는 주요 지표는 다음과 같습니다.</p>
+<ol>
+<li>컨텍스트 토큰 수 감소: 압축 전/후의 토큰 수 비교 (55,957 → 24,340 목표)</li>
+<li>핵심 기호 보존: 실제 실행에 관여하는 기호가 빠짐없이 포함되는지 확인</li>
+<li>탐색 속도 향상: AI 에이전트가 관련 코드를 찾는 시간이 단축되는지 체크</li>
+<li>수정 정확도 향상: 엉뚱한 파일을 수정하는 실수가 줄어드는지 확인</li>
+</ol>
+<p>특히 컨텍스트 토큰 수가 50% 이상 감소했다면, headroom가 그 효과를 톡톡히 보고 있는 것입니다. 모델 성능 향상과 비용 절감으로 직결되므로, AI 에이전트를 대규모 프로젝트에 도입한 팀에게 필수적인 도구가 됩니다.</p>
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한계와 주의</h2>
+<p>headroom는 컨텍스트 압축에 특화된 도구이므로, Read, Glob, Grep 같은 built-in 툴은 경유하지 않습니다. 이러한 툴을 통해 반환되는 데이터는 headroom의 압축을 거치지 않습니다. 매우 새롭거나 특수한 패턴의 코드베이스의 경우, headroom의 기본 압축 알고리즘이 최적의 결과를 내지 못할 수 있으며, 사용자가 설정 파일을 통해 규칙을 사용자 정의해야 할 수 있습니다.</p>
+<p>headroom는 압축된 컨텍스트 내에서만 작동하며, 실제 코드 수나 리팩토링의 물리적 실행은 수행하지 않습니다. 압축된 결과를 바탕으로 실제 수정을 가할 때는 에이전트의 판단에 따라야 합니다.</p>
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+<p>AI 코딩 에이전트를 대규모 프로젝트에 도입했지만 컨텍스트 폭증으로 인해 고생하는 팀, 특히 토큰 비용이 우려되는 스타트업과 중견 기업에 권합니다. 코드 베이스가 커져서 에이전트가 코드를 이해하는 데 시간이 오래 걸리는 것에 지친 개인 개발자에게도 최적의 솔루션입니다. 오픈소스 프로젝트 유지보수자로서 기여 이력의 컨텍스트를 효율적으로 관리하고 싶을 때도 headroom는 최고의 도우미가 됩니다.</p>
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+<p>headroom는 AI 에이전트에게 '더 이상 불필요한 출력을 읽지 않아도 된다'는 것을 보여주는 도구입니다. 55,957 토큰에서 24,340 토큰으로 압축하여, AI 에이전트가 항상 가벼운 컨텍스트에서 최적의 판단을 내릴 수 있게 합니다. 이제 컨텍스트가 찼다고 호소하지 마세요. headroom가 있다면, 당신의 에이전트는 언제나 가벼운 컨텍스트로 최적의 판단을 내릴 수 있습니다.</p>
+<p style="font-size:15px;color:#666;margin-top:34px;">참고: <a href="https://github.com/headroomlabs-ai/headroom" target="_blank" style="color:#555;text-decoration:none;">headroom</a> (MIT License)</p>

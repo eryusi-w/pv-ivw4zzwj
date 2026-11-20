@@ -1,0 +1,160 @@
+<!-- write.mjs가 소제목 위에 이미지를 넣는다. <img> 태그는 넣지 않는다. -->
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>문제 제기</h2>
+<p>Claude Code로 작업하다 보면 이상한 일이 생깁니다. <code>git status</code> 한 번, 큰 저장소에 <code>grep</code> 한 번이면 명령 출력이 그대로 컨텍스트 창에 쏟아집니다. README에 따르면 큰 코드베이스를 대상으로 한 grep 한 번이 노이즈성 토큰 25만 개를 만들 수 있습니다.</p>
+<p>모델이 그걸 전부 읽고, 과금되고, 대부분은 무시합니다. Claude의 문제가 아니라 배관의 문제죠. 이 출력이 모델에 닿기 전에 걸러 낼 수 있다면 이야기가 달라집니다.</p>
+
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">
+  Claude가 볼 필요 없는 토큰을, Claude에 닿기 전에 줄이는 도구가 ATO입니다.
+</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>무엇인가</h2>
+<p>ASK Token Optimizer(ATO)는 터미널과 Claude Code 사이에 끼어드는 로컬 최적화 도구입니다. 명령 출력이 컨텍스트에 들어가기 전에 노이즈를 걷어 내고, 반복을 접고, 모델이 추론에 필요한 것만 남깁니다. 출력의 구조는 그대로고 토큰 수만 줄어듭니다.</p>
+<p>API 키도, 클라우드도, 계정도 필요 없습니다. 저장소는 Rust와 Python으로 표시돼 있고, 바이너리는 사유 소프트웨어로 배포됩니다. GitHub 별은 33개, 포크 2개 수준으로 아직 초기 프로젝트입니다.</p>
+<div style="background:#f0f6ff;border:1px solid #d6e4ff;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0;font-size:15px;line-height:1.6;color:#2c4a7c;"><strong>이름 정리</strong> — ATO는 ASK-Ai-Canada/ASK-Claude-Token-Optimizer의 약칭입니다. "세계 1위 토큰 최적화"라는 문구는 README의 자기 소개이며, 독립 검증된 수치가 아닙니다.</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>동작 원리</h2>
+<p>구조는 단순합니다. 훅 두 개가 Claude Code의 <code>settings.json</code>에 등록됩니다.</p>
+<ul style="margin:0 0 24px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>PreToolUse → <code>ask-rewrite</code></strong>: Bash 명령 실행 전에 가로채서, 출력이 큰 동사(<code>grep</code>, <code>find</code>, <code>curl</code>, <code>cat</code>)만 옵티마이저로 보냅니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>PostToolUse → <code>ask-filter</code></strong>: 도구가 끝난 뒤 출력을 걸러 컨텍스트에 넣기 전에 노이즈를 제거합니다. 구조는 유지하고 토큰 수만 줄입니다.</li>
+</ul>
+<p>둘 다 fail-open입니다. 바이너리가 없거나 죽어 있어도 원본 출력이 그대로 통과하고 세션은 깨지지 않습니다. 데몬도, 네트워크 호출도 없습니다.</p>
+<div style="background:#f7f9fa;border:1px solid #e5e8eb;border-radius:8px;padding:14px 20px;margin:0 0 24px 0;text-align:center;font-size:15px;font-weight:bold;color:#333;line-height:1.6;">
+터미널 명령 → ATO 훅 → 압축된 출력 → Claude Code
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>설치와 첫 실행</h2>
+<p>macOS와 Linux는 Homebrew 한 줄이면 됩니다. Windows는 PowerShell 설치 스크립트가 있고, 체크섬 검증된 바이너리를 받아 <code>ask</code> 바로가기를 만듭니다. 설치 과정에서 두 훅을 <code>settings.json</code>에 연결할지 물어봅니다.</p>
+<pre><code># macOS · Linux (Homebrew)
+brew install ASK-Ai-Canada/tap/ask-token-optimizer
+
+# 또는 릴리스 폴더에서
+./setup.sh        # Linux · macOS · Pi4 · Alpine/musl
+.\install.ps1     # Windows (PowerShell)
+
+# 설치 확인과 첫 감사
+ask --version
+ask audit</code></pre>
+<p>에이전트에게 설치를 맡기고 싶다면 저장소의 <code>README-LLM-install-guide.md</code>를 읽게 하면 됩니다. 환경을 감사하고 바꾸기 전에 물어보는 기계 판독용 안내서입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>감사 명령</h2>
+<p>최적화된 실행은 모두 로컬의 <code>~/.local/share/ask/history.db</code>에 버전 정보와 함께 기록됩니다. SQLite로 직접 읽을 수 있고, 기기 밖으로 나가지 않습니다.</p>
+<pre><code>ask audit              # 설치 이후 누적 절감량
+ask audit --graph      # 일별 추이
+ask audit --by-version # 릴리스별 절감 비교</code></pre>
+<p>하루 써 보고 <code>ask audit</code>를 돌리면 본인 작업량 기준의 실제 수치가 나옵니다. 헤드라인 숫자가 아니라 내 숫자를 보는 게 맞습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>🎬 ATO 강의 시연</h2>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>성능 수치 읽는 법</h2>
+<p>README는 실제 Claude Code 세션 351개 명령, 30일치를 근거로 제시합니다. 명령 종류별 절감률입니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<thead>
+<tr style="background:#f5f7fa;">
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">명령</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">토큰 절감</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>grep</code>(큰 코드베이스)</td>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>98.9%</strong></td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>curl</code>(외부 API 응답)</td>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>95.7%</strong></td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>git push</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>92.8%</strong></td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>find</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>92.2%</strong></td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>cat</code>/<code>read</code>(큰 로그·빌드 출력)</td>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>84%</strong> — 무손실, 원본은 디스크에 남음</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>ls</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>64.7%</strong></td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>세션 합계(30일, 351회)</strong></td>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>87.7%</strong> — 입력 34만 토큰이 4.18만 토큰으로</td>
+</tr>
+</tbody>
+</table>
+<p>여기서 README 스스로 "정직한 숫자"를 따로 보여 줍니다. 87.7%의 대부분은 토큰 25만 개짜리 grep 한 방이 만든 것입니다. 그 이상치를 빼고 나머지 335개 명령만 보면 압축률은 56.2%입니다.</p>
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">
+  고빈도 출력 명령(grep, curl, 빌드 로그)에서는 크게 먹히고, 짧은 출력 명령에서는 덜 먹힙니다. 내 작업이 어디쯤인지는 ask audit가 알려 줍니다.
+</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>라이선스와 비용</h2>
+<p>코드베이스는 하나이고 라이선스가 둘입니다. 무료판에서 엔진이 깎이지는 않습니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<thead>
+<tr style="background:#f5f7fa;">
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">구분</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">Community</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">Commercial</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">대상</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">개인 + 연매출 CAD 10만 달러 미만</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">CAD 10만 달러 이상 기업</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">비용</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">영구 무료</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">시트당 연 25달러(USD/CAD), 첫 달 무료, 자동 갱신</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">엔진</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">전체, 무제한</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">동일</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">지원</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">커뮤니티</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">SLA, 우선 수정, 전용 채널</td>
+</tr>
+</tbody>
+</table>
+<p>설치하거나 실행하는 순간 라이선스에 동의한 것으로 봅니다. 준거법은 캐나다 법이고, 상용 문의는 licensing@ask-ai.ca입니다. GitHub 라이선스 표기는 NOASSERTION이라 법무 검토가 필요한 조직이라면 도입 전에 원문을 읽어야 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>텔레메트리와 보안</h2>
+<p>무료 티어는 주 1회 익명 절감 통계를 보냅니다. 공유되는 건 절감 토큰 수, 실행 횟수, OS, 버전 같은 합계뿐이고 나머지는 기기에 남습니다. 상용 라이선스는 옵트아웃할 수 있습니다.</p>
+<pre><code># 어느 티어든 즉시 끄기
+export DO_NOT_TRACK=1
+
+# 또는 ~/.config/ask/config.toml
+[telemetry]
+enabled = false</code></pre>
+<p>다만 바이너리가 사유 소스라는 점은 남습니다. 내부 동작을 코드로 검증할 수 없으니, 소스 코드나 비밀이 오가는 환경이라면 격리된 곳에서 먼저 시험하는 게 안전합니다. 훅이 fail-open이라 최악의 경우에도 세션이 깨지지는 않습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>한계와 주의</h2>
+<p>압축은 양날의 검입니다. 모델이 볼 출력을 줄이는 도구이므로 판단 근거까지 같이 줄어들 수 있습니다. 리뷰에 필요한 정보가 잘려 나가지 않는지 확인이 필요합니다.</p>
+<p>또 하나, 수치는 README가 공개한 자체 측정입니다. 87.7%는 이상치 한 건을 포함한 세션 합계이고, 정상 상태에서는 56% 안팎으로 내려옵니다. 스타 33개의 초기 프로젝트라 생태계도 얇습니다. 무료 범위에 해당한다면 하루 써 보고 <code>ask audit</code>로 본인 수치를 확인한 뒤 판단하면 됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>도입 전 체크리스트</h2>
+<div style="background:#f0fdf4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#166534;">확인할 것 4가지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 라이선스 — 연매출 CAD 10만 달러 미만인지, 사유 바이너리 검토가 필요한지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 텔레메트리 — 무료 티어는 주간 통계 전송, <code>DO_NOT_TRACK=1</code>로 차단 가능</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 측정 — 하루 사용 후 <code>ask audit</code>로 본인 절감률 확인</p>
+<p style="margin:0;font-size:15px;line-height:1.6;color:#166534;">✓ 품질 — 잘려 나간 정보가 리뷰·디버깅에 필요한지 샘플 확인</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>정리</h2>
+<p>ATO는 모델을 바꾸지 않고 배관을 바꿉니다. 명령 출력이 컨텍스트에 닿기 전에 노이즈를 걸러 내는 방식이라, grep과 curl이 잦은 작업에서 효과가 큽니다. 헤드라인 87.7%보다 정상 상태 56%가 진짜 기대치에 가깝습니다.</p>
+<p>오늘 해 볼 일은 간단합니다. 무료 범위라면 설치하고 하루 써 본 뒤 <code>ask audit</code> 숫자를 확인해 보세요. 본인 작업의 절감률이 나옵니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">
+참고: <a href="https://github.com/ASK-Ai-Canada/ASK-Claude-Token-Optimizer" target="_blank" style="color:#555;text-decoration:none;">ASK-Claude-Token-Optimizer</a> (사유 바이너리, Community/Commercial 라이선스, README 기준 2026-11)
+</p>

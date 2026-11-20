@@ -1,0 +1,41 @@
+<!-- write.mjs가 소제목 위에 이미지를 넣는다. <img> 태그는 넣지 않는다. -->
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">문제 제기</h2>
+<p>AI 코딩 에이전트로 여러 과제를 맡으면, 처음엔 멋진 결과가 쏟아집니다. 하지만 과제가 쌓일수록 AI의 답변은 점점 어색하고, 결국엔 의미 없는 문장이 끼어들죠. 실제로는 중복된 내용이나 이미 끝난 작업까지도 다시 설명하는 "유령 토큰"이 응답을 눈덩이처럼 쌓고 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">무엇인가</h2>
+<p>컨텍스트 부패(Context Rot)란, 대화가 길어지면 AI의 기억력과 판단력이 서서히 흐려지는 현상입니다. 방대한 코드를 동시에 읽다 보면 토큰 사용량은 급증하고, 결과는 오히려 품질이 떨어지죠. 그래서 AI가 '기억을 잃은 것'처럼 행동하는 것입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">동작 원리</h2>
+<p>GSD Core는 이를 4단계로 해결합니다. 먼저 상태 파일로 최신 정보를 추려내고 그다음 작업 내용을 서브에이전트에게 넘겨서 "맑은 메모리"에서 실행합니다. 이어서 결과물만 추려내고, 네 단계가 끝나면 상태를 정리합니다. 이 루프가 끝나면 AI는 언제든 새로운 과제를 받을 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">검출법</h2>
+<pre><code># GSD Core로 유럽 토큰 분석
+npx @opengsd/gsd-core analyze --mode tokens --path ./src/
+
+# 핵심 체크 포인트
+- 대화 참여자 수 (핵심 인물 이상 5명 이상)
+- 동일 문장 반복 (의미 없는 재인용)
+- 맥락과 무관한 설명 (이미 끝난 작업 재설명)</code></pre>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">예방 전략</h2>
+<p>유럹 토큰이 쌓이지 않도록 하려면, 매번 "최신 3줄만 남기고 요약해봐"라고 요청하세요. 중요한 내용은 별도 파일로 추출하고, 대화 창은 가급적 짧게 유지하는 것이 핵심입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">도구 활용</h2>
+<p>GSD Core의 Phase Loop는 이 문제를 구조화합니다. Discuss 단계에서 결정사항을 문서화하고, Execute 단계에서는 Clean Context를 가진 서브에이전트가 독립적으로 작업합니다. 결과물이 완성되지 않으면 다시 Plan 단계로 돌아가서 재시도하는 식이죠.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한계와 주의</h2>
+<p>GSD Core는 자유로운 채팅보다 규칙을 따르는 구조입니다. 작은 버그 수정 같이 한 줄 고치는 일에는 전체 루프를 타는 것이 번거로울 수 있습니다. 서브에이전트를 자주 호출하면 API 사용량만 늘어나니, 작업량에 따라 사용량을 미리 계산해 두세요.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">검증 루틴</h2>
+<p>프로젝트가 건강하게 유지되는지 확인하려면 4가지를 체크하세요. 먼저 STATE.md가 최신 업데이트돼 있나요? 그다음 테스트가 통과했는지 기록했나요? 이어서 서브에이전트가 만든 코드가 컨벤션을 따르나요? 끝으로 Ship 단계에서 아카이브가 되었나요?</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+<p>컨텍스트 한계에 지친 경험을 가진 시니어 개발자, AI가 만든 결과에 실망한 팀, 그리고 대화가 늘어날수록 품질이 떨어지는 것이 불편한 모든 사람에게 추천합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+<p>AI는 많은 과제를 처리할수록 기억을 잃어버립니다. GSD Core는 상태 파일로 핵심을 보관하고, Clean Context에서 새로운 작업을 시작합니다. 4단계 루프(Discuss→Plan→Execute→Verify→Ship)로 유럹 토큰을 끊고, AI도 항상 최신 정보만 가지고 일할 수 있게 해줍니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">
+참고: <a href="https://github.com/open-gsd/gsd-core" target="_blank" style="color:#555;text-decoration:none;">GSD Core</a> (MIT License, v1.7.0) ·
+<a href="https://github.com/epoko77-ai/im-not-ai" target="_blank" style="color:#555;text-decoration:none;">im-not-ai 스킬</a>로 AI 티 제거
+</p>

@@ -1,0 +1,60 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 에이전트를 쓰다 보면 특정 모델에 종속되기 쉽습니다. hermes-agent는 여러 LLM을 오가며 작업하는 적응형 에이전트 프레임워크입니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">사용자와 함께 적응하며 여러 작업을 수행하는 AI 에이전트로, Claude·GPT·Codex 등 다양한 LLM과 연동되며 MIT 라이선스에 현재 GitHub 스타 258,565개입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">다중 LLM 지원 — Claude, GPT, Codex 등 여러 모델을 같은 에이전트에서 씁니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">플러그인 확장 — 기능을 플러그인으로 추가해 용도에 맞게 키웁니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">상태 저장·재사용 — 에이전트의 작업 상태를 저장해 다음 세션에서 이어갑니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<pre><code>pip install hermes-agent</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">설치 후 사용할 LLM의 API 키를 환경 변수로 등록하고, CLI 또는 대화형 인터페이스로 첫 작업을 시켜 봅니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/NousResearch/hermes-agent" target="_blank" style="color:#555;">NousResearch/hermes-agent</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">258,565</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">Python</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">MIT</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>설치 방식</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">pip 패키지</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">모델을 하나로 고정하지 말고, 작업 성격에 따라 바꿔 쓰는 설정부터 연습합니다.</p>
+
+<pre><code>git clone https://github.com/NousResearch/hermes-agent.git</code></pre>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — pip로 설치하고 첫 LLM API 키를 등록합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — 코드 작성이나 문서 요약처럼 작은 작업을 하나 시켜 봅니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — 다른 모델로 같은 작업을 시켜 결과 차이를 비교합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 반복되는 작업을 플러그인으로 등록해 자동화합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">여러 LLM을 오가면 그만큼 API 비용이 발생합니다. 모델별 성능 차이가 크니 작업 유형에 맞는 모델을 먼저 실험으로 정하는 게 좋습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Python 개발자, AI 연구자, 데이터 과학자에게 특히 유용합니다. AI 기반 워크플로우를 빠르게 구축하고 여러 모델을 비교하며 쓰고 싶은 경우에 맞습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">모델을 가리지 않고 작업을 이어가는 에이전트 프레임워크입니다. 상태 저장 덕분에 긴 작업도 세션을 나눠 진행할 수 있습니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/NousResearch/hermes-agent" target="_blank" style="color:#555;text-decoration:none;">github.com/NousResearch/hermes-agent</a></p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467146910" target="_blank" style="color:#2f5bd7;text-decoration:none;">데스크톱에서 AI 팀을 지휘하는 Orkas</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467145426" target="_blank" style="color:#2f5bd7;text-decoration:none;">Suna로 회사 업무를 에이전트에게 맡기는 법</a></p>

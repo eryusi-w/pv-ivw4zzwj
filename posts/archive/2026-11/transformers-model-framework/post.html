@@ -1,0 +1,84 @@
+<!-- write.mjs가 소제목 위에 이미지를 넣는다. <img> 태그는 넣지 않는다. -->
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>문제 제기: 모델을 쓰는 일과 모델을 정의하는 일</h2>
+<p>Hugging Face Hub에는 백만 개가 넘는 Transformers 체크포인트가 올라와 있습니다. 텍스트, 비전, 오디오, 비디오, 멀티모달까지. 그런데 "모델을 쓴다"와 "모델을 정의한다"는 다른 일입니다.</p>
+<p>사용자는 <code>pipeline("text-generation", model="...")</code> 한 줄로 끝내고 싶어 하고, 생태계 전체는 각 모델이 같은 규격으로 정의되길 원합니다. Transformers는 그 규격을 잡는 프레임워크입니다.</p>
+
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">
+  모델 정의를 한 곳에 모아, 생태계 전체가 같은 모델을 보게 만드는 것이 Transformers의 역할입니다.
+</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>무엇인가: Transformers</h2>
+<p><code>huggingface/transformers</code>는 최신 사전학습 모델을 추론과 학습에 쓰게 해 주는 프레임워크입니다. Apache-2.0 라이선스, GitHub 별 16.8만 개. 현재 PyPI 기준 버전은 5.22.1입니다.</p>
+<p>README가 스스로를 "모델 정의 프레임워크(model-definition framework)"라고 부릅니다. 텍스트·비전·오디오·비디오·멀티모달의 추론과 학습을 아우르되, 핵심 가치는 <strong>모델 정의를 중앙에 모으는 것</strong>입니다. 모델 정의가 지원되면 학습 프레임워크(Axolotl, Unsloth, DeepSpeed, FSDP, PyTorch-Lightning), 추론 엔진(vLLM, SGLang, TGI), 인접 라이브러리(llama.cpp, mlx)와 호환됩니다.</p>
+<p>사용자 관점에서는 "세 개의 클래스만 배우면 되는" 높은 수준 API가 특징입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>설치: torch와 함께</h2>
+<p>Python 3.11 이상과 PyTorch 2.6 이상이 필요합니다. 가상환경은 venv든 uv든 상관없습니다.</p>
+<pre><code># venv
+python -m venv .my-env
+source .my-env/bin/activate
+
+# 설치
+pip install "transformers[torch]"
+# 또는
+uv pip install "transformers[torch]"</code></pre>
+<p>최신 변경을 직접 보고 싶다면 소스에서 설치할 수 있지만, README는 최신 버전이 항상 안정적이진 않다고 경고합니다.</p>
+<pre><code>git clone https://github.com/huggingface/transformers.git
+cd transformers
+pip install '.[torch]'</code></pre>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>Pipeline: 세 클래스의 마법</h2>
+<p>가장 빠른 진입점은 <code>Pipeline</code> API입니다. 텍스트·오디오·비전·멀티모달 작업을 지원하는 고수준 추론 클래스로, 전처리와 후처리를 알아서 처리합니다.</p>
+<pre><code>from transformers import pipeline
+
+# 텍스트 생성
+pipeline = pipeline(task="text-generation", model="Qwen/Qwen2.5-1.5B")
+pipeline("the secret to baking a really good cake is ")
+
+# 대화는 chat history를 넘기면 됨
+chat = [
+    {"role": "system", "content": "You are a sassy, wise-cracking robot."},
+    {"role": "user", "content": "Fun things to do in New York?"}
+]
+pipeline = pipeline(task="text-generation",
+                    model="meta-llama/Meta-Llama-3-8B-Instruct",
+                    dtype=torch.bfloat16, device_map="auto")
+response = pipeline(chat, max_new_tokens=512)</code></pre>
+<p>다른 모달리티도 같은 패턴입니다. 자동 음성 인식(<code>automatic-speech-recognition</code>), 이미지 분류(<code>image-classification</code>), 시각적 질의응답(<code>visual-question-answering</code>) 등 태스크 이름만 바꾸면 됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>transformers serve: 로컬 서버</h2>
+<p>모델을 API로 띄우고 싶다면 <code>transformers serve</code>를 씁니다. 서빙이 켜진 상태에서는 CLI로 바로 채팅할 수도 있습니다.</p>
+<pre><code># 로컬 서버로 서빙 후
+transformers chat Qwen/Qwen2.5-0.5B-Instruct</code></pre>
+<p>OpenAI 호환 엔드포인트로 노출하는 것도 문서에 있습니다. 로컬에서 만든 모델을 다른 도구에 붙일 때 유용합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>모델을 정의하는 일이 실제로 의미하는 것</h2>
+<p>README의 표현을 빌리면, Transformers는 "수천 개의 모델 아키텍처와 백만 개 이상의 사전학습 체크포인트"를 한 규격으로 묶습니다. 각 모델 파일에는 원 논문의 결과를 재현하는 예제가 들어 있고, 내부 구현은 가능한 한 일관되게 노출됩니다.</p>
+<p>이 일관성이 실제로 작동하는 증거가 생태계입니다. 어떤 모델이든 같은 <code>pipeline</code> 호출로 돌고, 같은 체크포인트가 vLLM·llama.cpp·mlx에서도 읽힙니다. 모델 정의가 표준이 되면 도구를 바꿔도 모델은 그대로입니다.</p>
+<p>다만 README는 이 라이브러리가 "신경망 빌딩 블록의 모듈식 툴박스가 아니다"라고 선을 긋습니다. 연구자가 각 모델을 빠르게 반복 실험할 수 있게 추상화를 일부러 최소화했기 때문입니다. 범용 ML 루프가 필요하면 Accelerate 같은 다른 라이브러리를 쓰라고 안내합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>라이선스와 모델 라이선스 구분</h2>
+<p>코드 라이브러리는 Apache-2.0이지만, 받아 쓰는 모델의 라이선스는 별개입니다. Llama 계열처럼 사용 조건이 있는 모델도 있고, 상업적 이용이 제한된 모델도 있습니다. 허브에서 모델을 고를 때 라이선스 태그를 반드시 확인해야 합니다.</p>
+<p>코드가 Apache-2.0이라고 해서 그 코드로 돌린 모델의 출력물까지 자유로운 건 아닙니다. 연구·개인 사용과 제품 탑재는 다르게 접근해야 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>한계와 주의</h2>
+<p>첫째, PyTorch 중심입니다. README가 학습 API는 Transformers가 제공하는 PyTorch 모델에 최적화돼 있고 범용 ML 루프는 Accelerate를 쓰라고 안내합니다. JAX·TF2.0으로 모델을 옮기는 건 가능하지만 중심은 PyTorch입니다.</p>
+<p>둘째, "모델 정의 프레임워크"라는 정체성상 범용성이 낮습니다. 최신 모델이 나오면 지원까지 시간이 걸릴 수 있고, 아주 새로운 아키텍처는 아직 없을 수 있습니다.</p>
+<p>셋째, 메모리입니다. 큰 모델은 GPU 메모리가 많이 필요하고, <code>device_map="auto"</code>로 나눠 쓰는 옵션이 있지만 근본적으로 하드웨어 한계는 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>도입 전 체크리스트</h2>
+<div style="background:#f0fdf4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#166534;">확인할 것 4가지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 버전 — Python 3.11+·PyTorch 2.6+ 요구사항 충족 여부</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 모델 — 허브에서 용도·라이선스·크기를 먼저 확인</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 하드웨어 — 모델 크기와 VRAM, <code>device_map="auto"</code> 필요 여부</p>
+<p style="margin:0;font-size:15px;line-height:1.6;color:#166534;">✓ 용도 — Pipeline으로 충분한지, 커스텀 학습이 필요한지(후자면 Accelerate 검토)</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>정리</h2>
+<p>Transformers는 모델을 "쓰는" 것을 넘어 "정의하는" 프레임워크입니다. 백만 개 이상의 체크포인트가 하나의 규격으로 묶여 있고, Pipeline 세 클래스만으로 대부분의 추론 작업을 처리할 수 있습니다.</p>
+<p>오늘 해 볼 일은 간단합니다. <code>pip install "transformers[torch]"</code>로 설치하고 작은 모델로 <code>pipeline</code>을 한 번 돌려 보세요. 모델 이름만 바꾸면 텍스트든 이미지든 같은 방식으로 돌아간다는 게 이 프레임워크의 진짜 가치입니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">
+참고: <a href="https://github.com/huggingface/transformers" target="_blank" style="color:#555;text-decoration:none;">huggingface/transformers</a> (Apache-2.0, GitHub 별 16.8만, v5.22.1, 2026-11 기준)
+</p>

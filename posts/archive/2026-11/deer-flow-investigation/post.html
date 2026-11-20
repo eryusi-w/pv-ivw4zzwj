@@ -1,0 +1,76 @@
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">조사 작업이 길어질 때 생기는 문제</h2>
+<p>자료 조사는 대개 30분을 넘기면 흐트러집니다. 중간에 무엇을 확인했는지 잊고, 같은 페이지를 다시 열고, 결론에 필요한 근거를 놓칩니다. 모델의 컨텍스트가 꽉 차면 앞부분이 잘려 나가면서 맥락이 끊기기도 합니다.</p>
+<p>DeerFlow는 이 문제를 실행 환경 쪽에서 풀려는 프로젝트입니다. 조사 자체보다, 오래 도는 에이전트가 버틸 수 있는 기반을 제공하는 데 초점을 둡니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">DeerFlow 2.0의 정체</h2>
+<p>bytedance가 공개한 오픈소스 슈퍼에이전트 하네스로, 라이선스는 MIT입니다. 2.0은 1.0과 코드를 공유하지 않는 재작성이며, 기존 딥리서치 프레임워크는 1.x 브랜치에 남아 있습니다.</p>
+<p>구조는 리드 에이전트 하나가 서브에이전트, 장기 메모리, 샌드박스 실행, 스킬을 묶어 지휘하는 형태입니다. 조사는 이 구조 위에서 동작하는 여러 스킬 중 하나로 취급됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">구성 요소 네 가지</h2>
+<p>하네스라는 말이 낯설다면 네 가지만 기억하면 됩니다. 각 요소는 대화 단위로 격리되고, 리드 에이전트가 필요할 때 호출합니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<tr><th style="border:1px solid #e5e8eb;padding:10px;background:#f7f9fa;text-align:left;">요소</th><th style="border:1px solid #e5e8eb;padding:10px;background:#f7f9fa;text-align:left;">역할</th><th style="border:1px solid #e5e8eb;padding:10px;background:#f7f9fa;text-align:left;">없으면 생기는 일</th></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">서브에이전트</td><td style="border:1px solid #e5e8eb;padding:10px;">조사·작성 분담</td><td style="border:1px solid #e5e8eb;padding:10px;">한 세션이 모든 일을 떠안음</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">샌드박스</td><td style="border:1px solid #e5e8eb;padding:10px;">코드 실행 격리</td><td style="border:1px solid #e5e8eb;padding:10px;">로컬 파일이 그대로 노출</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">메모리</td><td style="border:1px solid #e5e8eb;padding:10px;">세션 간 맥락 유지</td><td style="border:1px solid #e5e8eb;padding:10px;">같은 조사를 반복</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">스킬</td><td style="border:1px solid #e5e8eb;padding:10px;">작업별 절차 제공</td><td style="border:1px solid #e5e8eb;padding:10px;">매번 프롬프트로 설명</td></tr>
+</table>
+<p>샌드박스가 별도 요소라는 점이 중요합니다. 에이전트가 만든 코드를 호스트에서 그대로 돌리면 편하지만 위험합니다. DeerFlow는 실행을 격리된 환경으로 넘기고 파일 경로를 가상 경로로 매핑합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치: Docker 경로가 기본</h2>
+<p>공식 설치 문서는 Docker 개발 환경을 먼저 권합니다. 로컬 설치는 두 번째 선택지이고, 두 경로 모두 저장소의 make 명령을 쓰도록 안내합니다.</p>
+<pre><code># 저장소 받기
+git clone https://github.com/bytedance/deer-flow.git
+cd deer-flow
+
+# 설정 파일 생성 (config.yaml)
+make config
+
+# Docker 환경 준비 및 실행
+make docker-init
+make dev
+
+# 환경 점검
+make doctor</code></pre>
+<p><code>make doctor</code>는 빠진 전제 조건과 설정 오류를 알려 줍니다. 설치가 꼬였을 때 로그를 뒤지는 대신 이 명령을 먼저 돌리는 편이 빠릅니다. 문제를 보고할 때는 <code>make support-bundle</code>로 진단 묶음을 만들 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">모델 설정과 첫 실행</h2>
+<p>설정은 저장소 루트의 config.yaml에서 합니다. 모델, 도구, 샌드박스, 요약, 스케줄러 항목이 이 파일에 모여 있습니다. API 키는 환경변수로 넣고 파일에는 이름만 남기는 방식이 안전합니다.</p>
+<pre><code># 모델과 키 예시 (config.yaml 발췌 형태)
+models:
+  default: &lt;model-id&gt;
+  api_key_env: OPENAI_API_KEY
+
+# 환경변수로 주입
+export OPENAI_API_KEY=...
+make dev</code></pre>
+<p>처음 실행하면 웹 UI가 열리고 대화 스레드를 만들 수 있습니다. 스레드마다 목표를 지정할 수 있어서, "이 조건을 만족하면 끝"을 명시해 두면 에이전트가 무한히 도는 일을 줄일 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">긴 작업을 끝까지 끌고 가는 법</h2>
+<p>장기 작업에서 중요한 것은 시작이 아니라 유지입니다. DeerFlow는 컨텍스트 압축과 메모리를 제공하지만, 무엇을 기억할지는 사람이 정해야 합니다.</p>
+<ul>
+<li>목표를 한 문장으로 고정하고 스레드마다 반복해서 확인합니다.</li>
+<li>중간 산출물은 파일로 남깁니다. 대화 기록만 믿으면 압축 과정에서 사라집니다.</li>
+<li>서브에이전트에게는 좁은 범위를 줍니다. "조사해 줘"보다 "이 문서에서 수치만 뽑아 표로"가 낫습니다.</li>
+<li>주기적으로 결과를 사람이 검토하는 지점을 둡니다.</li>
+</ul>
+<p>이 네 가지는 도구와 무관하게 통합니다. 하네스는 규칙을 강제하지 않으므로, 운영 규칙은 사용자가 만들어야 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">결과를 검증하는 방법</h2>
+<p>조사 결과는 출처 확인이 필수입니다. DeerFlow가 인용을 붙여 주더라도, 그 인용이 실제 페이지에 있는지는 사람이 확인해야 합니다. 링크가 살아 있는지, 인용문이 원문과 같은지 두 가지만 봐도 대부분 걸러집니다.</p>
+<p>수치가 포함된 보고서라면 계산 경로를 다시 밟아 보십시오. 에이전트가 표를 만들 때 단위를 섞는 실수가 흔합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">비용과 자원 관리</h2>
+<p>장기 작업은 토큰보다 시간과 자원을 먼저 소모합니다. 샌드박스 컨테이너, 검색 API 호출, 모델 호출이 겹치면 비용이 예상보다 빨리 늘어납니다.</p>
+<p>관리 방법은 범위를 좁히는 것입니다. 조사 질문을 3개 이하로 나누고, 각 질문에 필요한 소스 수를 미리 정해 두면 끝없는 탐색을 막을 수 있습니다.</p>
+<p>또 하나는 서브에이전트 수를 제한하는 것입니다. 병렬로 늘릴수록 빨라 보이지만, 같은 페이지를 여러 에이전트가 중복으로 읽으면 비용만 늘고 결과는 나아지지 않습니다. 먼저 순차로 돌려 병목을 확인하고, 그 다음에 병렬로 바꾸는 순서가 안전합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한계와 주의할 점</h2>
+<p>먼저 2.0은 재작성 버전이라 문서와 코드가 빠르게 바뀝니다. 블로그 글보다 저장소의 문서를 기준으로 판단해야 합니다.</p>
+<p>그다음 프론트엔드는 Node 22 이상과 최신 패키지 매니저를 요구합니다. 로컬 설치에서 오류가 나면 대개 이 버전 조건이 원인입니다.</p>
+<p>이어서 샌드박스를 꺼 두면 격리의 이점이 사라집니다. 편의를 위해 호스트 실행으로 바꾸는 순간, 이 도구를 쓰는 이유의 절반이 없어집니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리: 런타임이 결과를 바꾼다</h2>
+<p>같은 모델을 써도 실행 환경에 따라 결과가 달라집니다. 오래 도는 작업에서는 모델 성능보다 상태 관리가 더 큰 변수입니다.</p>
+<p>DeerFlow는 그 상태 관리를 직접 만들지 않으려는 팀에 맞습니다. 반대로 짧은 작업만 한다면 설치 비용이 더 큽니다. 먼저 한 시간 이상 걸리는 작업이 실제로 있는지 확인하고, 있다면 그 작업 하나로 시험해 보는 편이 좋습니다.</p>
+<p style="font-size:15px;color:#666;">참고: <a href="https://github.com/bytedance/deer-flow" target="_blank" style="color:#555;text-decoration:none;">deer-flow</a> (MIT, 2.0 기준)</p>

@@ -1,0 +1,60 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">"이거 알아서 해줘"라고 말했는데 에이전트가 계획 없이 돌아다니기만 하면 실무에서는 못 씁니다. AutoGPT는 목표를 주면 스스로 계획하고 실행하는 자율 에이전트 프레임워크입니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">LLM 기반 자율 에이전트를 만들고 실행할 수 있는 프레임워크로, OpenAI·Claude·Llama 등 다양한 모델과 연동되며 현재 GitHub 스타 187,822개입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">목표 기반 계획 — 자연어 목표를 받아 작업 단위로 나눠 계획을 세웁니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">자동 실행·피드백 — 결과를 보고 다음 단계를 스스로 조정합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">플러그인 확장 — 다양한 LLM과 API를 플러그인으로 연결합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<pre><code>pip install -e .</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">저장소를 클론해 개발 모드로 설치하는 방식입니다. 사용할 LLM의 API 키를 설정 파일에 넣고, 목표를 자연어로 입력해 실행합니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/Significant-Gravitas/AutoGPT" target="_blank" style="color:#555;">Significant-Gravitas/AutoGPT</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">187,822</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">Python</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">MIT + PolyForm Shield(플랫폼 부분)</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>설치 방식</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">소스 설치</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">자율 실행의 범위가 넓은 만큼, 처음에는 읽기·정리 같은 되돌리기 쉬운 목표로 시작합니다.</p>
+
+<pre><code>git clone https://github.com/Significant-Gravitas/AutoGPT.git</code></pre>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — 저장소를 클론하고 의존성을 설치합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — 사용할 LLM의 API 키를 설정 파일에 등록합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — "이 폴더의 문서를 요약해 줘"처럼 범위가 좁은 목표를 입력합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 계획과 실행 로그를 보며 목표를 점차 구체화합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">라이선스가 부분별로 다릅니다. autogpt_platform 폴더는 PolyForm Shield 라이선스라 상용 서비스에 제약이 있을 수 있으니, 플랫폼을 제품에 포함할 계획이라면 라이선스 조항을 먼저 확인하세요. 자율 실행이므로 API 비용도 목표가 복잡할수록 커집니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">LLM 기반 에이전트를 개발하거나 연구하는 개발자·연구자에게 특히 유용합니다. 목표만 주고 에이전트가 계획부터 실행까지 하게 하는 방식을 실험해 보고 싶은 경우에 맞습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">목표를 말하면 스스로 계획하고 실행하는 자율 에이전트의 원조 격 프레임워크입니다. 범위가 넓은 만큼 작은 목표부터 검증하며 쓰는 게 안전합니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/Significant-Gravitas/AutoGPT" target="_blank" style="color:#555;text-decoration:none;">github.com/Significant-Gravitas/AutoGPT</a></p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467072043" target="_blank" style="color:#2f5bd7;text-decoration:none;">deer-flow로 장기 작업 에이전트 돌리기</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467145426" target="_blank" style="color:#2f5bd7;text-decoration:none;">Suna로 회사 업무를 에이전트에게 맡기는 법</a></p>

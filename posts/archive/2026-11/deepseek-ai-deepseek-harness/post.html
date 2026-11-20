@@ -1,0 +1,60 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 에이전트를 만들 때 기능이 하나 늘 때마다 프레임워크를 갈아엎기 쉽습니다. deepseek-harness는 모든 구성요소를 플러그인으로 조립하는 TypeScript 기반 하네스입니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">DeepSeek 전용으로 설계된 플러그인 아키텍처의 에이전트 하네스로, MIT 라이선스에 현재 GitHub 스타 266,031개입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">플러그인 아키텍처 — 기능을 플러그인 단위로 추가·제거해 프로젝트마다 필요한 것만 조립합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">LLM·API 연동 — 모델 호출과 외부 API를 플러그인으로 연결합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">에이전트 오케스트레이션 — 여러 에이전트의 작업 흐름과 상태를 관리합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<pre><code>npm i deepseek-harness</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">설치 후 프로젝트에서 필요한 플러그인을 골라 설정 파일에 등록합니다. TypeScript 친화적 API라 기존 TS 프로젝트에 바로 붙습니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/deepseek-ai/deepseek-harness" target="_blank" style="color:#555;">deepseek-ai/deepseek-harness</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">266,031</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">TypeScript</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">MIT</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>설치 방식</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">npm 패키지</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">처음엔 플러그인 두세 개로 최소 구성을 만들고, 필요할 때만 늘립니다.</p>
+
+<pre><code>git clone https://github.com/deepseek-ai/deepseek-harness.git</code></pre>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — npm으로 설치하고 기본 설정 파일을 만듭니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — LLM 연동 플러그인과 사용할 도구 플러그인 두 개를 등록합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — 간단한 프롬프트로 에이전트가 응답하는지 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 상태 저장·오케스트레이션 플러그인을 추가해 여러 단계 작업을 시켜 봅니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">일부 플러그인이 다른 플러그인에 의존해서 프로젝트마다 설정이 복잡해질 수 있습니다. 생태계가 DeepSeek 계열에 치우쳐 있어 다른 모델을 쓰려면 연동 설정을 따로 확인해야 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">TypeScript/JavaScript 기반 AI 개발자에게 특히 유용합니다. AI 챗봇, 자동화 에이전트, 플러그인형 서비스를 직접 조립하고 싶은 경우에 맞습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">필요한 부품만 플러그인으로 끼워 넣는 조립식 에이전트 하네스입니다. 설정이 얽히기 쉬우니 처음에는 최소 구성을 유지하는 게 좋습니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/deepseek-ai/deepseek-harness" target="_blank" style="color:#555;text-decoration:none;">github.com/deepseek-ai/deepseek-harness</a></p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467074709" target="_blank" style="color:#2f5bd7;text-decoration:none;">OpenHands로 코딩 에이전트 실행 환경 만들기</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467072043" target="_blank" style="color:#2f5bd7;text-decoration:none;">deer-flow로 장기 작업 에이전트 돌리기</a></p>

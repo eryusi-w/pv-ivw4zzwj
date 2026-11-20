@@ -1,0 +1,65 @@
+<p>영상 콘텐츠를 코드로 만들고 싶다는 수요가 매년 커집니다. 소개 영상, 데이터 시각화, 소셜 숏폼까지 — 템플릿을 클릭하는 대신 스크립트로 프레임을 정의하면 버전 관리도 되고 반복 제작도 됩니다. 그런데 기존 렌더러들은 대부분 <strong>헤드리스 브라우저</strong>를 띄웁니다. 프레임마다 페이지를 열고 찍는 방식이라 느리고 무겁죠.</p>
+<p><strong>kinetograph</strong>는 이 지점을 정면으로 친 도구입니다. 브라우저 없이, Node가 코드를 실행하고 Rust GPU 컴포지터가 프레임을 직접 그립니다. "에이전트를 위해 만든" 프로그래매틱 비디오 엔진이라고 스스로를 소개합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">브라우저를 띄우지 않고 프레임을 그린다</h2>
+<p>기존 방식의 병목은 명확합니다. Remotion을 써도 결국 Puppeteer 계열 브라우저가 각 프레임을 렌더링합니다. 브라우저 기동 비용, DOM 레이아웃, 스크린샷 캡처 — 전부 프레임마다 반복됩니다.</p>
+<p>kinetograph는 구조를 바꿨습니다. Node가 프로젝트 코드를 실행해 장면을 계산하고, Rust 애드온이 그 결과를 GPU로 직접 페인팅합니다. 브라우저가 없으니 DOM도, 페이지 로드도 없습니다.</p>
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">README의 엔진 다이어그램 기준 여섯 단계입니다. 번들 → Node 실행(레이어·DOM 아일랜드) → Rust 애드온 레이아웃·페인트 → GPU 합성 → MP4 인코딩. Web Audio는 별도 오프라인 렌더로 들어갑니다.</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">kinetograph는 무엇인가</h2>
+<p>TypeScript로 Remotion API를 쓰거나, 순수 HTML 페이지로 영상을 정의하는 엔진입니다. 그리고 결정적으로 <strong>기존 Remotion 프로젝트와 HyperFrames 프로젝트가 그대로 렌더</strong>됩니다.</p>
+<ul>
+<li><strong>입력</strong> — Remotion 스타일 TSX 또는 HTML/HyperFrames 페이지</li>
+<li><strong>렌더러</strong> — CSS, SVG, Canvas 2D, WebGL 셰이더, 3D, Web Audio를 Rust GPU 컴포지터가 처리</li>
+<li><strong>출력</strong> — MP4</li>
+</ul>
+<p>"에이전트를 위해 만들었다"는 문구가 괜히 붙은 게 아닙니다. 저장소에 <code>AGENTS.md</code>가 있고, 코딩 에이전트가 설치부터 렌더까지 따라 할 수 있게 안내돼 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 첫 렌더</h2>
+<p>Node.js 22 이상이 필요하고, macOS Apple Silicon·Linux x64·Windows x64용 프리빌트 패키지가 있습니다. Rust나 FFmpeg를 따로 깔 필요 없이 npm 한 줄입니다.</p>
+<pre><code>npm install kinetograph
+npx kinetograph doctor</code></pre>
+<p><code>doctor</code>가 환경 점검을 해 줍니다. 프로젝트 시작은:</p>
+<pre><code>npx kinetograph init          # TSX, Remotion 스타일
+npx kinetograph init --html   # HTML / HyperFrames 페이지
+npm install</code></pre>
+<p>초기화하면 <code>src/</code>(코드) 또는 <code>html/</code>(페이지), <code>public/</code>(에셋), <code>out/</code>(산출물) 구조와 스타터 타이틀 카드가 생깁니다.</p>
+<pre><code>npx kinetograph render src/index.tsx   # out/renders/Main.mp4 생성
+npx kinetograph render html/index.html</code></pre>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">Remotion·HyperFrames 호환</h2>
+<p>이 도구의 실용적인 포인트입니다. 이미 Remotion으로 만든 프로젝트가 있다면 코드를 거의 그대로 가져와 kinetograph로 렌더할 수 있습니다. 반대로 HyperFrames(HTML 기반) 프로젝트도 지원합니다.</p>
+<p>브라우저 렌더러를 갈아끼우는 셈이라, 기존 자산을 버리지 않고 속도만 취할 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">Studio와 에이전트 연동</h2>
+<p>로컬 에디터인 <strong>Studio</strong>가 있습니다. 코드로 정의한 영상의 프레임을 눈으로 보며 수정할 수 있는 로컬 편집 화면입니다.</p>
+<p>에이전트 관점에서 흥미로운 건 설치 절차 자체를 에이전트에게 맡기도록 README가 안내한다는 점입니다. "이 AGENTS.md를 따라 설치해줘"라는 프롬프트를 그대로 붙여 넣으라고 되어 있습니다. 영상 제작처럼 렌더 시간이 긴 작업은 에이전트가 백그라운드에서 돌리기 좋은 구조입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">성능과 구조의 의미</h2>
+<p>브라우저 없는 렌더는 단순히 빠른 게 아니라 <strong>서버리스·CI 친화적</strong>입니다. 헤드리스 브라우저는 무겁고 가끔 멈추지만, Rust 네이티브 렌더러는 예측 가능하고 자동화에 잘 맞습니다.</p>
+<p>다만 아직 <strong>베타(0.3.0)</strong>입니다. README가 "API가 버전 사이에 바뀔 수 있다"고 명시합니다. 프로덕션 도입 시 버전을 고정하고 changelog를 추적해야 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">라이선스: PolyForm Small Business</h2>
+<p>MIT가 아닙니다. <strong>PolyForm Small Business License 1.0.0</strong> — 소스는 공개되지만 조건이 있습니다.</p>
+<ul>
+<li>개인·비영리·직원 100명 미만·연매출 100만 달러 미만 회사는 무료 사용 가능</li>
+<li>그 이상 규모는 별도 상용 라이선스 필요</li>
+<li>벤더된 크레이트는 각자 라이선스 유지</li>
+</ul>
+<p>스타트업이나 개인 프로젝트엔 관대하지만, 대기업 도입이면 법무 확인이 필요합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">적합한 작업과 아닌 작업</h2>
+<p>잘 맞는 작업: 소개 영상, 데이터 리포트 영상, 소셜 숏폼 대량 생산, 에이전트가 생성하는 자동화 영상.</p>
+<p>덜 맞는 작업: 실사 촬영 편집, 복잡한 모션 트래킹, 브라우저 고유 기능(특정 웹폰트 로딩 등)에 의존하는 장면. 지원 범위는 문서의 "What works" 페이지에서 확인하는 게 정확합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">도입 전 체크리스트</h2>
+<ul>
+<li>Node.js 22 이상과 지원 플랫폼(Apple Silicon·Linux x64·Windows x64)인지</li>
+<li>Remotion/HyperFrames 기존 프로젝트가 있다면 호환 범위를 먼저 검증했는지</li>
+<li>PolyForm Small Business 조건(규모·매출)에 해당하는지</li>
+<li>베타 API 변경 가능성을 감안해 버전을 고정했는지</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+<p>kinetograph는 "코드로 영상을 만들되 브라우저 없이"라는 점에서 기존 렌더러와 결이 다릅니다. Remotion 자산을 그대로 가져올 수 있고, 에이전트 연동을 전제로 설계됐다는 점이 요즘 흐름과 잘 맞습니다. 다만 베타 버전과 PolyForm 라이선스라는 두 가지 전제를 알고 쓰면, 영상 자동화 파이프라인의 유력한 선택지가 됩니다.</p>
+<p style="font-size:15px;color:#666;">참고: <a href="https://github.com/0xS4N4TG/kinetograph" target="_blank">github.com/0xS4N4TG/kinetograph</a> (PolyForm Small Business 1.0.0, v0.3.0 베타)</p>

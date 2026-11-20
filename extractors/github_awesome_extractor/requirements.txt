@@ -1,0 +1,11 @@
+youtube-transcript-api==0.6.1
+PyGithub==2.1.1
+openai==1.0.0
+requests==2.31.0
+python-dotenv==1.0.0
+jinja2==3.1.2
+markdown2==2.5.0
+tqdm==4.66.1
+beautifulsoup4>=4.12.0
+# openai==1.0.0은 httpx 0.28+에서 제거된 proxies 인자를 사용한다.
+httpx<0.28

@@ -1,0 +1,58 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">엑셀 표에서 "점수가 80점 이상이면 빨간색", "마감일이 지났으면 노란색"처럼 조건에 따라 셀 색을 바꾸고 싶을 때가 있습니다. 조건부 서식이 그 기능입니다. 활용법을 정리했습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">조건부 서식이란</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">조건부 서식은 셀의 값이나 다른 셀의 값에 따라 서식을 자동으로 바꾸는 기능입니다. 수동으로 일일이 칠할 필요 없이, 조건이 맞으면 자동으로 색이 바뀝니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">기본 사용법</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">사용법은 간단합니다.</p>
+
+<pre><code>1. 서식을 적용할 셀을 선택
+2. 홈 탭 → 조건부 서식 클릭
+3. 원하는 조건 선택 (예: 셀 값이 ~보다 클 때)
+4. 서식(색상·글꼴) 지정</code></pre>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">자주 쓰는 조건</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">실무에서 자주 쓰는 조건부 서식입니다.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>셀 값 비교</strong>: 80점 이상 빨간색, 60점 미만 노란색 등</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>중복 값</strong>: 같은 값이 여러 개면 강조</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>상위/하위 값</strong>: 상위 10% 빨간색 등</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>날짜 조건</strong>: 마감일이 지났으면 노란색</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>수식 사용</strong>: 다른 셀 참조해서 복합 조건</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 예시</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">자주 쓰는 예시 두 가지입니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;"><strong>예시 1: 점수에 따라 색 표시</strong></p>
+
+<pre><code>대상: 점수 열 전체 선택
+조건: 셀 값이 80보다 크거나 같음 → 빨간색
+조건: 셀 값이 60보다 작음 → 노란색</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;"><strong>예시 2: 마감일 지남 표시</strong></p>
+
+<pre><code>대상: 마감일 열 선택
+조건: 셀 값이 오늘 날짜보다 작음 → 노란색 배경</code></pre>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">주의할 점</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">조건이 너무 많으면 느려질 수 있습니다 — 필요한 것만 적용하세요</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">수식 조건은 다른 셀 참조가 틀리기 쉬우니 테스트해보세요</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">조건부 서식을 지우려면: 조건부 서식 → 규칙 지우기</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">조건부 서식은 "데이터를 눈으로 바로 파악"하게 해주는 기능입니다. 점수·마감일·중복 값처럼 "특정 조건일 때 강조"가 필요한 곳에 적용하세요.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: Microsoft Excel 공식 도움말 기준입니다.</p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224476196771" target="_blank" style="color:#2f5bd7;text-decoration:none;">직장인 엑셀 함수 10선, 이것만 알면 됩니다</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224476211238" target="_blank" style="color:#2f5bd7;text-decoration:none;">엑셀 피벗테이블 입문, 데이터 정리 10분 만에</a></p>

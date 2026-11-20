@@ -1,0 +1,60 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">코딩 에이전트가 코드를 쓰게만 하면 테스트·문서화 같은 뒷단계는 비어 있기 쉽습니다. superpowers는 에이전트에게 개발 프로세스 전체를 수행할 스킬을 부여하는 프레임워크입니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 에이전트가 코드 작성부터 테스트·문서화까지 개발 단계를 자동화하도록 설계된 스킬 프레임워크로, MIT 라이선스에 현재 GitHub 스타 308,724개, 주 언어는 Shell입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">에이전트 스킬 정의 — 개발 단계별 행동을 스킬로 정의해 에이전트가 따라 하게 합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">서브에이전트 분리 — 복잡한 작업을 작은 역할로 나눠 병렬로 진행합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">쉘 기반 설치 — curl 한 줄로 설치돼 기존 코딩 에이전트 환경에 바로 붙습니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<pre><code>curl -fsSL https://raw.githubusercontent.com/obra/superpowers/main/install.sh | sh</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">설치 스크립트가 현재 쓰는 코딩 에이전트 환경을 감지해 스킬을 배치합니다. 이후 에이전트에게 작업을 시키면 정의된 스킬 순서대로 진행합니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/obra/superpowers" target="_blank" style="color:#555;">obra/superpowers</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">308,724</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">Shell</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">MIT</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>설치 방식</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">설치 스크립트</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">큰 기능을 한 번에 시키지 말고, 스킬이 동작하는지 작은 작업으로 확인합니다.</p>
+
+<pre><code>git clone https://github.com/obra/superpowers.git</code></pre>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — 설치 스크립트를 실행해 에이전트 환경에 스킬을 배치합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — 간단한 버그 수정이나 리팩터링 작업을 시켜 봅니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — 테스트 생성·문서화 같은 후속 단계가 자동으로 이어지는지 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 잘 맞으면 프로젝트별로 스킬 구성을 조정합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">LLM을 쓰는 만큼 API 비용이 발생할 수 있고, 스킬이 많을수록 에이전트가 참조하는 지시도 길어져 토큰 소비가 늘 수 있습니다. 자동화가 과하면 의도와 다른 변경이 생길 수 있으니, 처음에는 리뷰 단계를 남겨 두는 게 좋습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 기반 개발자, 소프트웨어 엔지니어, DevOps에게 특히 유용합니다. 코딩 에이전트에게 "코드만"이 아니라 개발 프로세스 전체를 맡기고 싶은 팀에 맞습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">에이전트에게 개발 단계 전체를 가르치는 스킬 모음입니다. 설치 한 줄로 붙지만, 자동화 범위는 작업 규모에 맞게 조절하는 게 핵심입니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/obra/superpowers" target="_blank" style="color:#555;text-decoration:none;">github.com/obra/superpowers</a></p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467213332" target="_blank" style="color:#2f5bd7;text-decoration:none;">게임 개발 팀을 Claude Code로 꾸리기</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467214029" target="_blank" style="color:#2f5bd7;text-decoration:none;">AI가 게으른 시니어처럼 짜게 만드는 스킬</a></p>

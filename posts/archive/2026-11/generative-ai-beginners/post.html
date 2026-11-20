@@ -1,0 +1,99 @@
+<!-- write.mjs가 소제목 위에 이미지를 넣는다. <img> 태그는 넣지 않는다. -->
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>문제 제기</h2>
+<p>생성 AI를 "써 본" 사람은 많아도 "만들어 본" 사람은 적습니다. 프롬프트를 치는 것과 앱을 만드는 것 사이에는 꽤 먼 거리가 있고, 그 사이를 메우는 체계적인 입문 자료를 찾기 어렵습니다.</p>
+<p>Microsoft의 generative-ai-for-beginners는 이 간극을 노린 공식 교육 저장소입니다. GitHub 별 12만 3천 개, 포크 6만 6천 개, MIT 라이선스. Microsoft Cloud Advocates 팀이 만든 21개 레슨으로 구성된 과정입니다.</p>
+
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">
+  개념을 설명하는 레슨과, 코드를 직접 짜는 레슨이 번갈아 나오는 21강짜리 입문 과정입니다.
+</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>무엇이 다른가</h2>
+<p>대부분의 GenAI 입문 자료가 "ChatGPT 써 보기"에서 끝난다면, 이 과정은 "만들어 보기"까지 갑니다. 21개 레슨은 두 종류로 나뉩니다.</p>
+<ul style="margin:0 0 24px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>Learn 레슨</strong> — 개념을 설명합니다. 프롬프트 엔지니어링, 책임 있는 사용, LLM 비교 같은 주제입니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>Build 레슨</strong> — 개념에 더해 Python과 TypeScript 코드 예제를 제공합니다. Azure OpenAI와 OpenAI API 양쪽을 지원합니다.</li>
+</ul>
+<p>각 레슨에는 짧은 영상 소개, README 문서, 양쪽 언어의 코드 샘플, 추가 학습 링크가 들어 있습니다. 지금 버전은 Version 3입니다.</p>
+<div style="background:#f0f6ff;border:1px solid #d6e4ff;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0;font-size:15px;line-height:1.6;color:#2c4a7c;"><strong>실행 환경 선택지</strong> — Azure OpenAI Service, Microsoft Foundry Models, OpenAI API, Foundry Local(기기에서 완전 오프라인 실행) 중에서 고를 수 있습니다. 클라우드 구독 없이 로컬에서 돌리고 싶다면 Foundry Local이 답입니다.</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>21개 레슨 지도</h2>
+<p>폴더 번호가 곧 순서입니다. 처음부터 끝까지 순서대로 갈 필요는 없고, 관심 있는 레슨부터 시작해도 됩니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<thead>
+<tr style="background:#f5f7fa;">
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">범위</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">레슨</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">기초</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">소개, LLM 비교, 책임 있는 사용, 프롬프트 기초·고급</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">앱 만들기</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">텍스트 생성, 챗봇, 검색 앱, 이미지 앱, 로우코드</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">고급 주제</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">함수 호출, AI UX 설계, 보안, 앱 라이프사이클</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">RAG·에이전트</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">RAG와 벡터 DB, 오픈소스 모델, AI 에이전트</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">고급 기술</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">파인튜닝, SLM, Mistral, Meta(Llama)</td>
+</tr>
+</tbody>
+</table>
+<p>뒤쪽 레슨은 점점 깊어집니다. 15번 RAG와 벡터 데이터베이스, 17번 AI 에이전트, 18번 파인튜닝은 입문을 넘어 실무 영역에 들어갑니다. 마지막 네 개 레슨(19~21)은 SLM, Mistral, Meta로 특정 모델·기술을 파는 선택 과목 성격입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>다국어와 저장소 크기</h2>
+<p>이 저장소의 큰 특징 중 하나가 번역입니다. Co-op Translator로 유지되는 50개 이상의 언어 번역본이 있고, 한국어도 포함돼 있습니다. 다만 번역본 때문에 저장소가 무겁습니다. 번역 없이 받고 싶다면 sparse checkout을 쓰세요.</p>
+<pre><code># 번역본·번역 이미지 제외하고 받기 (Bash / macOS / Linux)
+git clone --filter=blob:none --sparse https://github.com/microsoft/generative-ai-for-beginners.git
+cd generative-ai-for-beginners
+git sparse-checkout set --no-cone '/*' '!translations' '!translated_images'
+
+# Windows CMD
+git clone --filter=blob:none --sparse https://github.com/microsoft/generative-ai-for-beginners.git
+cd generative-ai-for-beginners
+git sparse-checkout set --no-cone "/*" "!translations" "!translated_images"</code></pre>
+<p>.NET 개발자라면 별도 판도 있습니다 — Generative AI for Beginners (.NET Edition).</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>어떻게 진행하면 좋은가</h2>
+<p>권장 순서는 00번 Course Setup으로 환경을 잡고, 01~05번 Learn 레슨으로 개념을 다진 뒤, 06번 이후 Build 레슨으로 넘어가는 겁니다. 다만 "각 레슨이 독립 주제"라고 명시돼 있으니, 프롬프트 엔지니어링이 목적이면 04~05번만 떼어 봐도 됩니다.</p>
+<p>코드 실행에는 API가 필요합니다. Azure OpenAI, OpenAI API, Foundry Models 중 하나를 고르거나, 구독 없이 Foundry Local로 로컬 모델을 돌릴 수 있습니다. GitHub Models는 2026년 7월 말에 종료 예정이라 README는 Foundry Models로 안내를 바꿨습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>누구에게 맞나</h2>
+<p>개발자가 처음 GenAI 앱을 만들 때 가장 무난한 출발점입니다. Microsoft 생태계(Azure, Foundry)를 쓰거나, TypeScript까지 커버하는 자료를 찾는 사람에게 특히 맞습니다. 이미 LangChain이나 프레임워크를 다뤄 본 사람에게는 앞부분이 쉽고, 뒤쪽 RAG·에이전트·파인튜닝 레슨이 오히려 정리 자료로 유용합니다.</p>
+<p>반대로 모델 내부 구조나 최신 연구를 깊게 파고 싶다면 이 과정의 범위를 넘습니다. 여기서 다루는 파인튜닝·SLM은 입문 수준이고, 이론적 깊이는 mlabonne의 llm-course 같은 별도 로드맵이 담당합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>커뮤니티와 지원</h2>
+<p>Microsoft Foundry Discord 서버에서 다른 수강생과 연결되고 지원을 받을 수 있고, GitHub의 Microsoft Foundry Developer Forum에서 제품 피드백과 질문을 올릴 수 있습니다. 더 깊은 코드 샘플이 필요하면 같은 팀의 Generative AI Code Samples 모음이 Python과 TypeScript로 따로 있습니다.</p>
+<p>스타트업이라면 Microsoft for Startups의 Azure 크레딧 프로그램을 살펴볼 만합니다. 이 과정 자체는 무료이고 MIT 라이선스라 회사 교육 자료로도 그대로 쓸 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>한계와 주의</h2>
+<p>기업 교육 과정답게 Microsoft 스택에 최적화돼 있습니다. Azure OpenAI와 Foundry가 기본 경로라, 다른 클라우드나 로컬 모델 중심으로 작업한다면 Foundry Local이나 OpenAI API 경로를 골라야 합니다. 번역본은 Co-op Translator로 자동 유지되는 구조라, 최신 레슨의 번역이 영어보다 늦을 수 있습니다.</p>
+<p>버전 3 기준 2,578개 커밋이 쌓인 활발한 저장소지만, AI는 빠르게 낡습니다. 각 레슨의 "Keep Learning" 링크가 가리키는 최신 자료를 함께 보는 습관이 필요합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>도입 전 체크리스트</h2>
+<div style="background:#f0fdf4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#166534;">확인할 것 4가지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 환경 — Azure OpenAI / OpenAI API / Foundry Models / Foundry Local 중 선택</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 언어 — Python 또는 TypeScript 기본 지식, .NET은 별도 판 존재</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 클론 — 번역본 제외 sparse checkout으로 용량 절약</p>
+<p style="margin:0;font-size:15px;line-height:1.6;color:#166534;">✓ 진도 — 21개 레슨 전부가 아니라 목표에 맞는 레슨부터</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>정리</h2>
+<p>이 과정의 가치는 "21개 레슨"이라는 분량이 아니라 Learn과 Build가 번갈아 나오는 구조입니다. 개념만 외우는 게 아니라 매번 코드를 짜게 만들고, Python과 TypeScript를 동시에 보여 주며, Azure와 OpenAI 양쪽을 지원합니다.</p>
+<p>오늘 해 볼 일은 04번 프롬프트 엔지니어링 기초 레슨 하나를 여는 겁니다. Build 레슨이라 Python이나 TypeScript로 직접 프롬프트를 돌려 볼 수 있고, 그게 이 과정의 절반입니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">
+참고: <a href="https://github.com/microsoft/generative-ai-for-beginners" target="_blank" style="color:#555;text-decoration:none;">generative-ai-for-beginners</a> (MIT License, Version 3)
+</p>

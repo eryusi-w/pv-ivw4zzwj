@@ -1,0 +1,70 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">UI UX Pro Max를 설치했는데 "이제 뭘 입력해야 하지?" 싶다면 이 글을 보세요. 스킬 소개 글과 달리, 실제 프롬프트 예시와 활용 시나리오 중심으로 사용법을 정리했습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">전제 — 이미 깔려 있나요</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">이 글은 설치가 끝난 상태를 전제로 합니다. 아직이라면 <code>npm install -g ui-ux-pro-max-cli</code> 후 프로젝트 폴더에서 <code>uipro init --ai claude</code> 같은 초기화 명령을 먼저 실행하세요.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">스킬이 켜지면 AI 에이전트가 디자인 시스템을 먼저 제안하고 코드를 작성합니다. 핵심은 "무엇을 시키느냐"입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">시나리오 1 — 새 페이지 만들기</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">가장 흔한 사용법입니다. 업종을 구체적으로 말할수록 정확한 팔레트·스타일이 나옵니다.</p>
+
+<pre><code>뷰티 스파 예약 랜딩 페이지를 만들어줘.
+UI UX Pro Max 가이드를 엄격히 따라줘.</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">"랜딩 페이지 만들어줘"보다 "뷰티 스파"처럼 산업을 명시하면 192개 카테고리 중 맞는 것을 골라줍니다. "가이드를 엄격히 따라줘"를 붙이면 에이전트가 제안을 무시하고 자기 방식으로 코딩하는 일을 줄일 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">시나리오 2 — 특정 요소만 디자인</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">페이지 전체가 아니라 일부만 바꾸고 싶을 때도 됩니다.</p>
+
+<pre><code>금융 앱 대시보드의 다크 모드 색상과 폰트를
+UI UX Pro Max 기준으로 제안해줘.</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">차트 유형 추천, 대비율 같은 접근성 요소까지 같이 제안됩니다. 코드 작성 없이 "제안만" 받아도 됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">시나리오 3 — 기존 테마 변경(Retheme)</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">이미 있는 앱의 디자인을 통째로 바꾸는 것도 지원합니다.</p>
+
+<pre><code>기존 React 앱의 테마를 Minimalism 스타일로
+변경해줘. 하드코딩된 색상값을 찾아서 교체해줘.</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">스타일 이름을 직접 지정할 수 있습니다 — Soft UI, Glassmorphism, Bento Grid 등 50개 이상의 활성 스타일이 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">CLI로 직접 검색하기</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">에이전트를 거치지 않고 데이터만 보고 싶다면 검색 스크립트를 직접 씁니다.</p>
+
+<pre><code>python search.py "fintech dashboard" --domain ux
+python search.py "typography pairing" --domain typography</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Python 3.x만 있으면 되고 추가 라이브러리는 필요 없습니다. 도메인은 ux, typography, chart, style 등으로 나뉩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">결과물 읽는 법 — 3가지만 보면 됩니다</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">스킬이 출력하는 디자인 시스템 문서에서 핵심은 세 부분입니다.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>RECOMMENDED DESIGN SYSTEM</strong> — 패턴·스타일·색상·폰트 추천</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>AVOID</strong> — 그 업종에서 하면 안 되는 안티 패턴</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>PRE-DELIVERY CHECKLIST</strong> — 배포 전 확인 항목(대비율·커서·이모지 금지 등)</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">자주 하는 실수</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">업종을 안 밝히고 "예쁜 페이지"라고 함 — 팔레트 정확도가 떨어집니다</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">가이드 준수를 명시 안 함 — 에이전트가 제안을 무시할 수 있습니다</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">이미지·로고까지 기대함 — 이 스킬은 코드·스타일 가이드 영역입니다</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">사용법은 간단합니다 — 업종을 명시하고 "가이드를 따라줘"라고 덧붙이면 됩니다. 새 페이지·부분 디자인·테마 변경 세 시나리오만 익혀도 대부분의 작업에 충분합니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank" style="color:#555;text-decoration:none;">ui-ux-pro-max-skill</a> (MIT License) 공식 문서 기준입니다.</p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224461364225" target="_blank" style="color:#2f5bd7;text-decoration:none;">AI 에이전트에게 디자인 감각을 심어주는 UI UX Pro Max</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224476151349" target="_blank" style="color:#2f5bd7;text-decoration:none;">AI 시스템 아키텍처, 처음 설계할 때 보는 6가지</a></p>

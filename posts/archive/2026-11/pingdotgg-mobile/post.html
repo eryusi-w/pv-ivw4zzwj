@@ -1,0 +1,84 @@
+<p>코딩 에이전트가 좋아질수록 생기는 문제: 집에서 시작한 작업을 밖에서 이어가고 싶다. 카페에서 노트북을 열기 귀찮을 때 폰으로 에이전트 상태를 보고 지시를 내리고 싶다. Claude Code를 서버에 띄워 두고 모바일로 조종하는 그림이죠.</p>
+<p><strong>T3 Code</strong>는 정확히 이걸 위한 도구입니다. pingdotgg 팀이 만든 "에이전트 하네스 제어판"으로, 내 컴퓨터의 코딩 에이전트들을 모바일 앱·웹·데스크톱에서 원격으로 다룹니다. GitHub 별 4.9만 개, MIT 라이선스입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">T3 Code는 무엇인가</h2>
+<p>README의 표현이 정확합니다 — <strong>"agent harness control surface"</strong>. 에이전트 자체를 새로 만드는 게 아니라, 이미 설치된 에이전트들을 한 화면에서 제어합니다.</p>
+<p>지원 대상은 구독 기반 CLI 에이전트들입니다.</p>
+<ul>
+<li>Claude Code</li>
+<li>Codex</li>
+<li>Cursor</li>
+<li>Grok Build</li>
+<li>OpenCode</li>
+<li>Google Antigravity</li>
+<li>fx</li>
+</ul>
+<p>핵심 전제: <strong>이미 로그인해 둔 Claude Code</strong> 같은 에이전트가 컴퓨터에 설정돼 있어야 합니다. T3 Code는 그 세션을 원격에서 조종할 뿐, 모델을 대신 제공하지 않습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">세 가지 화면과 하나의 서버</h2>
+<p>구조는 단순합니다. 내 컴퓨터(또는 서버)에서 <code>t3</code>가 백그라운드 서버를 띄우고, 여기에 세 개의 클라이언트가 붙습니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<tr><th style="border:1px solid #ddd;padding:8px;background:#f7f9fa;">클라이언트</th><th style="border:1px solid #ddd;padding:8px;background:#f7f9fa;">형태</th></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">모바일 앱</td><td style="border:1px solid #ddd;padding:8px;">iOS·Android 네이티브</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">웹 앱</td><td style="border:1px solid #ddd;padding:8px;">app.t3.codes, 브라우저에서 접속</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">데스크톱 앱</td><td style="border:1px solid #ddd;padding:8px;">Electron, GitHub Releases</td></tr>
+</table>
+<p>서버가 로컬에만 바인딩되면 같은 네트워크에서만 접속됩니다. 외부에서 쓰려면 문서의 remote-access 가이드를 따라 터널이나 인증 설정이 필요합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치: 서버를 먼저 세운다</h2>
+<p>CLI 설치가 가장 빠릅니다.</p>
+<pre><code>curl -fsSL https://t3.codes/install.sh | sh</code></pre>
+<p>Windows PowerShell은:</p>
+<pre><code>irm https://t3.codes/install.ps1 | iex</code></pre>
+<p>설치 후 <code>t3</code>를 실행하면 서버가 뜨고 로컬 웹 앱이 열립니다.</p>
+<pre><code>t3 service install   # 백그라운드 서비스로 등록
+t3 update            # 최신 릴리스로 업데이트
+t3 --help            # 전체 명령 참조</code></pre>
+<p>설치 없이 한 번 써 보려면 <code>npx t3@latest</code>로 바로 실행됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">에이전트 준비: 프로바이더부터</h2>
+<p>T3 Code는 에이전트를 포함하지 않습니다. 먼저 쓸 에이전트를 설치하고 로그인해야 합니다.</p>
+<pre><code># Codex
+codex login
+
+# Claude Code
+claude auth login
+
+# Cursor
+agent login
+
+# OpenCode
+opencode auth login</code></pre>
+<p>각 CLI의 공식 설치 방법을 따릅니다. Antigravity는 설정에서 활성화 후 "Install Antigravity"와 "Sign in with Google"로 처리하고 CLI가 필요 없습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">폰에서 접속하기</h2>
+<p>모바일 앱을 깔고 서버 주소를 등록하면 됩니다. 같은 Wi-Fi라면 로컬 주소로, 외부라면 문서의 remote-access 설정을 따라야 합니다.</p>
+<p>폰에서 할 수 있는 것: 진행 중인 에이전트 세션 확인, 새 작업 시작, 진행 상황 모니터링, 간단한 지시 입력. 데스크톱만큼 세밀한 조작은 안 되지만 "지금 뭐 하고 있지?"를 확인하고 방향을 틀어주는 용도로는 충분합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">권한과 보안</h2>
+<p>원격으로 코딩 에이전트를 조종한다는 건 곧 <strong>내 파일시스템에 대한 원격 제어권</strong>을 넘기는 것입니다. 문서에 permission-modes 가이드가 따로 있을 만큼 이 부분이 중요합니다.</p>
+<ul>
+<li>서버를 외부에 열 때는 반드시 인증·암호화를 설정할 것</li>
+<li>에이전트별 권한 모드를 확인할 것 — 파일 수정·명령 실행 범위가 다릅니다</li>
+<li>공용 네트워크가 아닌 본인 관리 서버에서 운영할 것</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">개발자 도구로서의 확장</h2>
+<p>T3 Code는 MCP를 통해 다른 에이전트도 연결할 수 있게 설계됐습니다. 문서에 "outside agents over MCP" 가이드가 있어, Claude Code·Codex 외의 도구도 같은 서버에 붙일 수 있습니다.</p>
+<p>프로젝트별 설정, 키보드 단축키, 외부 에이전트 연동, 백그라운드 서비스 운영까지 문서가 코드와 함께 관리됩니다. 사이트가 아니라 <code>docs/</code> 폴더가 문서 저장소인 점도 오픈소스답습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">어떤 사람에게 맞나</h2>
+<p>집이나 사무실 서버에 코딩 에이전트를 상시 띄워 두고, 이동 중에 상태를 확인하거나 간단한 지시를 내리고 싶은 사람에게 맞습니다. 특히 Claude Code·Codex 구독을 이미 쓰고 있다면 추가 비용 없이 같은 세션을 원격으로 다룰 수 있습니다.</p>
+<p>반대로 에이전트를 한 번도 써 본 적 없거나, 모바일에서의 제한된 조작으로 충분한 작업이 없는 사람에게는 과한 도구일 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한계와 주의</h2>
+<ul>
+<li><strong>매우 이른 단계</strong> — README가 "버그를 기대하라"고 직접 말합니다</li>
+<li><strong>기여 제한</strong> — 큰 기능 기여는 받지 않는다고 명시돼 있습니다</li>
+<li><strong>프로바이더 의존</strong> — 지원 에이전트 목록이 바뀌면 사용 가능 도구도 바뀝니다</li>
+<li><strong>자체 호스팅 책임</strong> — 서버 보안·업데이트·백업은 사용자 몫입니다</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+<p>T3 Code는 "폰에서 Claude Code를 조종한다"는 단순한 아이디어를 잘 다듬은 도구입니다. 새 에이전트를 만들지 않고 기존 것을 원격 제어한다는 점에서 실용적이고, iOS·Android·웹·데스크톱을 아우르는 클라이언트 구성도 좋습니다. 다만 아직 초기 프로젝트라 안정성과 보안 설정에 각별한 주의가 필요합니다. 개발 워크플로를 모바일로 확장하고 싶은 사람에게는 충분히 시도해 볼 가치가 있습니다.</p>
+<p style="font-size:15px;color:#666;">참고: <a href="https://github.com/pingdotgg/t3code" target="_blank">github.com/pingdotgg/t3code</a> (MIT)</p>

@@ -1,0 +1,51 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Stable Diffusion 계열 이미지를 "노드"로 조립해 만드는 ComfyUI는 진입 장벽이 높다는 평을 듣습니다. 그런데 한 번 구조를 이해하면 자동화와 품질 면에서 다른 도구가 따라오기 어렵습니다. 설치부터 첫 이미지까지 순서대로 정리했습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">ComfyUI가 뭔가요</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">ComfyUI는 이미지 생성 모델을 노드 그래프로 연결해 실행하는 프론트엔드입니다. 저장소는 Comfy-Org/ComfyUI로 이전됐고 GitHub 스타 약 14.7만, GPL-3.0 라이선스입니다. SDXL·SD3·Flux 같은 모델과 LoRA, ControlNet, 업스케일러를 자유롭게 조합할 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치 방법</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">가장 쉬운 방법은 데스크톱 앱(ComfyUI Desktop)입니다. Windows·macOS용 설치 파일을 받아 실행하면 Python 환경과 기본 모델까지 자동으로 준비됩니다. 개발자라면 Git으로 클론해 직접 실행하는 방법도 있습니다.</p>
+
+<pre><code>git clone https://github.com/Comfy-Org/ComfyUI
+cd ComfyUI
+python main.py</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">브라우저에서 localhost로 접속하면 노드 편집 화면이 열립니다. 첫 실행 시 모델이 없으면 Hugging Face나 Civitai에서 체크포인트를 받아 models/checkpoints 폴더에 넣으면 됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">첫 이미지 만들기</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">기본 워크플로는 Checkpoint Loader → CLIP Text Encode(프롬프트) → KSampler → VAE Decode → Save Image 순으로 노드가 연결됩니다. 노드 사이를 드래그해 연결하고, 프롬프트 노드에 영어로 원하는 장면을 적은 뒤 Queue를 누르면 됩니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">단계</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">할 일</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>1</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">체크포인트 모델을 models/checkpoints에 넣기</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>2</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">기본 워크플로 열기(Templates 메뉴)</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>3</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">프롬프트 영어로 입력 후 Queue 실행</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">왜 노드 방식인가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">자동화의 핵심은 워크플로를 JSON으로 저장하고 API로 재실행할 수 있다는 점입니다. 매번 GUI를 클릭할 필요 없이 스크립트로 수백 장을 뽑거나, 프롬프트 변형을 일괄 처리할 수 있습니다. ControlNet·LoRA·IPAdapter 같은 확장도 노드 추가만으로 붙습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">주의할 점</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">VRAM 요구량이 큽니다 — 8GB 이상 권장, 없으면 GGUF 양자화 모델 사용</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">모델 라이선스가 제각각 — SDXL은 OpenRAIL, 일부 체크포인트는 상업적 제한 있음</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">커뮤니티 워크플로가 많아 처음엔 Templates의 기본 워크플로부터 시작</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">ComfyUI는 이미지 생성을 "코드처럼" 다루는 도구입니다. 처음엔 복잡해 보이지만, 노드 흐름 한 번만 이해하면 모델 조합과 자동화에서 다른 도구보다 자유롭습니다. 데스크톱 앱으로 시작해 기본 워크플로 한 번 돌려보는 게 가장 빠른 입문법입니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: github.com/Comfy-Org/ComfyUI (GPL-3.0, 저장소 이전됨)</p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224476084323" target="_blank" style="color:#2f5bd7;text-decoration:none;">여러 AI 모델을 한곳에 모은 도구 (Open-Generative-AI)</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467074012" target="_blank" style="color:#2f5bd7;text-decoration:none;">셀프호스팅 이미지·영상 생성 스튜디오</a></p>

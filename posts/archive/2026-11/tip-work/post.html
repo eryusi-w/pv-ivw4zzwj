@@ -1,0 +1,107 @@
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">어떤 상황인가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">이 글은 "반복되는 업무를 자동화하는 일" 상황에서 바로 쓸 수 있는 오픈소스 AI 도구 3가지를 정리했습니다. 좋은 도구는 계속 나오지만, 무엇을 언제 써야 하는지 한눈에 보기 어렵습니다. 아래 3가지는 같은 목적(도메인: 업무·비즈니스)의 도구지만 강점과 약점이 서로 다릅니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">이 상황에 쓰는 도구 3가지</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">먼저 세 도구를 한 줄로 소개합니다. 자세한 강점과 약점은 다음 절에서 봅니다.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>rerun</strong> — AI coworker를 고용해 업무를 자동화하고 일정에 따라 작업을 수행하는 플랫폼입니다. 실무자가 자체 호스팅으로 AI 에이전트를 운영할 수 있게 해 줍니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>linger</strong> — 개인 PC에서 완전히 로컬로 실행되는 오픈소스 개인 AI 에이전트로, 메일·채팅·회의 기록을 공유 기억으로 활용해 능동적으로 작업합니다. 클라우드에 데이터를 보내지 않습니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>OpenMausBot</strong> — 로컬에서 실행되는 AI 비서로, Claude, Codex, Grok 등 다양한 모델을 골라 업무를 자동화하고 대화 기록을 로컬에 저장합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">도구별 강점과 약점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;"><strong>rerun</strong> — 반복적인 업무나 스케줄 기반 작업을 AI에게 맡겨 업무 효율성을 높일 때.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">강점: 다양한 구글 서비스와 연동하여 실질적인 업무 자동화 가능.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">약점: AGPL-3.0 라이선스로 상업적 이용 시 주의 필요.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">한줄평: 써볼 만함 — AI coworker 개념가 신선하고 실무자 맞춤형 기능 제공</li>
+</ul>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;"><strong>linger</strong> — 클라우드 AI 사용이 민감한 환경에서 개인 업무 자동화 및 정보 관리를 할 때.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">강점: 데이터가 외부로 나가지 않아 프라이버시가 보장되고, 클라우드 API 비용이 발생하지 않습니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">약점: 로컬 LLM 구동에 필요한 GPU/메모리 사양이 높을 수 있으며, 라이선스가 NOASSERTION으로 명시되어 있어 상업적 사용 시 법적 검토가 필요합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">한줄평: 지켜볼 만함 — 로컬 AI 에이전트 개념은 흥미롭지만, 소비자용 PC에서 'Claude급' 성능을 내기 위한 하드웨어 요구사항 및 안정성이 아직 검증 단계입니다.</li>
+</ul>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;"><strong>OpenMausBot</strong> — 개인 업무 자동화 및 대화형 AI 비서 활용.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">강점: 로컬 실행으로 프라이버시 보장.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">약점: 문서 부족.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">한줄평: 지켜볼 만함 — 기능이 제한적이지만 로컬 실행과 프라이버시 지원이 장점</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한눈에 비교</h2>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">도구</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">스타</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">언어</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">라이선스</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">한줄평</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/rerun-build/rerun" target="_blank" style="color:#555;">rerun</a></td><td style="border:1px solid #e5e8eb;padding:10px;">808</td><td style="border:1px solid #e5e8eb;padding:10px;">TypeScript</td><td style="border:1px solid #e5e8eb;padding:10px;">AGPL-3.0</td><td style="border:1px solid #e5e8eb;padding:10px;">써볼 만함 — AI coworker 개념가 신선하고 실무자 맞…</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/simplexai-labs/linger" target="_blank" style="color:#555;">linger</a></td><td style="border:1px solid #e5e8eb;padding:10px;">298</td><td style="border:1px solid #e5e8eb;padding:10px;">TypeScript</td><td style="border:1px solid #e5e8eb;padding:10px;">확인 필요</td><td style="border:1px solid #e5e8eb;padding:10px;">지켜볼 만함 — 로컬 AI 에이전트 개념은 흥미롭지만, 소비자…</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/milind-soni/OpenMausBot" target="_blank" style="color:#555;">OpenMausBot</a></td><td style="border:1px solid #e5e8eb;padding:10px;">-</td><td style="border:1px solid #e5e8eb;padding:10px;">TypeScript</td><td style="border:1px solid #e5e8eb;padding:10px;">N/A</td><td style="border:1px solid #e5e8eb;padding:10px;">지켜볼 만함 — 기능이 제한적이지만 로컬 실행과 프라이버시 지…</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">추천 조합</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">세 도구를 한 번에 다 쓰기보다, 아래 순서로 하나씩 붙이는 편이 안전합니다.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">고르기 — "반복되는 업무를 자동화하는 일"에서 가장 자주 반복되는 작업 하나를 정합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">붙이기 — 그 작업에 맞는 도구 하나만 설치해 작은 범위에서 써 봅니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">확인 — 결과를 눈으로 비교하고, 괜찮으면 다음 도구로 넓힙니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">도구 고르는 기준</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">유지보수 — 최근 커밋과 릴리스가 활발한지 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">라이선스 — 상업적 사용과 재배포 조건을 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">설치 난이도 — 런타임·의존성이 현재 환경과 맞는지 봅니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">문서 품질 — 시작 가이드와 예제가 있는지 봅니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">처음 쓸 때 확인할 것</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">요구 사항 — 런타임 버전과 OS 제약을 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">권한 — API 키와 접근 권한을 최소로 둡니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">데이터 — 입력한 내용이 외부로 나가는지 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">되돌리기 — 문제가 생겼을 때 끄거나 지울 수 있는지 봅니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">주의할 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">오픈소스 도구는 언제든 방향이 바뀔 수 있습니다. 도입 전에 라이선스와 유지보수 주기를 확인하고, 민감한 코드나 데이터는 권한을 좁혀 테스트한 뒤 확대하세요.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">rerun — AGPL-3.0 라이선스로 상업적 이용 시 주의 필요</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">linger — 로컬 LLM 구동에 GPU·메모리 사양이 필요할 수 있고, 라이선스가 NOASSERTION이라 상업적 사용 전 법적 검토가 필요합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">OpenMausBot — 문서 부족</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">반복 업무를 줄이고 싶은 실무자와, 데이터를 외부에 두고 싶지 않은 개인 사용자에게 특히 유용합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">"반복되는 업무를 자동화하는 일"에는 rerun, linger, OpenMausBot 세 가지를 먼저 보면 됩니다. 하나를 골라 작은 작업부터 붙이고, 결과가 괜찮으면 다음 도구로 넓히세요.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/rerun-build/rerun" target="_blank" style="color:#555;text-decoration:none;">github.com/rerun-build/rerun</a></p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/simplexai-labs/linger" target="_blank" style="color:#555;text-decoration:none;">github.com/simplexai-labs/linger</a></p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/milind-soni/OpenMausBot" target="_blank" style="color:#555;text-decoration:none;">github.com/milind-soni/OpenMausBot</a></p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467145426" target="_blank" style="color:#2f5bd7;text-decoration:none;">Suna로 회사 업무를 에이전트에게 맡기는 법</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224476082648" target="_blank" style="color:#2f5bd7;text-decoration:none;">팀 업무 자동화를 조립하는 AI 앱 플랫폼 (dify)</a></p>

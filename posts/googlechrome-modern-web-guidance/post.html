@@ -1,0 +1,68 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 코딩 에이전트가 최신 웹 표준을 따르는 코드를 작성하려면, 각 브라우저가 제공하는 기능을 꿭꿭이 알아야 합니다. 최신 CSS, 새로운 HTML API, 그리고 Chrome만의 특화 기능까지 — 모두 기억하기 어렵죠?</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;"><strong>modern-web-guidance</strong>(GoogleChrome/modern-web-guidance)은 Chrome 엔지니어들이 직접 만든 Modern Web Platform 가이드라인 모음입니다. GitHub 스타 7,985개를 확보한 실전 인증 도구입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>262개의 모던 웹 기능 가이드</strong> — CSS Layout, JavaScript API, Forms, Accessibility 등 실시간으로 업데이트되는 기능 데이터베이스입니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>에이전트용 스킬 시스템</strong> — coding agent가 Chrome의 최신 팁을 자동으로 참고할 수 있는 Skill 형태로 제공됩니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>실시간 데모와 검증</strong> — 각 기능별로 웹 데모가 준비되어 있어, 코드를 따라하며 바로 테스트할 수 있습니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">이 도구는 브라우저 내장 마크로(Copilot, Gemini 등)가 아닌, <strong>코드 제작자가 직접 참고할 수 있는 공식 가이드</strong>입니다. Clone 후 docs 폴더를 로컬에서 정적 사이트로 띄우면 됩니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/GoogleChrome/modern-web-guidance" target="_blank" style="color:#555;">GoogleChrome/modern-web-guidance</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">7,985</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">TypeScript·CSS·HTML</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">Apache-2.0</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>설치 방식</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">저장소 클론</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">처음부터 크게 붙이지 말고, 아래 순서로 작은 작업 하나에만 적용합니다.</p>
+
+<pre><code>git clone https://github.com/GoogleChrome/modern-web-guidance-src.git
+cd modern-web-guidance-src
+npm install
+npm run docs  # 로컬에서 정적 문서 사이트 띄우기</code></pre>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — 저장소를 클론하고 의존성을 설치합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — 원하는 기능의 가이드 페이지를 찾습니다 (예: CSS subgrid).</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — 코드 예제를 복사하고, 실제 프로젝트에 적용해 봅니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — Chrome DevTools로 동작 확인하고, 필요시 수정합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">이 가이드는 Chrome 전용이 아닙니다. Firefox, Safari, Edge도 동일한 문법을 사용하는데, 구현 차이가 있을 수 있습니다. 특히 <code>@supports</code>와 <code>@property</code> 같은 최신 CSS@규칙은 Chrome에서 먼저 지원됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 코딩 에이전트가 생성한 코드를 검토하고, Modern Web 표준을 준수하도록 가드해야 하는 개발자·엔지니어에게 필수적입니다. 특히 프론트엔드 개발과 웹 표준 준수를 중시하는 팀에 유용합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;"><strong>modern-web-guidance</strong>는 Chrome 엔지니어들이 직접 운영하는 Modern Web Platform 가이드라인입니다. AI 에이전트의 코드 품질을 높이기 위해 꼭 알아두면 좋은 도구입니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/GoogleChrome/modern-web-guidance" target="_blank" style="color:#555;text-decoration:none;">github.com/GoogleChrome/modern-web-guidance</a></p>
+
+<hr>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;"><strong>함께 읽으면 좋은 관련 글</strong></p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;"><a href="https://blog.naver.com/ryusi79/224452615923">AI 에이전트 실무 자동화를 위한 유용한 도구 3가지</a> — 2026.11.13</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><a href="https://blog.naver.com/ryusi79/224452615926">Claude Code 설치 방법과 첫 명령 실행하기</a> — 2026.11.14</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><a href="https://blog.naver.com/ryusi79/224452615927">Ollama와 연동하는 방법, 로컬LLM 설정법</a> — 2026.11.12</li>
+</ul>

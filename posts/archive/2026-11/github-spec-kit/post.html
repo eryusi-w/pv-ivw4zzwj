@@ -1,0 +1,60 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 코딩 에이전트에게 "만들어 줘"라고만 하면 매번 결과가 달라집니다. spec-kit은 명세서를 중심으로 개발을 진행하는 Spec-Driven Development를 지원하는 도구킷입니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 코딩 에이전트가 체계적인 프로세스와 템플릿으로 명세서 기반 개발·버그 수정·아이디어 평가를 수행하도록 돕는 GitHub 공식 도구킷으로, MIT 라이선스에 현재 GitHub 스타 148,253개입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">Spec-Driven Development — 명세서를 먼저 쓰고 그에 맞춰 코드를 생성합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">준비된 워크플로우 — 버그 수정, 아이디어 평가 등 반복 작업용 템플릿이 있습니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">재사용 가능한 구조 — 프로세스 단위를 커스터마이징해 팀 방식에 맞춥니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<pre><code>pip install spec-kit</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">설치 후 프로젝트에서 spec 명령으로 새 명세 작업을 시작합니다. 에이전트가 명세 → 계획 → 구현 순서로 진행하도록 유도합니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/github/spec-kit" target="_blank" style="color:#555;">github/spec-kit</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">148,253</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">Python</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">MIT</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>설치 방식</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">pip 패키지</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">처음엔 작은 기능 하나를 명세로 만들어 보고, 익숙해지면 템플릿을 팀 방식에 맞게 고칩니다.</p>
+
+<pre><code>git clone https://github.com/github/spec-kit.git</code></pre>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — pip로 설치하고 기존 프로젝트에서 spec을 초기화합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — 작은 기능의 명세서를 작성하고 에이전트가 계획을 세우게 합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — 생성된 코드가 명세와 맞는지 대조하며 피드백합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 버그 수정·아이디어 평가 템플릿을 반복 작업에 적용합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 에이전트에 최적화된 구조라, 에이전트 없이 직접 코딩하는 사람에게는 다소 복잡하게 느껴질 수 있습니다. 명세 작성 자체가 작업 시간을 늘리므로, 작은 변경마다 명세를 요구하면 오히려 느려질 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 코딩 에이전트를 사용하는 개발자와 Spec-Driven Development를 실천하려는 엔지니어에게 특히 유용합니다. 에이전트와의 협업 결과가 매번 들쭉날쭉한 게 불만인 경우에 맞습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">에이전트에게 명세라는 뼈대를 먼저 주는 도구입니다. 명세-계획-구현 흐름이 잡히면 결과의 일관성이 눈에 띄게 좋아집니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/github/spec-kit" target="_blank" style="color:#555;text-decoration:none;">github.com/github/spec-kit</a></p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467214029" target="_blank" style="color:#2f5bd7;text-decoration:none;">AI가 게으른 시니어처럼 짜게 만드는 스킬</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467205971" target="_blank" style="color:#2f5bd7;text-decoration:none;">설계는 코끼리, 검토는 금붕어로 나누는 이유</a></p>

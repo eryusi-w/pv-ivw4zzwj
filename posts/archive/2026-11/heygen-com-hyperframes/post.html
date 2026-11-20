@@ -1,0 +1,60 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 에이전트에게 영상 제작을 맡기려면 렌더링 파이프라인부터 만들어야 합니다. hyperframes는 HTML로 영상을 렌더링하는 에이전트용 프레임워크입니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">HTML 기반으로 동영상과 애니메이션을 생성·렌더링하는 프레임워크로, AI 에이전트가 콘텐츠를 자동 제작할 수 있게 지원하며 Apache-2.0 라이선스에 현재 GitHub 스타 80,201개입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">HTML 영상 렌더링 — 웹 기술로 비디오와 애니메이션을 만듭니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">GSAP 애니메이션 — 고급 모션을 코드로 제어합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">FFmpeg 출력 — 다양한 영상 포맷으로 내보냅니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<pre><code>npm install hyperframes</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">설치 후 HTML/CSS/JS로 장면을 정의하고 렌더 명령으로 영상을 출력합니다. FFmpeg가 필요하니 사전 설치를 확인합니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/heygen-com/hyperframes" target="_blank" style="color:#555;">heygen-com/hyperframes</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">80,201</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">TypeScript</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">Apache-2.0</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>설치 방식</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">npm 패키지</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">처음엔 짧은 인트로 영상 하나로 렌더 파이프라인을 확인합니다.</p>
+
+<pre><code>git clone https://github.com/heygen-com/hyperframes.git</code></pre>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — npm으로 설치하고 FFmpeg 설치 여부를 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — 예제 장면을 렌더해 mp4가 나오는지 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — 텍스트와 이미지가 들어간 짧은 영상을 직접 정의합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 반복 제작이 필요하면 에이전트나 스크립트에 템플릿화합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">FFmpeg 의존성 때문에 초기 환경 설정이 복잡할 수 있습니다. HTML 기반이라 자유도는 높지만, 영상 디자인 감각이 없으면 결과물이 밋밋해질 수 있으니 템플릿부터 익히는 게 좋습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 에이전트 개발자, 프론트엔드 개발자, 콘텐츠 자동화 엔지니어에게 특히 유용합니다. 반복되는 영상 작업을 코드로 템플릿화하고 싶은 경우에 맞습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">영상 편집 프로그램 대신 코드로 영상을 만드는 프레임워크입니다. 한 번 파이프라인을 잡으면 같은 형식의 영상을 무한히 찍어낼 수 있습니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/heygen-com/hyperframes" target="_blank" style="color:#555;text-decoration:none;">github.com/heygen-com/hyperframes</a></p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467148734" target="_blank" style="color:#2f5bd7;text-decoration:none;">브라우저 없이 코드로 영상을 렌더링하는 도구</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224475997864" target="_blank" style="color:#2f5bd7;text-decoration:none;">AI가 쓴 코드를 영상으로 렌더링 (raea)</a></p>

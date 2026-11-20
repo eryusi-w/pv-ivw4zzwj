@@ -1,0 +1,101 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">보안 점검은 보통 배포 직전에 몰아서 합니다. 그때 나온 경고를 하나씩 확인하고, 고치고, 다시 확인하는 데 하루가 사라집니다. 스캐너 결과와 실제 코드 사이를 사람이 계속 오가야 하기 때문입니다.</p>
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Codex Security는 그 왕복을 줄이려는 도구입니다. 취약점을 찾고 검증하고 고치는 일을 CLI와 TypeScript SDK로 자동화하고, Codex 안에서는 보안 워크플로로 쓸 수 있습니다. OpenAI가 공개한 저장소이고, Apache-2.0 라이선스에 TypeScript로 작성됐습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">README가 내세우는 기능은 세 갈래입니다. 찾기, 검증하기, 정리하기입니다.</p>
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>찾기</strong> — 저장소 전체, 선택한 경로, Git 변경분을 골라 스캔합니다. deep 모드는 standard 스캔을 반복하고 결과를 중복 제거해 돌려줍니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>검증과 수정</strong> — 나온 후보를 검증하고 패치를 만들고, 이미 넣은 수정이 제대로 됐는지 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>정리와 연동</strong> — `SECURITY.md` 정책 초안과 위협 모델을 저장하고, 결과를 Linear·Jira·GitHub로 넘기거나 SARIF·JSON·CSV로 내보냅니다.</li>
+</ul>
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">여기에 세부 기능이 붙습니다. 저장된 스캔과 발견 항목을 훑고, 중복을 골라내고, 자기 기준으로 심각도를 매기고, 소스와 Git 이력으로 담당자를 추천합니다. 외부 스캐너 결과도 가져와 미리 보거나 Codex Security Cloud로 올릴 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Node.js 22.13.0 이상(22.x 계열)이나 24.x·26.x가 필요하고, Python 3.10 이상도 함께 요구합니다. 설치는 전역 설치 후 로그인입니다.</p>
+<pre><code>npm install --global @openai/codex-security
+cs login</code></pre>
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;"><code>cs</code>와 <code>codex-security</code>는 같은 CLI입니다. 짧은 이름이 다른 명령과 겹치면 긴 이름을 쓰면 됩니다. 전역 설치가 부담되거나 <code>EEXIST</code> 충돌이 나면 <code>npx @openai/codex-security</code>로 대신합니다. TypeScript 프로젝트에 넣을 때는 SDK 패키지를 로컬로 설치합니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;">
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td>
+<td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/openai/codex-security" target="_blank" style="color:#555;">openai/codex-security</a></td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">Apache-2.0</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">TypeScript</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">12,635</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>커밋</strong></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">2,047</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>요구 사항</strong></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">Node 22.13+ · Python 3.10+</td>
+</tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">처음부터 저장소 전체를 돌리지 않습니다. 범위를 좁혀 한 번 돌리고, 결과를 보고 넓히는 편이 낫습니다.</p>
+<pre><code>cs scan . --path src --path tests
+cs scan . --diff origin/main
+cs scan . --mode deep</code></pre>
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — 저장소 디렉터리에서 경로를 지정해 스캔합니다. 결과가 어디서 나오는지 먼저 봅니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — PR 단위로 돌릴 때는 <code>--diff</code>를 씁니다. 변경분만 보므로 시간이 짧습니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — 필요할 때 deep 모드로 저장소 전체를 반복 스캔합니다. 중복은 자동으로 제거됩니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 나온 항목을 검증하고 패치를 적용한 뒤, 다시 돌려 수정이 반영됐는지 확인합니다.</li>
+</ul>
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">여러 저장소를 한꺼번에 볼 때는 저장소에 들어 있는 Docker Compose 설정을 씁니다. 결과와 인증을 실행 사이에 유지하고, 워크플로 러너로 단계별 실행을 컨테이너에 나눌 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">스캔 결과를 어디로 보내나</h2>
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">보안 도구는 결과를 쌓는 것보다 흘려보내는 일이 중요합니다. 이 도구는 저장, 내보내기, 연동을 각각 지원합니다.</p>
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>로컬 저장</strong> — 스캔과 발견 항목을 로컬에 쌓고, 중복을 골라내고, 심각도를 직접 매깁니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>파일 내보내기</strong> — SARIF, JSON, CSV로 뽑아 다른 도구에 붙입니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>이슈 트래커</strong> — Linear, Jira, GitHub로 항목을 넘깁니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>클라우드 게시</strong> — 지원되는 리포트는 Codex Security Cloud로 올릴 수 있습니다.</li>
+</ul>
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">OpenRouter나 Fireworks AI, Cheaper Inference 같은 다른 제공자를 쓰려면 해당 API 키를 넣고 지원 모델을 고르면 됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>런타임 조건이 까다롭습니다</strong> — Node 22.13.0 이상이되 22.x 안이거나 24.x·26.x여야 합니다. Python 3.10에서는 <code>tomli</code>도 따로 필요합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>대시보드가 없습니다</strong> — README에 로컬 <code>serve</code> 명령과 브라우저 대시보드가 제거됐다고 적혀 있습니다. 화면으로 결과를 보던 습관이 있다면 CLI 출력과 내보내기 파일로 봐야 합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>API 키 관리</strong> — 기본은 OpenAI 쪽 인증이지만 다른 제공자를 붙이면 키가 늘어납니다. 저장 위치와 권한 범위를 먼저 정하세요.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>패치는 검토 대상</strong> — 수정안을 만들어 주지만 그대로 적용하기 전에 디프를 사람이 봐야 합니다.</li>
+</ul>
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">스캔은 반복할수록 값이 생깁니다. 한 번 돌려 목록을 뽑는 것보다, PR마다 diff 스캔을 붙여 두는 쪽이 오래 갑니다.</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">보안 점검을 개발 흐름 안으로 끌어오려는 팀에게 맞습니다.</p>
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">PR마다 변경분 보안 스캔을 붙이고 싶은 팀</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">스캐너 결과를 Jira나 Linear로 자동 전달하려는 조직</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">Codex나 에이전트에 보안 점검을 맡기려는 개발자</li>
+</ul>
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">반대로 보안 담당자가 따로 있고 결과를 사람이 직접 검토하는 조직이라면, 기존 스캐너에 리포트 내보내기만 붙이는 편이 가볍습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Codex Security는 취약점을 찾고, 검증하고, 고치는 과정을 CLI 한 줄로 묶은 도구입니다. 설치한 뒤 경로나 diff로 범위를 좁혀 스캔하고, 결과를 이슈 트래커나 SARIF로 흘려보내면 됩니다.</p>
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">먼저 PR 하나에 diff 스캔만 붙여 보세요. 결과가 쓸 만하면 deep 모드와 Docker 일괄 스캔으로 넓히는 순서가 자연스럽습니다.</p>
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/openai/codex-security" target="_blank" style="color:#555;text-decoration:none;">github.com/openai/codex-security</a> (Apache-2.0)</p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467215058" target="_blank" style="color:#2f5bd7;text-decoration:none;">에이전트를 위해 다시 설계한 Git, git-ai</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467283239" target="_blank" style="color:#2f5bd7;text-decoration:none;">컨텍스트에 쌓인 유령 토큰을 찾는 방법</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224461395563" target="_blank" style="color:#2f5bd7;text-decoration:none;">AI 에이전트 코드 수정을 위한 Serena</a></p>

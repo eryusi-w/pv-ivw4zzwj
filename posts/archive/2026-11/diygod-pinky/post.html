@@ -1,0 +1,63 @@
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">문제 제기</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 에이전트에게 폰으로 확인해달라고 시키고 싶은데, 막상 폰을 만질 수 있는 에이전트는 드뭅니다. pinky가 그 간극을 메웁니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">무엇인가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 에이전트가 실제 iPhone이나 Android 폰을 대신 조작하게 해주는 MCP 게이트웨이 앱입니다. 위험한 동작은 반드시 사람 승인을 거칩니다. 현재 GitHub 스타 1,811개, 주 언어는 Go입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 기능</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">MCP로 Claude Code·Codex·Cursor 등 에이전트 연결</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">결제·전송·삭제 등 위험 동작은 사용자 클릭 승인</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">뱅킹·비밀번호 앱과 비밀번호 필드는 기본 차단</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">macOS·Windows·Linux 데스크톱 앱</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 첫 실행</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">GitHub Releases에서 OS에 맞는 설치 파일을 받습니다. Mac은 dmg를 Applications에 드래그하거나 brew install --cask diygod/tap/pinky, Windows는 pinky-setup 실행 파일, Linux는 deb 또는 tar.gz를 씁니다.</p><pre><code>brew install --cask diygod/tap/pinky</code></pre>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">기본 사용법</h2>
+
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">폰을 USB로 연결하고 Settings › Agents에서 Claude Code·Codex·Cursor 같은 에이전트에 Pinky MCP를 연결합니다. 이후 에이전트에게 폰 작업을 시키면 Pinky 창에서 진행 상황이 보이고, 결제·삭제 같은 위험 동작은 직접 승인합니다.</p><pre><code>git clone https://github.com/DIYgod/pinky.git</code></pre>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">스펙 한눈에</h2>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/DIYgod/pinky" target="_blank" style="color:#555;">DIYgod/pinky</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">1,811</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">Go</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">Apache-2.0</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>홈페이지</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">-</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한계와 주의</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">도입 전 라이선스와 유지보수 주기를 확인하고, 자체 호스팅 시 보안·권한 설정을 점검합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">추천 이유</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">승인이 프롬프트가 아니라 게이트웨이에서 강제되는 구조</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">오프리밋 기본값과 세밀한 안전 규칙</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">Apache-2.0 라이선스에 가벼운 네이티브 앱</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">iOS 27 이상은 폰에 아무것도 설치할 필요 없음</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">에이전트에게 모바일 작업을 맡기되 통제권을 유지하고 싶은 사용자에게 특히 유용합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">pinky는 AI 에이전트가 실제 iPhone이나 Android 폰을 대신 조작하게 해주는 MCP 게이트웨이 앱입니다. 위험한 동작은 반드시 사람 승인을 거칩니다.입니다. 작은 작업 하나부터 붙여 보는 것을 권합니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/DIYgod/pinky" target="_blank" style="color:#555;text-decoration:none;">github.com/DIYgod/pinky</a></p>

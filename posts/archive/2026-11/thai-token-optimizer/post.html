@@ -1,0 +1,78 @@
+<!-- write.mjs가 소제목 위에 이미지를 넣는다. <img> 태그는 넣지 않는다. -->
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">문제 제기</h2>
+<p>
+태국어는 단어 사이에 공백이 없는 언어라 토크나이저가 단어를 여러 토큰으로 쪼개는 경우가 많습니다. 여기에 AI 코딩 에이전트가 태국어 프롬프트와 응답을 주고받으면 토큰 사용량이 빠르게 불어납니다. 같은 의미를 전달하면서도 토큰 수를 줄일 수 있다면 API 비용과 컨텍스트 한도를 함께 아낄 수 있습니다.
+</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">무엇인가</h2>
+<p>
+Thai Token Optimizer(TTO)는 이런 문제를 노린 로컬 우선 도구입니다. 정확히는 라이브러리가 아니라 <b>CLI + 훅 + 어댑터</b>로 구성된 시스템으로, Codex·Claude Code·Gemini CLI·OpenCode·OpenClaw·Hermes·Cursor·Aider·Cline·Roo Code 같은 AI 코딩 에이전트에 훅으로 붙습니다. 핵심 원칙은 README에 명시돼 있습니다 — <b>토큰은 줄여도 정확성·안전성·핵심 제약은 줄이지 않는다</b>. 명령어, 코드 블록, 경로, URL, 버전, 설정 키는 압축 대상에서 보호됩니다.
+</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">동작 원리</h2>
+<p>
+압축은 여러 후보 전략을 만들어 점수로 고르는 방식입니다. 입력이 들어오면 코드 인식 파서가 명령어·코드·경로를 먼저 보호하고, 의미 분석기가 반복 표현을 찾습니다. 그다음 semantic dedup(의미 중복 제거), selective window(선택적 컨텍스트 창), dedup+selective 조합 같은 후보를 만들어 보존 점수와 예산 점수로 평가해 최적 후보를 선택합니다. <code>--speculative</code> 옵션을 켜면 이 후보 탐색을 MTP(speculative decoding) 방식으로 수행하고, 위험해 보이는 입력은 <code>tto classify</code>가 별도로 걸러냅니다.
+</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 첫 실행</h2>
+<p>
+Node.js 18 이상이 필요하고, 저장소를 클론해 <code>npm install</code>로 설치한 뒤 <code>npm link</code>로 <code>tto</code> 명령을 전역에 연결합니다. 저장소의 README는 "문서가 부족해 초기 사용에 어려움이 있을 수 있다"고 스스로 평가할 만큼 설명이 거칠지만, 실행 순서는 명확합니다.
+</p>
+<pre><code>git clone https://github.com/kittimasak/thai-token-optimizer.git
+cd thai-token-optimizer
+npm install
+npm link
+
+tto status --pretty
+tto doctor --pretty</code></pre>
+<p>
+에이전트에 실제로 붙이려면 백업 후 설치하고 상태를 점검합니다.
+</p>
+<pre><code>tto backup all
+tto install all        # 또는 tto install claude 처럼 개별 지정
+tto install-agents
+tto doctor --pretty
+tto auto               # 채팅/세션에서 자동 모드 켜기</code></pre>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 사용법</h2>
+<p>
+압축은 <code>tto compress</code>로 직접 시험해 볼 수 있습니다. <code>--level auto|lite|full|safe</code>로 강도를, <code>--target codex|claude</code>로 대상 에이전트를, <code>--budget</code>으로 목표 토큰 수를 지정하고, <code>--check</code>로 보존 검증을 함께 돌립니다. 채팅 세션 안에서는 <code>token thai auto</code> 같은 모드 명령을 씁니다.
+</p>
+<pre><code>tto compress --pretty --level auto --target codex --budget 500 --check prompt.txt
+tto compress --speculative --diagnostics "..."
+tto estimate --target claude "..."
+tto classify --pretty "DROP TABLE users production secret"</code></pre>
+<p>
+운영 기능도 갖춰져 있습니다. <code>tto keep/forget/dictionary</code>로 절대 압축하면 안 되는 단어를 등록하고, <code>tto doctor</code>로 설치 상태를 진단하며, <code>tto benchmark --strict --default-policy --mtp</code>로 회귀 게이트를 돌리고, <code>tto ui</code> 또는 <code>tto dashboard --view ...</code>로 터미널 현황판을 봅니다. 문제가 생기면 <code>tto checkpoint</code>로 시점을 저장하고 <code>tto rollback</code>으로 되돌릴 수 있습니다.
+</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">결과 읽는 법</h2>
+<p>
+<code>tto compress</code> 결과에는 before/after 토큰 수, 절감 토큰, 보존 점수, 위험도가 함께 표시됩니다. README의 실측 스냅샷(18개 케이스)에서는 일반 모드 -24.9%, MTP/추측 디코딩 모드 -25.4%를 기록했고 보존 점수는 최소 100%였습니다. 언어별 비교표로는 태국어 평균 30~50%, 영어 15~60%, 혼용 25~45% 절감을 제시합니다. 다만 엄격한 기술·안전 프롬프트는 의도적으로 절감이 적을 수 있고, 정확한 토크나이저 의존성이 없으면 추정치일 수 있다고 명시합니다.
+</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한계와 주의</h2>
+<p>
+이 도구는 "태국어 전용 토크나이저"가 아니라 에이전트 훅 시스템입니다. Node.js 18 이상이 필요하고, Python 패키지가 아닙니다. 스타가 48개로 아직 초기 프로젝트라 문서와 테스트가 부족하다는 평가가 저장소 스스로에도 있습니다. 영어 중심 작업에서는 효과가 제한적이고, 명령어·코드가 많은 기술 프롬프트는 보호 대상이라 절감 폭이 작을 수 있습니다. 도입 전 <code>tto backup</code>과 <code>tto doctor</code>로 대상 환경을 먼저 점검하는 게 안전합니다.
+</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">검증 루틴</h2>
+<p>
+설치 후에는 이 순서로 확인합니다. 1) <code>tto doctor --pretty</code>로 어댑터 설치 상태 확인. 2) 실제 프롬프트 파일로 <code>tto compress --check</code>를 돌려 보존 점수가 유지되는지 확인. 3) <code>tto benchmark --strict --default-policy</code>로 회귀 게이트 통과 여부 확인. 4) <code>tto quality</code>와 <code>tto coach</code>로 약한 신호를 점검. 5) 원치 않으면 <code>tto uninstall</code> 또는 <code>tto rollback</code>으로 원복.
+</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+<p>
+태국어로 AI 코딩 에이전트와 일상적으로 작업하는 개발자, 태국어 프롬프트가 많은 팀, 여러 에이전트를 운영하며 토큰 비용을 추적하고 싶은 사람에게 맞습니다. 반대로 영어만 쓰거나 에이전트 연동이 필요 없는 단순 LLM API 사용자라면 이 도구의 훅 구조는 과합니다.
+</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+<p>
+Thai Token Optimizer는 태국어 텍스트의 토큰을 줄이되 명령어·코드·제약을 지키는 것을 목표로 하는 Node.js CLI + 훅 시스템입니다. 절감 폭은 문맥에 따라 다르지만(README 예시 기준 대략 10~25%, 표상 범위는 더 큼) 보존 검증과 롤백 장치가 함께 제공된다는 점이 특징입니다. 다만 초기 프로젝트라는 점을 감안해, <code>tto doctor</code>와 <code>tto benchmark</code>로 먼저 검증한 뒤 도입하는 것을 권합니다.
+</p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224461485157" target="_blank" style="color:#2f5bd7;text-decoration:none;">Token Optimizer로 토큰 비용 절감하기</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467070524" target="_blank" style="color:#2f5bd7;text-decoration:none;">Claude 토큰 줄이는 프로토콜 스킬</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467283239" target="_blank" style="color:#2f5bd7;text-decoration:none;">컨텍스트에 쌓인 유령 토큰을 찾는 방법</a></p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;">참고: <a href="https://github.com/kittimasak/thai-token-optimizer" target="_blank" style="color:#555;text-decoration:none;">thai-token-optimizer</a> · Node.js CLI + 에이전트 훅, MIT 라이선스</p>

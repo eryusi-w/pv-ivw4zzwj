@@ -1,0 +1,133 @@
+<!-- write.mjs가 소제목 위에 이미지를 넣는다. <img> 태그는 넣지 않는다. -->
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>문제 제기</h2>
+<p>"LLM을 제대로 배우고 싶다"는 목표는 흔한데, 자료가 산만합니다. 논문은 너무 어렵고, 튜토리얼은 API 호출만 보여 주고, 로드맵은 영어로 흩어져 있습니다. 무엇부터 봐야 하는지 순서가 없으면 시작도 전에 지칩니다.</p>
+<p>mlabonne의 llm-course는 이 순서를 한 장의 로드맵으로 정리한 저장소입니다. GitHub 별 8만 5천 개, 포크 9천 9백 개, Apache-2.0 라이선스. 로드맵과 Colab 노트북이 함께 들어 있습니다.</p>
+
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">
+  LLM을 "쓰는 법"이 아니라 "만드는 법과 굴리는 법"까지 아우르는 세 갈래 로드맵입니다.
+</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>세 갈래 구조</h2>
+<p>과정은 세 부분으로 나뉩니다. 어디서 시작할지가 이 구조의 핵심입니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<thead>
+<tr style="background:#f5f7fa;">
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">파트</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">목표</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">성격</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>LLM Fundamentals</strong></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">수학, Python, 신경망, NLP 기초</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">선택(optional)</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>The LLM Scientist</strong></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">최신 기법으로 최고의 LLM 만들기</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">모델 중심</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>The LLM Engineer</strong></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">LLM 기반 애플리케이션 제작·배포</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">제품 중심</td>
+</tr>
+</tbody>
+</table>
+<p>Fundamentals는 선택입니다. 이미 기초가 있다면 Scientist나 Engineer부터 들어가도 됩니다. 이 선택 과목은 네 챕터입니다 — 머신러닝 수학(선형대수, 확률·통계, 최적화), ML을 위한 Python, 신경망, 자연어 처리입니다.</p>
+<div style="background:#f0f6ff;border:1px solid #d6e4ff;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0;font-size:15px;line-height:1.6;color:#2c4a7c;"><strong>이름 정리</strong> — "Scientist"는 모델을 학습시키고 평가하는 쪽, "Engineer"는 학습된 모델을 제품에 올리는 쪽입니다. API만 쓰는 개발자라면 Engineer 파트가 실질적 시작점입니다.</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>LLM Scientist 파트</h2>
+<p>여기가 "모델 내부"를 파는 구간입니다. 여덟 챕터가 이론에서 최신 트렌드까지 이어집니다.</p>
+<ol style="margin:0 0 24px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>LLM 아키텍처</strong> — Transformer 구조의 이해</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>사전학습(Pre-Training)</strong> — 데이터 수집부터 학습까지</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>사후학습 데이터셋</strong> — 지시 튜닝·선호 데이터 구성</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>지도 파인튜닝(SFT)</strong> — SFT 기법과 실습</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>선호도 정렬</strong> — RLHF, DPO 같은 정렬 기법</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>평가</strong> — 모델 성능을 재는 방법</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>양자화</strong> — 모델을 작게 만드는 기법</li>
+<li style="margin:0;line-height:1.6;"><strong>새 트렌드</strong> — 최신 연구 방향 정리</li>
+</ol>
+<p>이 파트의 깊이는 진짜입니다. 아키텍처부터 파인튜닝, 정렬, 평가까지 LLM을 "만드는" 전 과정을 다루기 때문에, 이걸 다 소화하면 모델이 왜 그렇게 동작하는지 설명할 수 있게 됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>LLM Engineer 파트</h2>
+<p>제품 쪽 여덟 챕터는 실무 흐름을 그대로 따라갑니다.</p>
+<ul style="margin:0 0 24px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>LLM 실행하기</strong> — 로컬·서버에서 모델 돌리기</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>벡터 저장소 만들기</strong> — 임베딩과 인덱싱 기초</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>RAG</strong> — 검색 증강 생성의 기본</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>고급 RAG</strong> — 리랭킹, 쿼리 변환 등</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>에이전트</strong> — 도구 사용과 자율 행동</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>추론 최적화</strong> — 지연·처리량 개선</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>LLM 배포</strong> — 서빙과 운영</li>
+<li style="margin:0;line-height:1.6;"><strong>LLM 보안</strong> — 프롬프트 인젝션 등 방어</li>
+</ul>
+<p>Engineer 파트만 따로 떼어 봐도 "LLM 앱을 만들려면 무엇을 배우나"의 체크리스트가 됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>도구 노트북</h2>
+<p>로드맵 위에 Colab 노트북이 얹혀 있습니다. 단순 실행기가 아니라 한 클릭 도구들입니다.</p>
+<pre><code>LLM AutoEval        # RunPod에서 LLM 자동 평가
+LazyMergekit        # MergeKit으로 모델 병합 원클릭
+LazyAxolotl         # Axolotl로 클라우드 파인튜닝 원클릭
+AutoQuant           # GGUF·GPTQ·EXL2·AWQ·HQQ 양자화 원클릭
+ZeroSpace           # ZeroGPU로 Gradio 채팅 UI 자동 생성</code></pre>
+<p>특히 AutoQuant와 LazyAxolotl은 Scientist 파트의 양자화·파인튜닝 챕터를 이론이 아니라 버튼 하나로 체험하게 해 줍니다. 로드맵을 읽는 것과 손으로 만지는 것의 차이가 여기서 벌어집니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>어떻게 쓰면 좋은가</h2>
+<p>세 파트를 다 순서대로 밟을 필요는 없습니다. 목표에 따라 입구가 다릅니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<thead>
+<tr style="background:#f5f7fa;">
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">목표</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">추천 경로</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">LLM을 제대로 이해하고 싶다</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">Fundamentals(필요분) → Scientist 전체</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">LLM 앱을 만들고 싶다</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">Engineer 파트, 필요하면 Architect 챕터만 Scientist에서</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">모델을 직접 파인튜닝하고 싶다</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">Scientist 2~5장 + LazyAxolotl·AutoQuant 노트북</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">전체를 보고 싶다</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">Fundamentals부터 순서대로, DeepWiki 버전 참고</td>
+</tr>
+</tbody>
+</table>
+<p>저장소 README는 이 로드맵에서 나온 책 <em>LLM Engineer's Handbook</em>도 소개합니다. 과정은 계속 무료로 유지되고, 책은 실습 중심의 확장판입니다. 더 깊은 버전이 필요하면 DeepWiki에도 같은 내용이 정리돼 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>누구를 위한 과정인가</h2>
+<p>이 로드맵은 "LLM 엔지니어"라는 직무를 표방합니다. Hugging Face와 X에서 활동하는 Maxime Labonne이 정리한 것으로, 커뮤니티에서 가장 많이 참조되는 LLM 학습 경로 중 하나입니다. 스타 8만 5천 개가 그 신호입니다.</p>
+<p>다만 "완주"를 목표로 삼기보다 "방향 잡기"로 쓰는 게 맞습니다. 세 파트를 다 깊게 파려면 상당한 시간이 들고, 대부분의 학습자는 자기 목표에 맞는 한두 챕터만 가져갑니다. 로드맵의 가치는 순서와 범위의 명확함에 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>한계와 주의</h2>
+<p>로드맵은 지도이지 교과서가 아닙니다. 각 챕터가 가리키는 자료를 직접 읽어야 하고, Colab 노트북은 무료 GPU 한도 안에서만 실습됩니다. Scientist 파트의 사전학습·SFT는 개인이 따라 하기엔 GPU 비용이 만만치 않으므로, 이론 챕터는 읽되 실습은 LazyAxolotl 같은 클라우드 도구로 대체하는 전략이 현실적입니다.</p>
+<p>영어 자료가 기본이고, 최신 트렌드 챕터는 시간이 지나면 내용이 낡습니다. 다만 로드맵 자체는 DevOps Roadmap(Milan Milanović, Romano Roth)에서 영감을 받은 구조라, 커뮤니티에서 검증된 형식입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>도입 전 체크리스트</h2>
+<div style="background:#f0fdf4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#166534;">확인할 것 4가지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 목표 — Scientist(모델)인지 Engineer(제품)인지 먼저 결정</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 기초 — Fundamentals는 선택, 부족한 챕터만 골라서</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ GPU — Scientist 실습은 클라우드 도구(LazyAxolotl 등)로 대체 검토</p>
+<p style="margin:0;font-size:15px;line-height:1.6;color:#166534;">✓ 언어 — 영어 자료 중심, 번역본은 별도 탐색 필요</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>정리</h2>
+<p>llm-course는 "LLM을 배우고 싶다"는 막연한 목표를 세 갈래 로드맵으로 나눠 준 저장소입니다. 모델을 만들고 싶은 Scientist와 제품에 올리고 싶은 Engineer, 그리고 선택인 Fundamentals. Colab 노트북이 각 단계를 손으로 만지게 해 줍니다.</p>
+<p>오늘 해 볼 일은 Engineer 파트의 RAG 챕터부터 여는 겁니다. 검색과 생성을 잇는 이 개념 하나만 잡아도, 나머지 로드맵이 전부 어디에 붙는지 보이기 시작합니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">
+참고: <a href="https://github.com/mlabonne/llm-course" target="_blank" style="color:#555;text-decoration:none;">mlabonne/llm-course</a> (Apache-2.0 License)
+</p>

@@ -1,0 +1,144 @@
+<!-- write.mjs가 소제목 위에 이미지를 넣는다. <img> 태그는 넣지 않는다. -->
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>문제 제기</h2>
+<p>AI 코딩 에이전트와 몇 시간을 붙어 일하다 보면 이상한 순간을 겪습니다. 아침에 분명히 맞춰 둔 규칙을 오후가 되니 에이전트가 또 어기고, 조금 전까지 정확히 알던 파일 이름을 엉뚱하게 부릅니다. 코드 스타일도 슬그머니 달라져 있고요.</p>
+<p>더 이상한 건 대화창이 멀쩡하다는 겁니다. 오류가 뜨지도 않고 에이전트는 계속 대답합니다. 그런데 결과물만 나빠집니다. 이렇게 창을 차지하면서 더는 쓸모 있는 정보를 담지 못하는 토큰을, 이 글에서는 "유령 토큰"이라고 부르겠습니다.</p>
+
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">
+  에러도 안 나고 대답도 잘하는데 결과물만 나빠진다. 그 사이에 낀 게 유령 토큰입니다.
+</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>무엇인가</h2>
+<p>유령 토큰은 모델이 고장 났다는 신호가 아닙니다. 컨텍스트 창은 모델이 한 번에 볼 수 있는 텍스트의 한계입니다. 대화가 길어질수록 처음에 준 제약과 지금의 요청이 같은 창 안에서 주의를 나눠 가지죠. 이렇게 품질이 조용히 떨어지는 현상을 연구자들은 컨텍스트 부패(context rot)라고 부릅니다.</p>
+<p>GSD Core 문서가 정리한 증상은 네 가지입니다.</p>
+<ul style="margin:0 0 24px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.6;">이전에 동의한 결정을 뒤집는다</li>
+<li style="margin:0 0 8px 0;line-height:1.6;">세션 초반에 잡은 컨벤션에서 벗어난다</li>
+<li style="margin:0 0 8px 0;line-height:1.6;">적어 둔 요구사항을 무시한다</li>
+<li style="margin:0 0 8px 0;line-height:1.6;">맞게 알고 있던 파일 이름이나 함수 시그니처를 지어낸다</li>
+</ul>
+<p>잊어버린 것처럼 보이지만 사실은 다릅니다. 한정된 창 안에서 어디에 주의를 줄지 다시 계산하는 과정에서 신호가 흐려지는 쪽에 가깝습니다.</p>
+<div style="background:#f0f6ff;border:1px solid #d6e4ff;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0;font-size:15px;line-height:1.6;color:#2c4a7c;"><strong>용어 정리</strong> — "유령 토큰"은 GSD Core의 공식 용어가 아닙니다. 컨텍스트를 차지하지만 신호를 잃은 토큰을 이 글에서 부르는 이름입니다.</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>동작 원리</h2>
+<p>GSD Core(Git. Ship. Done.)는 이걸 "요약을 더 잘 시키기"로 해결하려 하지 않습니다. 구조로 풀었습니다. 오케스트레이터 역할을 하는 메인 세션은 소스 파일을 직접 만지지 않습니다. 리서치, 계획, 실행, 검증을 각각 다른 서브에이전트에 맡기고, 메인 세션은 결과만 받아 다음 단계로 넘깁니다.</p>
+<p>서브에이전트는 자기 작업에 필요한 맥락만 받은 채 깨끗한 창에서 시작합니다. README에 따르면 실행 담당 에이전트는 200k 토큰의 새 컨텍스트를 받습니다. 세션과 세션 사이의 기억은 대화가 아니라 <code>.planning/</code> 폴더의 파일이 이어받습니다.</p>
+<div style="background:#f7f9fa;border:1px solid #e5e8eb;border-radius:8px;padding:14px 20px;margin:0 0 24px 0;text-align:center;font-size:15px;font-weight:bold;color:#333;line-height:1.6;">
+리서치 → 계획 → 실행 → 검증&nbsp;&nbsp;·&nbsp;&nbsp;인수인계는 대화가 아니라 파일로
+</div>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<thead>
+<tr style="background:#f5f7fa;">
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">파일</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">맡는 것</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">쓰이는 시점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>STATE.md</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">현재 위치, 결정, 블로커, 진행 지표</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">모든 워크플로가 시작할 때 읽고 끝날 때 갱신</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>CONTEXT.md</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">Discuss 단계에서 정한 구현 결정</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">계획을 세우기 전</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>RESEARCH.md</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">조사한 내용</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">계획 수립의 입력</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>PLAN.md</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">의존 순서로 쪼갠 작업과 수용 기준</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">실행 직전</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>VERIFICATION.md</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">페이즈 완료 검증 결과</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">페이즈를 닫을 때</td>
+</tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>검출법</h2>
+<p>느낌으로 판단하기보다 숫자를 보는 게 낫습니다. GSD Core에는 오케스트레이터의 컨텍스트 사용률을 재는 점검 명령이 있습니다. 사용률이 60%를 넘으면 warn, 70%를 넘으면 critical입니다.</p>
+<pre><code># 오케스트레이터 컨텍스트 사용률 (60% warn / 70% critical)
+node gsd-tools.cjs validate context --json
+
+# 프로젝트 상태 읽기 (마일스톤·페이즈·결정·블로커)
+node gsd-tools.cjs state load
+
+# .planning/ 무결성 점검 (수정 없이)
+node gsd-tools.cjs validate health</code></pre>
+<p>출력은 utilization, status, suggestion을 담은 JSON입니다. 상태 표시줄이나 훅에서도 같은 값을 쓸 수 있습니다. 상태 파일이 실제 코드와 얼마나 벌어졌는지는 <code>validate health</code>의 W024가 알려줍니다. STATE.md를 마지막으로 쓴 커밋과 현재 HEAD가 20커밋 이상 차이 나면, 내용을 대략적인 값으로 보라는 권고가 붙습니다.</p>
+<p>증상이 보이면 어디를 먼저 열어 볼지 정해 두면 판단이 빨라집니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<thead>
+<tr style="background:#f5f7fa;">
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">증상</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">먼저 볼 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">이전 결정을 뒤집는다</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">STATE.md의 결정 목록, CONTEXT.md</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">요구사항을 빠뜨린다</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">PLAN.md의 수용 기준</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">파일명·시그니처를 지어낸다</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">RESEARCH.md, 최근 SUMMARY.md</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">품질이 서서히 떨어진다</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">validate context의 utilization</td>
+</tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>예방 전략</h2>
+<p>제일 손이 덜 가는 방법은 세션을 짧게 유지하는 겁니다. 다만 창을 그냥 비우면 연속성도 같이 사라지죠. GSD Core는 끊기 전에 상태를 파일로 남기고, 새 세션에서 그 파일을 읽어 이어 가는 쪽을 택했습니다.</p>
+<pre><code>/gsd-progress      # 지금 어디까지 왔는지, 다음은 무엇인지
+/gsd-pause-work    # 세션을 끊기 전에 상태 저장
+/gsd-resume-work   # 새 세션에서 상태를 읽어 복구</code></pre>
+<p>단계를 넘길 때도 원칙은 같습니다. 조사하는 사람, 계획하는 사람, 실행하는 사람을 나누고, 그 사이의 인수인계는 대화가 아니라 파일로 합니다. 서브에이전트는 오케스트레이터의 커밋되지 않은 변경을 볼 수 없습니다. 그러니 넘기기 전에 필요한 건 디스크에 있어야 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>설치와 첫 실행</h2>
+<p>Node.js만 있으면 됩니다. 설치 프로그램을 실행하면 런타임(Claude Code, Codex, Copilot, Cursor, Windsurf 등)과 전역·지역 설치 여부를 물어봅니다. 저장소의 agents나 commands 폴더를 직접 복사하면 안 됩니다. 런타임별 차이는 설치 프로그램이 알아서 맞춰 줍니다.</p>
+<pre><code>npx @opengsd/gsd-core@latest
+
+# 설치한 런타임 안에서
+/gsd-new-project   # 새 프로젝트 시작
+/gsd-onboard       # 기존 코드베이스 온보딩</code></pre>
+<p>새 프로젝트는 <code>/gsd-new-project</code>, 이미 코드가 있는 저장소는 <code>/gsd-onboard</code>로 시작하면 됩니다. 온보딩은 기존 구조를 읽어서 <code>.planning/</code> 초기 문서를 만들어 줍니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>한계와 주의</h2>
+<p>물론 공짜는 아닙니다. Discuss, Plan, Execute를 따로 돌리면 한 번에 시키는 것보다 느리고, 서브에이전트를 여러 개 띄우면 왕복 비용이 붙습니다. 변수 이름 하나 고치는 일에 이 루프를 태우는 건 손해입니다.</p>
+<p>GSD Core 문서에서도 작은 일에는 <code>/gsd-quick</code>과 <code>/gsd-fast</code>를 쓰라고 안내합니다. 기준은 단순합니다. 짧은 프롬프트 하나로 끝나는 일이면 루프를 건너뜁니다. 반대로 조사가 필요하거나, 최근에 읽지 않은 파일이 걸리거나, 아직 정하지 않은 결정이 남아 있다면 루프가 남는 장사입니다.</p>
+<p>사용률 경고도 보장이 아니라 신호입니다. 모델 호출 한 번이 쓰는 토큰은 응답 길이와 도구 사용에 따라 달라집니다. 남은 여유는 경고와 방향을 정하는 데 쓰는 추정치일 뿐, 무엇이 들어갈지를 보장하지는 않습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>검증 루틴</h2>
+<p>세션이 길어질수록 확인할 것도 늘어납니다. GSD Core에서는 네 가지만 보면 됩니다.</p>
+<div style="background:#f0fdf4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#166534;">확인할 것 4가지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ STATE.md가 최신인지 — <code>validate health</code>, 20커밋 기준</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 페이즈가 검증을 통과했는지 — <code>phase uat-passed</code></p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 계획서와 요약이 짝을 이루는지 — <code>verify phase-completeness</code></p>
+<p style="margin:0;font-size:15px;line-height:1.6;color:#166534;">✓ 오케스트레이터가 60%를 넘지 않았는지 — <code>validate context</code></p>
+</div>
+<p>앞의 세 가지가 맞으면 대화가 길어진 탓으로 생기는 사고는 대부분 걸러집니다. 마지막이 critical이라면 원고를 고칠 때가 아니라 세션을 끊을 때입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>정리</h2>
+<p>AI가 기억을 잃은 것처럼 보이는 이유는 창이 차기 때문입니다. 요약을 잘 시키는 것도 도움이 되지만, 조사·계획·실행을 다른 창으로 나누고 결과만 파일로 주고받으면 창이 찰 시간 자체가 줄어듭니다. GSD Core는 이걸 5단계 루프(Discuss→Plan→Execute→Verify→Ship)와 <code>.planning/</code> 문서로 강제합니다.</p>
+<p>오늘 해 볼 일은 하나입니다. 오케스트레이터의 사용률을 재고, 60%를 넘었다면 새 세션에서 상태 파일부터 읽어 보면 됩니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">
+참고: <a href="https://github.com/open-gsd/gsd-core" target="_blank" style="color:#555;text-decoration:none;">GSD Core</a> (MIT License, v1.7.0)
+</p>

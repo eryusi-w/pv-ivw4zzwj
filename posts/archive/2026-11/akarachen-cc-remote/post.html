@@ -1,0 +1,67 @@
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">문제 제기</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Claude Code를 비싼 로컬 머신이 아니라 서버에서 돌리고 싶을 때, 도구 실행 위치 때문에 고민이 생깁니다. cc-remote는 그 역할을 나눠주는 도구입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">무엇인가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Claude Code를 SSH로 접속한 서버에서 실행하고 도구 호출은 내 머신에서 실행하는 ACP 에이전트입니다. 서버에는 로그인과 구독만 있으면 됩니다. 현재 GitHub 스타 376개, 주 언어는 TypeScript입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 기능</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">모델·로그인·구독은 서버에 유지</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">코드·셸·툴체인·에디터는 내 머신에 유지</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">Zed·paseo 등 ACP 클라이언트에 바로 연결</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">서버에 데몬이나 별도 설치 없이 ssh만으로 동작</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 첫 실행</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">로컬 머신에는 Bun만 있으면 됩니다. 클론 후 의존성을 설치하고 컴파일하면 cc-remote 바이너리가 PATH에 올라갑니다.</p><pre><code>git clone https://github.com/AkaraChen/cc-remote && cd cc-remote
+bun install
+bun run compile
+bun link</code></pre>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">기본 사용법</h2>
+
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">~/.config/cc-remote/host에 SSH로 접속할 서버를 적고 cc-remote doctor로 연결을 확인합니다. ACP 클라이언트(Zed·paseo·acpc)에는 cc-remote를 에이전트로 등록하면 서버의 Claude Code가 로컬 도구와 함께 동작합니다.</p><pre><code>mkdir -p ~/.config/cc-remote && echo <your-server> > ~/.config/cc-remote/host
+cc-remote doctor</code></pre>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">스펙 한눈에</h2>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/AkaraChen/cc-remote" target="_blank" style="color:#555;">AkaraChen/cc-remote</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">376</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">TypeScript</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">N/A</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>홈페이지</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">-</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한계와 주의</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">도입 전 라이선스와 유지보수 주기를 확인하고, 자체 호스팅 시 보안·권한 설정을 점검합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">추천 이유</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">서버는 claude가 있으면 끝이라 구축이 간단</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">세션·권한·모드 등 진짜 Claude Code 동작 유지</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">로컬은 단일 바이너리 하나</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">라이선스 표기가 없어 사용 전 확인 필요</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">로컬에 Claude Code를 설치하지 않고 원격으로 쓰려는 개발자에게 특히 유용합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">cc-remote는 Claude Code를 SSH로 접속한 서버에서 실행하고 도구 호출은 내 머신에서 실행하는 ACP 에이전트입니다. 서버에는 로그인과 구독만 있으면 됩니다.입니다. 작은 작업 하나부터 붙여 보는 것을 권합니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/AkaraChen/cc-remote" target="_blank" style="color:#555;text-decoration:none;">github.com/AkaraChen/cc-remote</a></p>

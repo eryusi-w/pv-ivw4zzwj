@@ -1,0 +1,60 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Claude Code, Codex, Cursor처럼 코딩 어시스턴트가 여러 개로 늘면서 각각의 설정과 성능을 따로 관리하기 어려워졌습니다. ECC는 이들을 한 체계로 묶어 최적화하는 에이전트 하네스입니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">여러 LLM 코딩 어시스턴트의 성능을 최적화하는 에이전트 하네스 시스템으로, 스킬·메모리·보안을 내장했으며 MIT 라이선스에 현재 GitHub 스타 292,802개입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">다중 LLM 지원 — Claude Code, Codex, Opencode, Cursor 등 여러 어시스턴트를 한곳에서 다룹니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">스킬·본능 자동화 — 반복 작업을 스킬로 등록하고 자동으로 호출하게 합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">메모리·보안 — 대화 맥락을 기억하고 위험한 작업에는 안전장치를 둡니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<pre><code>npm i -g ecc</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">전역 설치 후 설정 파일에서 사용할 어시스턴트와 모델을 지정합니다. 기존 어시스턴트 설정을 그대로 가져오거나 새로 구성할 수 있습니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/affaan-m/ECC" target="_blank" style="color:#555;">affaan-m/ECC</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">292,802</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">JavaScript</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">MIT</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>설치 방식</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">npm 전역 설치</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">처음부터 모든 기능을 켜지 말고, 가장 자주 쓰는 어시스턴트 하나에 붙여 봅니다.</p>
+
+<pre><code>git clone https://github.com/affaan-m/ECC.git</code></pre>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — npm으로 설치하고 설정 파일을 엽니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — 주로 쓰는 코딩 어시스턴트와 모델을 연결합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — 반복 작업 하나를 스킬로 등록해 자동 호출되는지 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 메모리와 보안 옵션을 켜고 두 번째 어시스턴트를 추가합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">여러 LLM을 한꺼번에 쓰다 보면 API 비용이 커질 수 있으니, 모델별 사용량을 먼저 확인하는 게 좋습니다. 하네스가 추가하는 설정 레이어 때문에 기존 어시스턴트 동작과 달라지는 부분도 있을 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 코딩 어시스턴트를 활용하는 개발자와 LLM 기반 도구를 통합하려는 개발팀에게 특히 유용합니다. 어시스턴트가 여러 개라 설정이 흩어져 있는 환경에 맞습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">흩어진 코딩 AI들을 하나의 하네스로 묶어 성능과 보안을 관리하는 도구입니다. 하나의 어시스턴트부터 시작해 점차 범위를 넓히면 부담이 적습니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/affaan-m/ECC" target="_blank" style="color:#555;text-decoration:none;">github.com/affaan-m/ECC</a></p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467147988" target="_blank" style="color:#2f5bd7;text-decoration:none;">Claude Code에 공유 메모리를 붙이는 ruflo</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467206728" target="_blank" style="color:#2f5bd7;text-decoration:none;">Copilot에 피드백 루프를 붙이는 lever</a></p>

@@ -1,0 +1,59 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">"claude omniroute"를 검색했다면, Claude Code를 OmniRoute 게이트웨이에 연결해 API 비용을 줄이는 방법을 찾는 중일 겁니다. OmniRoute가 Claude Code를 어떻게 가로채는지, 설정부터 확인까지 정리했습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">왜 연결하나요</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Claude Code를 그대로 쓰면 Anthropic API 요금이 그대로 나갑니다. OmniRoute는 이 호출을 로컬 게이트웨이(<code>localhost:20128</code>)로 돌려, 연결된 프로바이더 중 비용이 적거나 무료 티어가 있는 곳으로 라우팅합니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Claude Code 입장에서는 "Anthropic 호환 엔드포인트"로 보이므로, 도구를 바꿀 필요 없이 뒤쪽 연결만 바꾸는 구조입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">가장 쉬운 방법 — omniroute launch</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">OmniRoute가 설치돼 있다면 전용 명령이 가장 간단합니다.</p>
+
+<pre><code>omniroute launch</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">이 명령은 OmniRoute 서버 상태를 확인한 뒤, 필요한 환경 변수를 자동으로 설정해서 Claude Code를 실행합니다. 원격 서버를 쓴다면 <code>omniroute connect</code>로 먼저 연결해두면 됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">모델별 프로필로 실행하기</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">여러 모델을 오가며 쓰고 싶다면 프로필을 만듭니다.</p>
+
+<pre><code>omniroute setup-claude    # 모델별 프로필 생성
+omniroute launch --profile glm52  # 특정 프로필로 실행</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">프로필은 <code>~/.claude/profiles/&lt;이름&gt;/settings.json</code>에 저장되고, 각 프로필이 어떤 모델을 쓸지 지정합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">수동으로 환경 변수 설정하기</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">직접 설정하려면 Claude Code 설정 파일의 env에 세 가지를 넣습니다.</p>
+
+<pre><code>{
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://localhost:20128",
+    "ANTHROPIC_AUTH_TOKEN": "&lt;OmniRoute API 키&gt;",
+    "CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY": "1"
+  }
+}</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">주의할 점이 있습니다.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">BASE_URL에는 <code>/v1</code>을 붙이지 않습니다 — Claude Code가 스스로 <code>/v1/messages</code>를 붙입니다</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">API 키는 OmniRoute 대시보드의 Endpoints 페이지에서 발급받습니다</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">환경 변수는 시작 시 한 번만 읽힙니다 — 변경 후 반드시 Claude Code를 재시작하세요</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">연결 확인과 주의점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">연결이 잘 됐는지는 OmniRoute 대시보드의 사용량 화면에서 확인합니다. Claude Code의 <code>/model</code> 선택기에 OmniRoute의 claude* 모델이 뜨려면 Claude Code v2.1.129 이상과 <code>CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1</code>이 필요합니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">무료 티어 프로바이더를 쓰는 구조라 응답 품질·속도는 연결된 프로바이더에 따라 달라집니다. 코딩 품질이 중요한 작업은 유료 프로바이더를 우선하도록 라우팅 전략을 조정하세요.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">가장 쉬운 건 <code>omniroute launch</code> 한 줄입니다. 수동 설정은 <code>ANTHROPIC_BASE_URL</code>(/v1 없이)과 <code>ANTHROPIC_AUTH_TOKEN</code> 두 개가 핵심이고, 변경 후 재시작을 잊지 마세요.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/diegosouzapw/OmniRoute" target="_blank" style="color:#555;text-decoration:none;">diegosouzapw/OmniRoute</a> 공식 문서(github.com) 기준입니다.</p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224476104742" target="_blank" style="color:#2f5bd7;text-decoration:none;">OmniRoute로 LLM 비용과 한도 관리하기</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224476806741" target="_blank" style="color:#2f5bd7;text-decoration:none;">Claude Code 시작하기, 설치부터 첫 명령까지</a></p>

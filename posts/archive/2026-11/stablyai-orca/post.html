@@ -1,0 +1,58 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Claude Code나 Codex 같은 코딩 에이전트를 여러 개 동시에 돌리면 각각의 창과 설정을 따로 관리해야 합니다. orca는 이런 에이전트 fleet을 한 앱에서 굴리는 오케스트레이션 도구입니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">자기 구독으로 코딩 에이전트 여러 개를 한곳에서 실행하는 데스크톱·모바일·원격 런타임 앱으로, 현재 GitHub 스타 112,018개, 주 언어는 TypeScript입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">에이전트 fleet — Claude Code, Codex 등 여러 코딩 에이전트를 한 화면에서 굴립니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">BYO 구독 — 각자 가진 구독·키를 그대로 가져와 씁니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">다중 실행 환경 — 데스크톱, 모바일, 원격 런타임에서 같은 fleet을 봅니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<pre><code>git clone https://github.com/stablyai/orca.git</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">저장소를 클론하고 프로젝트 안내에 따라 데스크톱 앱을 빌드하거나 배포판을 설치합니다. 실행 후 사용할 에이전트와 계정을 등록합니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/stablyai/orca" target="_blank" style="color:#555;">stablyai/orca</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">112,018</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">TypeScript</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">MIT</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>설치 방식</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">저장소 클론/앱 설치</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">처음엔 에이전트 하나만 등록해 흐름을 익히고, 익숙해지면 작업별로 에이전트를 나눕니다.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — 앱을 설치하고 첫 코딩 에이전트 계정을 연결합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — 작은 작업 하나를 에이전트에 맡겨 결과를 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — 두 번째 에이전트를 추가해 서로 다른 작업을 나눠 맡깁니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 모바일이나 원격 런타임에서 같은 fleet 상태를 확인합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">에이전트가 여러 개면 그만큼 구독·API 비용이 늘어납니다. 각 에이전트가 같은 저장소를 동시에 건드리면 충돌이 생길 수 있으니, 작업 단위는 worktree처럼 분리해 두는 게 안전합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">여러 코딩 에이전트를 실무에 도입한 개발자와 팀 리드에게 특히 유용합니다. 데스크톱에서 떠 있는 에이전트들을 한눈에 보고 지시하고 싶은 경우에 맞습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">흩어진 코딩 에이전트들을 fleet처럼 굴리는 앱입니다. 에이전트가 많아질수록 작업 분리와 비용 관리가 핵심이 됩니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/stablyai/orca" target="_blank" style="color:#555;text-decoration:none;">github.com/stablyai/orca</a></p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467146910" target="_blank" style="color:#2f5bd7;text-decoration:none;">데스크톱에서 AI 팀을 지휘하는 Orkas</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467075274" target="_blank" style="color:#2f5bd7;text-decoration:none;">폰에서 코딩 에이전트 조종하는 T3 Code</a></p>

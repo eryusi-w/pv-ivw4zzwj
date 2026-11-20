@@ -1,0 +1,77 @@
+<p>AI 이미지·영상 생성 도구가 넘쳐나도 정작 필요한 건 "한 곳에서 다 되는 것"입니다. 이미지 생성기는 따로, 영상 생성기는 따로, 립싱크는 또 따로 — 구독료도 제각각이죠.</p>
+<p><strong>Open-Generative-AI</strong>는 이미지·영상·오디오·립싱크를 <strong>14개 스튜디오</strong>로 묶은 셀프 호스팅 스튜디오 앱입니다. GitHub 별 3.3만 개, MIT 라이선스입니다. 핵심은 콘텐츠 필터 없이 쓸 수 있다는 점과, 클라우드 모델과 로컬 모델을 한 UI에서 오갈 수 있다는 점입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">Open-Generative-AI는 무엇인가</h2>
+<p>README의 표현 그대로 "콘텐츠 필터 없는 오픈소스 AI 이미지·영상 플랫폼 대안"입니다. 텍스트→이미지, 이미지→이미지, 텍스트→영상, 이미지→영상, 오디오 기반 립싱크까지 지원합니다.</p>
+<p>14개 스튜디오로 나뉩니다: Image, Video, Audio, Lip Sync, Cinema, Workflows, AI Clipping, Vibe Motion, Marketing, Agents, Design Agent, Apps, MCP & CLI.</p>
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">"No content filters, no prompt rejections, no guardrails"가 셀링 포인트입니다. 창작 자유를 앞세운 만큼, 생성물의 책임은 사용자에게 있습니다.</blockquote>
+<p>중요한 전제 하나: 클라우드 모델 호출은 <strong>MuAPI</strong>라는 호스티드 서비스가 처리합니다. 즉 "오픈소스"는 프론트엔드와 워크플로 UI이고, 클라우드 생성은 MuAPI 계정/크레딧이 필요합니다. 완전 무료·무제한 생성이 아닙니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치: 데스크톱 앱이 가장 간단하다</h2>
+<p>v2.0.0부터 원클릭 데스크톱 앱이 있습니다. Node.js 없이 바로 설치됩니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<tr><th style="border:1px solid #ddd;padding:8px;background:#f7f9fa;">플랫폼</th><th style="border:1px solid #ddd;padding:8px;background:#f7f9fa;">설치 파일</th></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">macOS (Apple Silicon)</td><td style="border:1px solid #ddd;padding:8px;">arm64.dmg</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">macOS (Intel)</td><td style="border:1px solid #ddd;padding:8px;">x64.dmg</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">Windows</td><td style="border:1px solid #ddd;padding:8px;">Setup.exe (SmartScreen 경고 가능)</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">Linux</td><td style="border:1px solid #ddd;padding:8px;">AppImage / .deb</td></tr>
+</table>
+<p>macOS는 공증이 안 돼 있어서 첫 실행 시 <code>xattr -cr</code>로 게이트키퍼를 우회해야 합니다. Windows는 SmartScreen "추가 정보 → 실행"으로 진행합니다. 설치 없이 브라우저로 쓰는 호스티드 버전도 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">로컬 모델: 두 개의 엔진</h2>
+<p>데스크톱 앱의 진짜 강점은 <strong>로컬 추론 엔진이 두 개</strong> 내장됐다는 점입니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<tr><th style="border:1px solid #ddd;padding:8px;background:#f7f9fa;">엔진</th><th style="border:1px solid #ddd;padding:8px;background:#f7f9fa;">방식</th><th style="border:1px solid #ddd;padding:8px;background:#f7f9fa;">용도</th></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">sd.cpp</td><td style="border:1px solid #ddd;padding:8px;">앱이 자동 다운로드, 별도 설치 불필요</td><td style="border:1px solid #ddd;padding:8px;">이미지 모델 (Flux, Qwen-Image 등)</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">Wan2GP</td><td style="border:1px solid #ddd;padding:8px;">직접 설치, CUDA/ROCm GPU 필요</td><td style="border:1px solid #ddd;padding:8px;">영상 모델 (Wan 2.1/2.2, LTX-2 등)</td></tr>
+</table>
+<p>설정은 <strong>Settings → Local Models</strong>에서 하고, 각 스튜디오의 모델 선택 옆에 <strong>⚡ Local 토글</strong>을 켜면 로컬로 생성됩니다. 로컬 생성은 API 키가 필요 없습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">클라우드 모델 연결</h2>
+<p>로컬이 안 되는 작업이나 더 큰 모델이 필요하면 MuAPI 경유 클라우드 모델을 씁니다. 지원 모델군이 넓습니다.</p>
+<ul>
+<li>이미지: Flux, Nano Banana, Seedream 등</li>
+<li>영상: Kling, Sora, Veo, Wan 2.2 등</li>
+<li>립싱크: Infinite Talk, LTX Lipsync 등</li>
+</ul>
+<p>"Powered by MuAPI"라는 표기가 모든 페이지에 있으니, 클라우드 생성 시 계정과 크레딧이 필요하다는 걸 인지하고 쓰면 됩니다. 화이트라벨($49/월~)까지 제공해서, 이 앱을 자기 브랜드로 재판매하는 것도 가능합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">자원과 비용 계산</h2>
+<p>로컬 추론은 결국 GPU가 답입니다.</p>
+<ul>
+<li><strong>sd.cpp 이미지</strong> — 멀티 GB 가중치, GPU VRAM 8GB+ 권장</li>
+<li><strong>Wan2GP 영상</strong> — 더 큰 VRAM, NVIDIA/AMD CUDA·ROCm 필수</li>
+<li><strong>클라우드</strong> — GPU 없이 되지만 생성당 크레딧 차감</li>
+</ul>
+<p>앱 자체는 가볍지만 로컬 모델 가중치는 수 GB~수십 GB입니다. <code>OPEN_GENERATIVE_AI_LOCAL_AI_DIR</code> 환경변수로 모델 저장 위치를 다른 드라이브로 옮길 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">제작 워크플로 예시</h2>
+<p>14개 스튜디오가 각각 독립적이지만, 실제 사용은 조합입니다.</p>
+<ol>
+<li>Image Studio에서 컨셉 이미지 생성</li>
+<li>Video Studio에서 이미지→영상 애니메이션</li>
+<li>Lip Sync Studio에서 나레이션 동기화</li>
+<li>Cinema Studio에서 최종 편집·합성</li>
+</ol>
+<p>Workflows와 Agents 스튜디오가 이 과정을 템플릿화·자동화하는 역할을 합니다. MCP & CLI 지원도 있어서 외부 도구와 연동 가능합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">MCP와 CLI로 외부 연동</h2>
+<p>14개 스튜디오 중 하나가 MCP & CLI입니다. 생성 기능을 외부 에이전트나 스크립트에서 호출할 수 있게 열어둔 통로입니다.</p>
+<p>예를 들어 콘텐츠 파이프라인에서 "이 브리프로 이미지 4장 생성 → 영상 변환 → 립싱크"를 자동화하고 싶다면, MCP를 통해 다른 도구에서 이 스튜디오를 호출할 수 있습니다. 수동 클릭 중심의 UI지만, 자동화 경로도 마련돼 있다는 뜻입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 맞나</h2>
+<p>콘텐츠 제작을 직접 하는 프리랜서·소규모 팀, 여러 생성 모델을 한 화면에서 비교하고 싶은 사람, 로컬 GPU가 있어 API 비용 없이 돌리고 싶은 사람에게 맞습니다.</p>
+<p>반대로 "완전 무료로 무제한 생성"을 기대하면 안 됩니다. 로컬은 GPU가 필요하고, 클라우드는 MuAPI 크레딧이 듭니다. 필터가 없다는 건 자유이자 책임이기도 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한계와 주의</h2>
+<ul>
+<li><strong>MuAPI 의존</strong> — 클라우드 생성은 MuAPI 계정이 필요하고, 완전 무료가 아닙니다</li>
+<li><strong>GPU 요구</strong> — 로컬 모델은 고사양 GPU 없이는 사실상 불가</li>
+<li><strong>필터 없음</strong> — 콘텐츠 제한이 없으므로 법적·윤리적 책임은 사용자에게 있습니다</li>
+<li><strong>성숙도</strong> — 데스크톱 앱이 v2.0으로 갓 나온 단계라 안정성은 지켜봐야 합니다</li>
+<li><strong>macOS 공증</strong> — Gatekeeper 우회가 필요해 기업 배포엔 번거로울 수 있습니다</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+<p>Open-Generative-AI는 "생성 AI 스튜디오를 한 앱에"라는 목표에 가장 근접한 오픈소스입니다. 14개 스튜디오, 로컬+클라우드 이중 엔진, 필터 없는 자유 — 셋 다 실제로 구현돼 있습니다. 다만 클라우드 모델이 MuAPI에 묶여 있고 로컬은 GPU가 필요하다는 현실을 알고 쓰면, 콘텐츠 제작 파이프라인의 강력한 허브가 됩니다.</p>
+<p style="font-size:15px;color:#666;">참고: <a href="https://github.com/Anil-matcha/Open-Generative-AI" target="_blank">github.com/Anil-matcha/Open-Generative-AI</a> (MIT, Powered by MuAPI)</p>

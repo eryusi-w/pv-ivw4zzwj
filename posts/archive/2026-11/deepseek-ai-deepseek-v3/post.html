@@ -1,0 +1,62 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">671B 파라미터 오픈 모델을 직접 돌리려면 보통 대규모 GPU 클러스터가 필요하다고 알려져 있습니다. DeepSeek-V3는 이 장벽을 낮춘 오픈소스 플래그십 LLM입니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">고효율 MoE 아키텍처와 강력한 추론 능력을 갖춘 오픈소스 LLM으로, MIT 라이선스에 현재 GitHub 스타 104,815개입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">671B MoE 구조 — 전문가 혼합 구조로 추론 비용을 크게 낮췄습니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">강력한 범용 성능 — 코드·수학·다국어 작업에서 상위권 성능을 냅니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">다양한 추론 경로 — Hugging Face, vLLM, Ollama 등 여러 백엔드에서 불러 쓸 수 있습니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">모델 가중치 저장소라 pip 설치는 없습니다. Hugging Face나 Ollama 같은 추론 도구로 불러옵니다.</p>
+
+<pre><code>ollama run deepseek-v3</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">양자화된 버전은 개인 GPU에서도 시도할 수 있지만, 풀 프리시전은 H100 여러 장급이 필요합니다. 처음에는 호스팅 API나 양자화 버전으로 성능을 확인하는 게 현실적입니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/deepseek-ai/DeepSeek-V3" target="_blank" style="color:#555;">deepseek-ai/DeepSeek-V3</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">104,815</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">Python</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">MIT</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>설치 방식</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">추론 백엔드(vLLM·Ollama 등)</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">로컬 서버가 없다면 API로 먼저 쓰고, 인프라가 생기면 자체 서빙으로 옮깁니다.</p>
+
+<pre><code>git clone https://github.com/deepseek-ai/DeepSeek-V3.git</code></pre>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — Hugging Face 또는 Ollama로 모델을 내려받습니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — 샘플 프롬프트로 코드·추론 품질을 직접 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — vLLM 등으로 서빙해 API 형태로 붙입니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 도메인 데이터로 파인튜닝하거나 양자화를 적용합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">MIT 라이선스라 상용 배포가 자유롭지만, 풀 모델을 직접 서빙하려면 GPU 비용이 큽니다. 양자화·오프로딩 설정이 까다로워 처음에는 호스팅 API로 품질을 먼저 검증하는 편이 낫습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">LLM 연구원, 백엔드/AI 엔지니어, 온프레미스 배포가 필요한 기업 개발팀에게 특히 유용합니다. 프라이빗 환경에서 최상위급 오픈 모델을 실험하고 싶은 경우에 맞습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">상용 무료 라이선스와 최상위 성능, 다양한 추론 생태계를 갖춘 오픈 LLM입니다. 인프라가 없어도 양자화나 API로 충분히 써 볼 수 있습니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/deepseek-ai/DeepSeek-V3" target="_blank" style="color:#555;text-decoration:none;">github.com/deepseek-ai/DeepSeek-V3</a></p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467172373" target="_blank" style="color:#2f5bd7;text-decoration:none;">Ollama로 내 컴퓨터에서 LLM 돌리는 법</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467185126" target="_blank" style="color:#2f5bd7;text-decoration:none;">Flare로 DGX Spark 추론 서버 세우기</a></p>

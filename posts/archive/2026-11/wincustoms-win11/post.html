@@ -1,0 +1,124 @@
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">문제 제기</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">윈도우를 새로 설치하면 설정할 것이 한두 가지가 아닙니다. 우클릭 메뉴는 '더 많은 옵션' 뒤로 숨고, 작업 표시줄에는 위젯과 검색이 기본으로 붙고, 안 쓰는 앱이 잔뜩 깔립니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">이걸 매번 손으로 고치려면 레지스트리, 스크립트, Rufus, 배포 도구를 각각 만져야 합니다. PC 한 대면 몰라도 여러 대를 같은 상태로 맞추는 일은 금방 지칩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">무엇인가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">WinCustoms는 Windows 11을 쓰기 편한 상태로 다시 맞추는 최적화·트윅 유틸리티입니다. 순정 상태의 광고·추천·기본 앱·새 UI를 한곳에서 끄고 정리하며, 필요하면 되돌릴 수 있게 만든 것이 특징입니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">WinUI 3(Windows App SDK) + .NET 9 + Native AOT로 만든 데스크톱 앱이고, 코드는 C# 95.1% / PowerShell 4.9%입니다. MIT 라이선스로 공개된 신생 프로젝트로, 2026-11 기준 스타 9개·포크 2개 수준입니다. 최근 릴리스는 v1.0.5(2026-09-18)입니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">설치 관리자가 없습니다. 배포본 압축을 풀고 WinCustoms.exe를 실행하면 바로 동작하고, .NET 런타임이나 Windows App SDK를 따로 깔 필요가 없습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 첫 실행</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">릴리스 페이지에서 압축 파일을 받아 원하는 폴더에 풀고 실행 파일을 누르면 끝입니다. 별도 설치 과정이 없어 USB에 담아 다른 PC에서 그대로 써도 됩니다.</p>
+
+<pre><code># 1) 릴리스 zip 압축 해제 (설치 관리자 없음)
+Expand-Archive -Path .\WinCustoms-v1.0.5.zip -DestinationPath C:\Tools\WinCustoms
+
+# 2) 실행
+C:\Tools\WinCustoms\WinCustoms.exe</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">실행 전에 지원 OS와 빌드를 한 번 확인해 두면 좋습니다. 대상은 Windows 11이고 64비트입니다.</p>
+
+<pre><code># 지원 OS 확인 (Windows 11)
+winver</code></pre>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">주요 기능</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">메뉴는 크게 여덟 영역으로 나뉩니다. 순정에서 답답한 부분을 그대로 대응시키면 다음과 같습니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">영역</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">무엇을 해주나</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">탐색기·우클릭</td><td style="border:1px solid #e5e8eb;padding:10px;">클래식 우클릭 메뉴, 홈/갤러리 숨김, 내 PC로 열기, 우클릭 메뉴 항목 등록·제거</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">작업표시줄·시작</td><td style="border:1px solid #e5e8eb;padding:10px;">왼쪽 정렬, 단추 결합 안 함, 위젯·검색·Copilot 아이콘 정리, 시작 추천 줄이기</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">개인정보·광고</td><td style="border:1px solid #e5e8eb;padding:10px;">텔레메트리·광고 ID·팁·Spotlight·활동 기록 차단, Copilot·Edge 상주 차단</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">기본 앱 정리</td><td style="border:1px solid #e5e8eb;padding:10px;">Xbox·Solitaire·뉴스·Teams·Clipchamp 등 사전 설치 앱 선택 제거</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">프로그램 설치</td><td style="border:1px solid #e5e8eb;padding:10px;">추천 목록 + winget 검색으로 런타임·압축·브라우저·에디터 설치</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">성능 최적화</td><td style="border:1px solid #e5e8eb;padding:10px;">Ultimate Performance 전원, 애니메이션 최소화, Game DVR·Prefetch·스로틀링 조절</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">시스템 백업</td><td style="border:1px solid #e5e8eb;padding:10px;">C: WIM 백업(WinRE 오프라인 캡처), 명령 입력 없이 자동 복원</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">커스텀 ISO·부팅 USB</td><td style="border:1px solid #e5e8eb;padding:10px;">순정 ISO에 트윅·앱 제거·OOBE 이식, Ventoy 스타일 부팅 USB 작성</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">안전장치와 한계</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">WinCustoms가 다른 트윅 모음과 다른 점은 '되돌릴 수 있는가'를 먼저 본다는 것입니다. 트윅마다 적용 값과 기본값을 함께 정의해 복원 없는 항목을 만들기 어렵게 했고, 적용 직전에는 레지스트리 .reg 백업을 %LOCALAPPDATA%\WinCustoms\Backups에 남깁니다. 이 백업은 앱 없이 더블클릭만으로 되돌릴 수 있습니다.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">적용과 복원이 한 세트 — 트윅은 적용 값과 기본값을 같이 정의</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">적용 직전 .reg 자동 백업 — 앱 없이도 복원 가능</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">토글은 예약, 실행은 '선택 항목 적용' — 실수로 켠 항목을 적용 전에 취소, UAC는 한 번에</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">평소에는 일반 권한 — HKLM 등 꼭 필요할 때만 짧게 승격</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">위험도가 높은 항목은 적용 전 한 번 더 확인</li>
+</ul>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">다만 레지스트리를 직접 바꾸는 도구인 만큼, 중요한 작업 중이거나 백업이 없을 때는 쓰지 않는 편이 안전합니다. 가능하면 상단에서 복원 지점을 먼저 만든 뒤 적용하세요.</p>
+
+<pre><code># 적용 전 복원 지점 만들기 (관리자 PowerShell)
+Checkpoint-Computer -Description &quot;before-WinCustoms&quot; -RestorePointType MODIFY_SETTINGS</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">알아 둘 제약도 있습니다. Prefetch·Superfetch 끄기는 SSD·넉넉한 메모리에 맞춘 옵션이라 HDD나 저메모리에서는 오히려 느려질 수 있습니다. 시작 메뉴 추천 영역 완전 제거는 Pro/Enterprise 정책이 유리하고, Home에서는 목록을 비우는 수준입니다. 기본 앱 제거는 현재 사용자 기준이며 복구는 Microsoft Store 재설치로 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">동작 원리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">핵심은 '예약 → 적용' 2단계입니다. 화면에서 토글만 켜 두면 실제 변경은 아직 일어나지 않습니다. '선택 항목 적용'을 누르는 순간에만 레지스트리·DISM·디스크 작업이 실행되고, 이때 필요한 권한만 짧게 승격합니다.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — 항목별 토글로 바꿀 설정을 고른다(아직 미적용)</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — '선택 항목 적용'으로 한 번에 반영, UAC도 한 번에 처리</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — 적용 전 .reg 백업이 자동 저장된다</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 문제가 생기면 복원 지점이나 .reg 백업으로 되돌린다</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">화면 구성 한눈에</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">왼쪽 메뉴는 다음 열두 개로 이뤄집니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">메뉴</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">역할</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">탐색기·우클릭</td><td style="border:1px solid #e5e8eb;padding:10px;">클래식 메뉴, 홈/갤러리, 내 PC로 열기</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">우클릭 프로그램 등록·제거</td><td style="border:1px solid #e5e8eb;padding:10px;">메뉴 항목 숨김·복원, exe 등록</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">작업표시줄·시작</td><td style="border:1px solid #e5e8eb;padding:10px;">정렬·아이콘·검색·추천 정리</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">개인정보·광고</td><td style="border:1px solid #e5e8eb;padding:10px;">텔레메트리·광고·AI·Edge 상주</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">기본 앱 정리</td><td style="border:1px solid #e5e8eb;padding:10px;">사전 설치 AppX 선택 제거</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">프로그램 설치</td><td style="border:1px solid #e5e8eb;padding:10px;">추천 + winget 검색 설치</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">성능 최적화</td><td style="border:1px solid #e5e8eb;padding:10px;">전원·시각 효과·백그라운드 부하</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">파워유저 도구</td><td style="border:1px solid #e5e8eb;padding:10px;">소유권·터미널·임시 파일·복원 지점</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">시스템 백업</td><td style="border:1px solid #e5e8eb;padding:10px;">C: WIM 백업·자동 복원</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">커스텀 ISO</td><td style="border:1px solid #e5e8eb;padding:10px;">취향이 담긴 설치 ISO 만들기</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">부팅 USB</td><td style="border:1px solid #e5e8eb;padding:10px;">순정 또는 최적화 설치 USB</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">설정 및 백업</td><td style="border:1px solid #e5e8eb;padding:10px;">테마, 백업 폴더, 탐색기 재시작</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">프로그램 설치와 winget</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">새 PC에서 런타임·압축·브라우저·에디터를 일일이 받는 것도 번거로운 일입니다. '프로그램 설치' 메뉴에는 추천 목록(ExplorerPatcher, Open-Shell, VC++/.NET/WebView2, 7-Zip, PowerToys, Chrome, Git, VS Code 등)이 있고, 원하는 프로그램은 winget 검색으로 추가할 수 있습니다.</p>
+
+<pre><code># 원하는 프로그램 검색·설치 (winget)
+winget search powertoys
+winget install Microsoft.PowerToys</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">여기서 설치한 프로그램은 winget이 관리하므로, 나중에 목록에서 확인하거나 업데이트하기도 쉽습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">방금 Windows 11을 깐 PC를 빠르게 정리하려는 분, 회사·집안 여러 PC를 같은 환경으로 맞추려는 분에게 잘 맞습니다. Rufus·DISM·레지스트리를 각각 만지기 싫으면서도, 순정을 완전히 버리긴 싫은 경우에 특히 유용합니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">반대로 Windows 10 전용 PC, 정책을 마음대로 못 바꾸는 회사 관리 PC, '손대지 않은 순정만' 써야 하는 환경에는 맞지 않을 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">WinCustoms는 트윅 개수로 승부하는 도구가 아니라, 바꾼 것을 되돌릴 수 있게 설계한 점이 눈에 띕니다. 무설치로 돌아가고, 다음에 깔 Windows까지 같은 취향으로 미리 만들 수 있다는 점도 실용적입니다. 아직 스타 수가 적은 신생 프로젝트라, 중요한 PC에 적용하기 전에는 복원 지점을 꼭 만들어 두세요.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/infohelpful/WinCustoms" target="_blank" style="color:#555;text-decoration:none;">github.com/infohelpful/WinCustoms</a></p>

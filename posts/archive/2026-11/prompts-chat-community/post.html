@@ -1,0 +1,82 @@
+<!-- write.mjs가 소제목 위에 이미지를 넣는다. <img> 태그는 넣지 않는다. -->
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>문제 제기</h2>
+<p>좋은 프롬프트는 대화 속에 갇힙니다. 누군가 ChatGPT에 넣어 잘 먹힌 문장을 봐도, 나중에 그걸 다시 찾을 방법이 없습니다. 프롬프트를 모으는 awesome list는 넘쳐나지만, 검색하고 복사하고 다시 기여하는 "장소"는 드뭅니다.</p>
+<p>prompts.chat(f/prompts.chat)은 이 문제를 푼 최초의 프롬프트 라이브러리입니다. 2022년 12월에 시작해 GitHub 별 17만 6천 개, 포크 2만 2천 개를 기록했습니다. 옛 이름은 Awesome ChatGPT Prompts입니다.</p>
+
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">
+  세계 최대의 오픈소스 프롬프트 라이브러리이자, 프롬프트를 넘어 봇과 봇 팀까지 아우르는 커뮤니티 플랫폼입니다.
+</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>무엇이 다른가</h2>
+<p>단순한 마크다운 목록이 아닙니다. 웹사이트(prompts.chat)에서 프롬프트를 검색·복사·기여하고, 같은 데이터가 <code>prompts.csv</code>, <code>PROMPTS.md</code>, Hugging Face 데이터셋으로도 배포됩니다. 프롬프트를 추가하면 웹에서 자동으로 저장소에 동기화됩니다.</p>
+<p>Hugging Face에서 가장 좋아요를 받은 데이터셋 중 하나이고, Forbes에 소개됐으며 Harvard와 Columbia가 참고 자료로 인용했습니다. 학술 인용도 40건 이상입니다. OpenAI 공동창업자 Greg Brockman과 Wojciech Zaremba, Hugging Face CEO Clement Delangue, 전 GitHub CEO Thomas Dohmke가 공개적으로 호평한 프로젝트이기도 합니다.</p>
+<div style="background:#f0f6ff;border:1px solid #d6e4ff;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0;font-size:15px;line-height:1.6;color:#2c4a7c;"><strong>라이선스 구성</strong> — 저장소에 CC0-1.0, MIT 등 여러 라이선스 파일이 있습니다. 프롬프트 데이터의 재사용 조건은 각 파일의 라이선스를 확인해야 합니다.</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>프롬프트 라이브러리</h2>
+<p>ChatGPT용으로 시작했지만 지금은 Claude, Gemini, Llama, Mistral 등 모든 모델에서 쓸 수 있는 프롬프트를 모읍니다. 사이트에서 검색하고 복사하면 끝이고, 새 프롬프트는 prompts.chat/prompts/new에서 추가하면 저장소로 자동 동기화됩니다.</p>
+<p>데이터 형식이 세 갈래라 용도에 따라 고르면 됩니다. 사람이 읽기엔 PROMPTS.md, 스크립트로 쓰기엔 prompts.csv, 머신러닝 데이터셋으로는 Hugging Face 버전을 씁니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>프롬프팅 교과서</h2>
+<p>저장소에는 무료 인터랙티브 교과서가 들어 있습니다. <strong>The Interactive Book of Prompting</strong>은 30개 이상의 챕터로 기본부터 chain-of-thought, few-shot learning, AI 에이전트까지 다루고, 최신 챕터는 "프롬프트에서 팀으로"(prompt → skill → agent → bot → team), 상시 가동 봇, 컴퓨터 사용까지 확장됐습니다. 17개 언어로 제공됩니다.</p>
+<p>어린이용으로는 <strong>Prompting for Kids</strong>(Promi)가 따로 있습니다. 8~14세 대상의 게임형 학습으로, 퍼즐과 스토리로 AI와 대화하는 법을 가르칩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>봇과 봇 팀</h2>
+<p>prompts.chat이 프롬프트 라이브러리를 넘어선 이유가 여기 있습니다. 사이트는 <strong>상시 가동 AI 에이전트</strong>와 그들이 일하는 <strong>팀</strong>을 호스팅합니다.</p>
+<ul style="margin:0 0 24px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>Bots</strong> — OpenClaw, Hermes Agent, Grok Bot 등의 봇을 공유·발견합니다. 각 봇 페이지에 플랫폼별 설치법, 필요한 컴퓨터(cloud/사용자 컴퓨터/둘 다), "함께 쓰면 좋은" 페어링, 업보트, 코멘트가 붙습니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>Bot Teams</strong> — 봇들이 서로 작업을 넘기는 그룹으로, 인터랙티브 그래프로 보여 줍니다. 팀 단위로 업보트하거나 봇을 한 번에 설치할 수 있고, JSON API(<code>GET /api/teams</code>)로도 조회됩니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>모더레이션</strong> — 봇과 팀은 unlist 처리해 공개 목록에서 숨길 수 있습니다.</li>
+</ul>
+<p>"프롬프트를 모은다"에서 "에이전트 생태계를 공유한다"로 확장된 셈입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>연동 방법</h2>
+<p>세 가지 경로가 있습니다. CLI, Claude Code 플러그인, MCP 서버입니다.</p>
+<pre><code># CLI
+npx prompts.chat
+
+# Claude Code 플러그인
+/plugin marketplace add f/prompts.chat
+/plugin install prompts.chat@prompts.chat
+
+# MCP 서버 (원격)
+{ "mcpServers": { "prompts.chat": { "url": "https://prompts.chat/api/mcp" } } }</code></pre>
+<p>MCP 서버는 프롬프트와 스킬 검색뿐 아니라 봇(<code>search_bots</code>, <code>get_bot</code>, <code>save_bot</code>)과 팀(<code>list_teams</code>, <code>get_team</code>, <code>save_team</code>) 도구까지 제공합니다. 로컬 실행은 <code>npx prompts.chat mcp</code>입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>셀프 호스팅</h2>
+<p>조직 내부에서 프라이빗하게 쓰고 싶다면 셀프 호스팅이 됩니다. Next.js + PostgreSQL 기반이고, Docker 가이드와 셀프 호스팅 문서가 따로 있습니다.</p>
+<pre><code># 대화형 마법사로 새 프로젝트 생성
+npx prompts.chat new my-prompt-library
+cd my-prompt-library
+
+# 또는 직접 클론
+git clone https://github.com/f/prompts.chat.git
+cd prompts.chat
+npm install && npm run setup</code></pre>
+<p>마법사가 브랜딩, 테마, 인증(GitHub/Google/Azure AD), 기능을 설정합니다. DB는 PostgreSQL이 권장이고 Neon 같은 호스티드 DB를 쓰면 됩니다. 사내 프롬프트를 외부에 안 보이게 관리해야 하는 조직에 특히 맞는 기능입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>한계와 주의</h2>
+<p>커뮤니티 라이브러리의 고질적 문제가 있습니다. 프롬프트의 품질이 제각각이고, 잘 작동하던 프롬프트가 모델 업데이트로 깨질 수 있습니다. 사이트에 있는 프롬프트가 전부 검증된 건 아니니, 복사해 쓰기 전에 내 작업에서 한 번 테스트하는 게 맞습니다.</p>
+<p>봇과 팀 기능은 2026년에 들어와 확장된 영역이라 아직 초기입니다. 팀 JSON API는 있으나, 팀이 실제로 잘 작동하는지는 개별 검증이 필요합니다. 셀프 호스팅은 PostgreSQL과 인증 설정이 필요해, 간단한 용도라면 공개 사이트를 쓰는 게 훨씬 빠릅니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>누구에게 맞나</h2>
+<p>프롬프트를 처음 모으기 시작하는 사람, 사내 프롬프트를 체계화하고 싶은 팀, 에이전트 생태계를 둘러보고 싶은 사람에게 맞습니다. 이미 프롬프트 엔지니어링을 잘하는 사람에게는 교과서의 고급 챕터와 봇 팀 구조가 새로운 관점을 줄 수 있습니다.</p>
+<p>반대로 특정 모델 전용 프롬프트나 최신 연구 프롬프트를 찾는다면 이곳보다 각 모델의 공식 문서나 최신 논문이 낫습니다. prompts.chat은 커뮤니티가 검증한 실전 프롬프트의 집합이지, 최신 기법의 발표장이 아닙니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>도입 전 체크리스트</h2>
+<div style="background:#f0fdf4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#166534;">확인할 것 4가지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 용도 — 프롬프트 검색인지, 봇/팀 공유인지, 셀프 호스팅인지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 연동 — CLI / Claude Code 플러그인 / MCP 중 환경에 맞는 것</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 검증 — 커뮤니티 프롬프트는 내 작업에서 한 번 테스트</p>
+<p style="margin:0;font-size:15px;line-height:1.6;color:#166534;">✓ 라이선스 — CC0/MIT 혼재, 재배포 조건 확인</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>정리</h2>
+<p>prompts.chat은 "프롬프트를 모아 나누는" 원래 목적을 넘어, 교과서와 봇 생태계와 셀프 호스팅까지 아우르는 플랫폼이 됐습니다. 2022년의 첫 프롬프트 라이브러리가 2026년에는 AI 에이전트 팀의 공유소가 된 겁니다.</p>
+<p>오늘 해 볼 일은 prompts.chat 사이트에서 자기 작업과 비슷한 프롬프트 하나를 찾아 복사해 보는 겁니다. 그리고 MCP 서버를 연결하면 에이전트가 이 라이브러리를 직접 검색하게 할 수도 있습니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">
+참고: <a href="https://github.com/f/prompts.chat" target="_blank" style="color:#555;text-decoration:none;">prompts.chat</a> (CC0-1.0 / MIT, f.k.a. Awesome ChatGPT Prompts)
+</p>

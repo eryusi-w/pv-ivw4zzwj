@@ -1,0 +1,70 @@
+<!-- write.mjs가 소제목 위에 이미지를 넣는다. <img> 태그는 넣지 않는다. -->
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>문제 제기: 로컬 추론 서버를 직접 세우는 이유</h2>
+<p>vLLM이나 TGI 같은 범용 서빙 엔진은 모델과 하드웨어 조합이 다양해질수록 설정이 복잡해집니다. 반대로 특정 GPU 한 대, 특정 모델 몇 개만 노린다면 얘기가 달라집니다. DGX Spark처럼 메모리 대역폭이 제한된 컴팩트 시스템에서는 일반 서빙 스택이 자원을 제대로 못 쓰는 경우가 있습니다.</p>
+<p>NVIDIA가 공개한 Flare는 바로 그 틈새를 노립니다. SM120/SM121 GPU(DGX Spark 세대)를 위한 전용 로컬 추론 서버로, 범용성을 버리고 긴 대화·코딩 에이전트·반복 도구 호출에 집중합니다.</p>
+
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">
+  범용 추론 엔진이 아니라, 선택된 모델과 로컬 워크로드에 맞춘 서빙 계약을 지향하는 연구 프로토타입입니다.
+</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>무엇인가: Flare</h2>
+<p><code>NVIDIA/spark-local-inference</code>의 Flare는 NVIDIA SM103/SM120/SM121 GPU를 위한 로컬 추론 서버입니다. 프로젝트 코드는 Apache-2.0이고, README는 스스로를 <strong>연구 프로토타입</strong>이라고 부릅니다. 기술 협력과 초기 피드백을 얻기 위해 오픈소스로 공개한 것입니다.</p>
+<p>README가 명시하는 위치: vLLM이 훨씬 넓은 모델·하드웨어·배포 패턴을 커버하는 반면, Flare는 선택된 모델과 로컬 워크로드 중심의 좁은 서빙 계약을 택했습니다. "vLLM의 대체재가 아니며, 앞으로도 프로덕션 추론 엔진을 대체하지 않을 것"이라고 선을 긋습니다. 하드웨어와 모델 커버리지가 맞을 때 쓰는 전문화된 선택지입니다.</p>
+<p>GitHub 별은 776개 수준의 초기 프로젝트입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>설계 원칙: 빌드는 PyTorch, 서빙은 Rust</h2>
+<p>Flare의 구조는 두 세계로 나뉩니다.</p>
+<ul style="margin:0 0 24px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>Ignition</strong>: 준비 단계. PyTorch, Transformers, FlashInfer/b12x로 모델을 로드하고, 커널을 튜닝하고, forward를 컴파일하고, CUDA 그래프를 캡처해 런타임 패키지로 만듭니다. Python 생태계의 생산성을 그대로 씁니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>Helios</strong>: 서빙 단계. Rust 런타임 라이브러리로, 준비된 패키지를 Python 없이 서빙합니다. 컴파일과 그래프 캡처는 서빙 전에 끝나므로 런타임은 작고 공유됩니다.</li>
+</ul>
+<p>사이에 <code>heliopause</code> 크레이트가 Ignition의 <code>flare_heliopause</code> 확장을 만들고, Rust CLI인 <code>flare</code>가 Helios를 링크해 요청을 받습니다. Helios는 Python이나 준비 도구에 의존하지 않습니다.</p>
+<div style="background:#f7f9fa;border:1px solid #e5e8eb;border-radius:8px;padding:14px 20px;margin:0 0 24px 0;text-align:center;font-size:15px;font-weight:bold;color:#333;line-height:1.6;">
+체크포인트 → Ignition(PyTorch) → 런타임 패키지 → Helios(Rust) → 응답
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>메모리와 상태를 명시적으로 다룬다</h2>
+<p>Flare 설계의 또 다른 축은 "메모리와 상태를 명시적으로" 다루는 것입니다. 버퍼와 실행 용량을 미리 계획하고, 대화 상태 — KV 캐시와 함께 recurrent state까지 — 를 하나의 덩어리로 취급합니다. 그래야 재사용·분기·재개가 상태를 올바르게 보존할 수 있습니다.</p>
+<p>런타임 패키지는 <code>model.safetensors</code> 하나에 서명된 <code>flare.manifest</code>와 레이어 가중치·튜닝 의존 가중치·초기 상태·zstd 압축 cubin·그래프 레코드를 담습니다. 레시피 기본값은 FP8 E4M3 KV 저장이고, Qwen·GLM·DeepSeek는 각자의 latent 형식을 유지합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>빌드와 실행 명령</h2>
+<p>환경 준비와 네이티브 CLI 빌드는 저장소 루트에서 두 줄입니다.</p>
+<pre><code>uv sync --locked --extra prepare --extra test
+cargo build --release --manifest-path flare/Cargo.toml</code></pre>
+<p>모델을 준비하고 패키지로 내보낸 뒤, 서빙은 Rust 바이너리가 담당합니다.</p>
+<pre><code># 예: Qwen3.8 Flash를 GPU 2에서 준비
+.venv/bin/ignition export qwen3.8-flash --gpus 2
+
+# 패키지를 서빙
+./flare/target/release/flare run PACKAGE</code></pre>
+<p>빌드에는 C/C++ 컴파일러, CMake, Ninja, protoc, OpenSSL 헤더, Python 헤더, liburing 헤더가 필요하고, 준비에는 CUDA 툴킷(nvcc·CUPTI)이 필요합니다. Ubuntu 의존성은 문서에 명령으로 정리돼 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>지원 모델과 텐서 병렬</h2>
+<p>문서에 레시피가 있는 모델은 Qwen3.8 27B, Qwen3.8 Flash, GLM 5.3 Flash, DeepSeek V4.1 Flash, Nemotron 3.5 Bolt 74B-A9B 24GB 등입니다. Qwen3.8 Flash는 MTP 드래프트 토큰으로 추측 디코딩을 하고, DeepSeek V4.1은 4 GPU 텐서 병렬 예시가 문서에 있습니다.</p>
+<p>텐서 병렬은 TP 크기마다 별도 패키지가 필요합니다. TP2 패키지를 TP1로 못 올립니다. 문서 기준으로 Qwen TP1·TP2와 GLM TP4가 끝까지 검증됐고, Qwen TP4는 아직 모델 검증이 남아 있습니다. 멀티 호스트는 Orbit이 호스트·준비·패키지·랭크 프로세스를 관리합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>AGENTS.md가 곧 문서다</h2>
+<p>Flare 저장소의 특이점은 <code>AGENTS.md</code>입니다. README가 "코딩 에이전트는 README를 건너뛰고 AGENTS.md를 읽어라"고 안내할 만큼, 에이전트가 작업하기 좋게 설계된 문서입니다. 작업 지침, 기여 범위, 거부 기준, 커밋 리뷰 절차, 문체 규칙까지 상세히 적혀 있습니다.</p>
+<p>기여 기준도 엄격합니다. 명시적 maintainer 요청·입증된 결함·측정된 성능 문제·부정확한 문서 중 하나가 변경 근거여야 하고, 가상적 미래 수요나 lint 지적만으로는 변경을 승인하지 않는다고 못 박았습니다. 아키텍처 경계를 지키는 것이 핵심 규칙입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>한계와 주의</h2>
+<p>가장 큰 주의는 <strong>연구 프로토타입</strong>이라는 점입니다. 모델·하드웨어 커버리지가 좁고, 지원 레시피도 제한돼 있습니다. 일반적인 vLLM 워크로드를 대체할 수 없고, 프로덕션 사용은 권장되지 않습니다.</p>
+<p>빌드도 만만치 않습니다. CUDA 툴킷, protoc, liburing 등 네이티브 의존성이 필요하고, 준비 환경에는 PyTorch 2.14.1·Triton 3.8에 번들 패치 세 개를 적용해야 합니다. TP 크기별로 패키지를 따로 만들어야 하고, 변경된 커널·용량은 재익스포트가 필요합니다.</p>
+<p>라이선스는 프로젝트 코드가 Apache-2.0이지만, 파생 자산은 제각각입니다. PyTorch 유래 이미지 리사이징은 BSD 라이선스, DeepSeek 레시피 자산은 MIT로 별도 표기돼 있습니다. 모델 가중치의 라이선스는 각 업스트림을 따라야 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>도입 전 체크리스트</h2>
+<div style="background:#f0fdf4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#166534;">확인할 것 4가지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ GPU — SM103/SM120/SM121 세대인지(DGX Spark 포함), <code>nvidia-smi</code>로 점유 확인</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 모델 — 지원 레시피(Qwen·GLM·DeepSeek·Nemotron)에 원하는 모델이 있는지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 빌드 — CUDA 툴킷·컴파일 의존성을 갖춘 환경인지</p>
+<p style="margin:0;font-size:15px;line-height:1.6;color:#166534;">✓ 목적 — 연구·실험용인지, 프로덕션 서빙이 필요한지(후자라면 vLLM 계열 검토)</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>정리</h2>
+<p>Flare는 DGX Spark 같은 컴팩트 NVIDIA 시스템에서 긴 대화와 코딩 에이전트 워크로드를 겨냥한 연구용 추론 서버입니다. PyTorch 생태계로 준비하고 Rust로 서빙하는 구조가 독특하고, AGENTS.md가 에이전트 친화적인 문서로 잘 갖춰져 있습니다.</p>
+<p>오늘 해 볼 일은 간단합니다. SM120/SM121 GPU가 있다면 저장소를 클론하고 AGENTS.md부터 읽어 보세요. 지원 모델과 빌드 절차가 문서에 잘 정리돼 있어서, "이게 진짜 돌아가는구나"를 확인하는 데 필요한 정보가 다 있습니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">
+참고: <a href="https://github.com/NVIDIA/spark-local-inference" target="_blank" style="color:#555;text-decoration:none;">NVIDIA/spark-local-inference</a> (Apache-2.0, 연구 프로토타입, 2026-11 기준)
+</p>

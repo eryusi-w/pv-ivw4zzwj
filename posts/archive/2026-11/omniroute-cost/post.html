@@ -1,0 +1,69 @@
+<p>코딩 에이전트를 쓰다 보면 API 비용이 은근히 커집니다. Claude Code든 Codex든 호출량이 늘면 월 청구서가 무시 못 할 수준이 되죠. 그런데 무료 티어를 가진 프로바이더가 수십 개인데, 각각 따로 가입하고 키를 관리하고 한도를 추적하는 건 사실상 불가능에 가깝습니다.</p>
+<p><strong>OmniRoute</strong>는 이 문제를 "로컬 게이트웨이 하나를 두는 방식"으로 해결합니다. 여러 AI 프로바이더를 하나의 엔드포인트 뒤에 묶어, 도구는 그대로 두고 비용과 한도만 관리하는 구조입니다. GitHub 별 8.5만 개, MIT입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">OmniRoute는 무엇인가</h2>
+<p>README의 표현 그대로 <strong>"Free AI Gateway"</strong>입니다. Claude Code, Codex, Cursor, Cline, Copilot, Antigravity 같은 AI 도구들이 쓰는 API 호출을 가로채서, 연결된 프로바이더 중 가장 적합한 곳으로 라우팅합니다.</p>
+<p>지원 규모가 큽니다. README 기준 <strong>380개 프로바이더, 150개 이상의 무료 티어</strong>를 카탈로그로 관리하고, 20가지 라우팅 전략을 제공합니다. 무료 티어를 합산하면 월 약 16억 토큰 규모라고 주장하지만, 이 숫자는 공유 풀 중복을 제거한 보수적 계산이며 2주마다 재감사됩니다.</p>
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">중요한 전제: 이건 "OmniRoute가 토큰을 주는" 게 아니라, <strong>당신이 각 프로바이더에 가입해 키를 연결</strong>하는 구조입니다. 무료 티어의 한도·조건은 각 프로바이더가 정합니다.</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">라우팅 계층 구조</h2>
+<p>OmniRoute는 프록시가 아니라 <strong>라우팅 계층</strong>입니다. 클라이언트는 <code>localhost:20128/v1</code> 같은 단일 엔드포인트만 보고, 뒤에서 OmniRoute가 어떤 프로바이더로 보낼지 결정합니다.</p>
+<p>모델명에 <code>auto</code>를 쓰면 사용 가능한 연결 중 알아서 고릅니다. 특정 모델을 지정하거나, <strong>Combos</strong>라는 라우팅 전략으로 우선순위·폴백 체인을 직접 정의할 수도 있습니다.</p>
+<p>쿼터 인식 스케줄링(Quota-Share)도 있습니다. 어떤 프로바이더의 한도가 얼마 남았는지 실시간으로 보고, 한도가 찬 곳은 자동으로 건너뜁니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 첫 실행</h2>
+<p>npm 글로벌 설치가 가장 빠릅니다.</p>
+<pre><code>npm install -g omniroute
+omniroute</code></pre>
+<p>또는 Docker, Bun, 소스 빌드, 심지어 안드로이드 Termux에서도 돌릴 수 있습니다. 데스크톱은 Electron 앱과 macOS 메뉴바 앱(OmniRouteTray)도 있습니다.</p>
+<pre><code># Docker 예시
+docker run -d -p 20128:20128 diegosouzapw/omniroute</code></pre>
+<p>설치 후 대시보드에서 프로바이더를 연결하고, 발급받은 OmniRoute API 키를 클라이언트에 설정하면 됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">클라이언트 연결</h2>
+<p>연결은 두 가지 방식입니다.</p>
+<ul>
+<li><strong>OpenAI 호환 엔드포인트</strong> — <code>http://localhost:20128/v1</code>을 base URL로 지정</li>
+<li><strong>도구별 프리셋</strong> — Claude Code, Codex, Cursor 등에 맞는 설정 가이드 제공</li>
+</ul>
+<p>VS Code Copilot Chat에는 OmniCopilot 확장으로 모든 OmniRoute 모델을 Copilot Chat 피커에서 바로 쓸 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">토큰 압축: 15~95% 절감</h2>
+<p>OmniRoute의 또 다른 축이 <strong>RTK + Caveman 압축</strong>입니다. 프롬프트와 응답을 전송 전에 압축해 토큰을 아낍니다. README는 평균 약 89%, 최대 95% 절감을 주장합니다.</p>
+<p>무료 티어 한도가 빠듯한 환경에서는 이 압축이 실질적인 의미를 가집니다. 같은 작업을 더 적은 토큰으로 처리하니 한도가 오래 갑니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">쿼터 대시보드 읽는 법</h2>
+<p><code>/dashboard/free-tiers</code>에서 각 프로바이더의 무료 티어 현황을 볼 수 있습니다. 남은 쿼터, 사용량, 한도 리셋 주기까지 표시됩니다.</p>
+<p>README가 강조하는 점: 카탈로그는 2주마다 재감사되고, 약관상 위험이 있는 프로바이더 12개는 "avoid"로 표시돼 자동 라우팅에서 제외됩니다. "무료"가 무조건 좋은 게 아니라는 걸 스스로 인정하는 구조입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">고급 기능</h2>
+<p>단순 프록시를 넘어선 기능들이 있습니다.</p>
+<ul>
+<li><strong>Remote mode</strong> — VPS에 설치하고 scoped token으로 원격 제어</li>
+<li><strong>MITM/TPROXY</strong> — 프록시 환경변수를 무시하는 CLI도 가로채는 투명 복호화</li>
+<li><strong>Headless mode</strong> — <code>serve --headless</code>로 서버 전용 운영</li>
+<li><strong>MCP·A2A</strong> — 다른 에이전트와의 연동 프로토콜 지원</li>
+<li><strong>모델 발견 API</strong> — <code>/v1/models/query</code>로 사용 가능 모델 조회</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+<p>실제로 효과가 나는 경우는 정해져 있습니다.</p>
+<ul>
+<li><strong>개인 개발자</strong> — 여러 무료 티어를 조합해 코딩 에이전트 비용을 사실상 0에 가깝게</li>
+<li><strong>소규모 팀</strong> — 공용 게이트웨이로 API 키를 중앙 관리하고 사용량을 가시화</li>
+<li><strong>실험·프로토타이핑</strong> — 모델을 마음껏 바꿔 비교하되 비용 부담 없이</li>
+</ul>
+<p>반대로 프로덕션 서비스의 안정성이 중요한 경우에는 무료 티어의 변동성이 오히려 리스크가 됩니다. 개발·실험용으로 쓰고, 운영은 유료 API로 분리하는 게 안전합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한계와 주의</h2>
+<ul>
+<li><strong>약관 리스크</strong> — 무료 티어를 API 게이트웨이로 우회하는 건 각 프로바이더 약관 위반일 수 있습니다. "avoid" 표시를 무시하지 마세요</li>
+<li><strong>불안정성</strong> — 무료 티어는 언제든 바뀌거나 사라집니다. 카탈로그가 2주마다 바뀌는 이유입니다</li>
+<li><strong>지연</strong> — 무료 티어는 속도 제한이 있어 응답이 느릴 수 있습니다</li>
+<li><strong>품질 편차</strong> — 한도가 차면 더 낮은 모델로 폴백돼 품질이 떨어질 수 있습니다</li>
+<li><strong>자체 호스팅</strong> — API 키를 로컬에 저장하므로 보안 관리가 필요합니다</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+<p>OmniRoute는 "여러 무료 LLM을 하나의 엔드포인트로"라는 단순한 아이디어를, 라우팅 전략·쿼터 관리·토큰 압축까지 갖춘 게이트웨이로 키웠습니다. API 비용을 줄이고 싶거나 여러 무료 티어를 효율적으로 쓰고 싶은 개발자에게 유용합니다. 다만 무료 티어의 약관 리스크와 불안정성을 감안해, 보조 수단으로 쓰는 게 현실적입니다.</p>
+<p style="font-size:15px;color:#666;">참고: <a href="https://github.com/diegosouzapw/OmniRoute" target="_blank">github.com/diegosouzapw/OmniRoute</a> (MIT)</p>

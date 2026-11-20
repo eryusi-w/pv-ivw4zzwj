@@ -1,0 +1,66 @@
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">문제 제기</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">코딩 에이전트가 내 머신에서 마음껏 명령을 실행하면, 프로젝트가 꼬였을 때 되돌리기가 어렵습니다. devvm은 프로젝트별 격리 VM으로 이 불안을 줄입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">무엇인가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">프로젝트마다 격리된 VM 샌드박스를 만들어 코딩 에이전트가 안전하게 실행되게 하는 도구입니다. 툴체인이 포함된 환경을 바로 제공합니다. 현재 GitHub 스타 552개, 주 언어는 Go입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 기능</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">프로젝트별 독립 VM 환경</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">프로젝트에 필요한 툴체인 포함</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">devvm doctor로 실행 환경 사전 점검</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">macOS Homebrew와 Linux 설치 스크립트 제공</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 첫 실행</h2>
+
+<pre><code>curl -fsSL https://github.com/devvmhq/devvm/releases/latest/download/install.sh | bash</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">저장소 README의 설치 안내 참고</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">기본 사용법</h2>
+
+<pre><code>git clone https://github.com/devvmhq/devvm.git</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">클론 후 저장소의 안내에 따라 실행합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">스펙 한눈에</h2>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/devvmhq/devvm" target="_blank" style="color:#555;">devvmhq/devvm</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">552</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">Go</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">MIT</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>홈페이지</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">https://devvm.dev</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한계와 주의</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">도입 전 라이선스와 유지보수 주기를 확인하고, 자체 호스팅 시 보안·권한 설정을 점검합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">추천 이유</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">에이전트 실행을 VM 단위로 격리하는 실용적 접근</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">Lima 기반 검증된 가상화 스택</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">MIT 라이선스</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">설치 후 doctor 한 번으로 환경 점검 가능</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 코딩 에이전트를 격리된 환경에서 돌리려는 개발자에게 특히 유용합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">devvm는 프로젝트마다 격리된 VM 샌드박스를 만들어 코딩 에이전트가 안전하게 실행되게 하는 도구입니다. 툴체인이 포함된 환경을 바로 제공합니다.입니다. 작은 작업 하나부터 붙여 보는 것을 권합니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/devvmhq/devvm" target="_blank" style="color:#555;text-decoration:none;">github.com/devvmhq/devvm</a></p>

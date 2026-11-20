@@ -1,0 +1,168 @@
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">AI 초안의 가장 큰 걸림돌</h2>
+
+<p>ChatGPT나 Claude가 작성한 한국어 문장을 읽다 보면 묘하게 어색한 느낌이 들 때가 많습니다. 문법적으로는 틀린 구석이 없지만, 특유의 번역투와 기계적인 어휘가 계속 반복되기 때문입니다. '~를 통해', '~에 있어서', '~된다' 같은 피동태 표현이나 문두에 습관처럼 붙는 '또한', '결론적으로' 같은 접속사가 대표적입니다.</p>
+
+<p>이러한 문체는 독자의 몰입을 방해할 뿐만 아니라 글 전체의 신뢰도를 떨어뜨립니다. 사람이 일일이 문장을 다시 고쳐 쓰려면 원고 작성에 맞먹는 시간이 소요됩니다. 영어권 윤문 도구는 한국어의 미묘한 어조나 어휘 맥락을 제대로 처리하지 못해 한계가 명확합니다.</p>
+
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">
+  사실과 수치는 유지하고, 어색한 AI 어투만 수술적으로 제거한다.
+</blockquote>
+
+<p>이 문제를 해결하기 위해 등장한 도구가 바로 <b>im-not-ai (Humanize KR)</b>입니다. 한국어 특화 AI 티 제거 스킬로서, 원문의 의미나 데이터 손실 없이 어색한 번역투와 기계적 문체를 자연스럽게 교정해 줍니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">im-not-ai의 정체</h2>
+
+<p>im-not-ai는 10대 카테고리 85개 서브 패턴으로 AI 어법을 감지하고 교정하는 한국어 윤문 스킬입니다. Claude Code, GitHub Copilot CLI, OpenAI Codex CLI, Gemini CLI 등 다양한 에이전트 런타임 환경을 공식 지원합니다.</p>
+
+<p>이 도구는 문장 전체를 새로 쓰지 않고, 감지된 스팬(Span) 단위로 수술적인 수정만을 가합니다. 사실, 주장, 수치, 고유명사, 큰따옴표 안의 직접 인용문은 100% 원형 그대로 보존하도록 설계되었습니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 24px 0;">
+  <thead>
+    <tr>
+      <th style="border:1px solid #dcdfe3;background:#f5f6f7;padding:10px 8px;text-align:left;">카테고리 ID</th>
+      <th style="border:1px solid #dcdfe3;background:#f5f6f7;padding:10px 8px;text-align:left;">대표 패턴 유형</th>
+      <th style="border:1px solid #dcdfe3;background:#f5f6f7;padding:10px 8px;text-align:left;">교정 방향 예시</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;"><b>A (번역투)</b></td>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;">~를 통해, ~에 있어서, 이중 피동</td>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;">~로, 여기서, 능동형 치환</td>
+    </tr>
+    <tr>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;"><b>C (구조적 패턴)</b></td>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;">기계적 첫째·그다음 이모지 남용</td>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;">자연스러운 흐름 연결</td>
+    </tr>
+    <tr>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;"><b>D (AI 관용구)</b></td>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;">중요하다</td>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;">군더더기 문구 삭제</td>
+    </tr>
+    <tr>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;"><b>H/I (접속사/형식명사)</b></td>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;">문두 접속사 남발, ~할 필요가 있다</td>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;">접속사 간소화, 간결한 종결</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>스킬 라이선스는 MIT이며, 오픈소스로 지속 관리되고 있어 최신 LLM의 새로운 어투 패턴도 계속 반영되고 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">route_hint 기반 3경로 동작 원리</h2>
+
+<p>im-not-ai v2.3 아키텍처의 핵심은 <b>route_hint</b>에 의한 자동 경로 선택입니다. 파이썬 사전 심(shim) 스크립트가 입력을 분석해 글의 완성도에 따라 최적의 LLM 호출 파이프라인을 결정합니다.</p>
+
+<div style="background:#f7f9fa;border:1px solid #e5e8eb;border-radius:8px;padding:20px 24px;margin:0 0 24px 0;">
+  <p style="margin:0 0 8px 0;font-weight:bold;color:#2f5bd7;">파이프라인 3단계 경로</p>
+  <p style="margin:0 0 4px 0;">• <b>light (1콜)</b>: 완성도 높은 글. 진단과 마무리를 생략하여 속도와 비용을 최소화함.</p>
+  <p style="margin:0 0 4px 0;">• <b>standard (2콜)</b>: 일반적인 AI 초안. 1차 진단 후 정밀 타겟 윤문 진행.</p>
+  <p style="margin:0;">• <b>heavy (3+콜)</b>: 심각한 AI 어조가 밀집했거나 15,000자 초과 장문. 진단, 병렬 윤문, 최종 재조립 및 마무리를 거침.</p>
+</div>
+
+<p>모든 글에 무거운 정밀 검사를 적용하지 않기 때문에 토큰 소모를 크게 줄일 수 있습니다. 잘 작성된 문장이라면 단 1회의 호출로 즉시 처리가 완료됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 런타임 연결</h2>
+
+<p>다양한 CLI 환경에 손쉽게 연동할 수 있습니다. Claude Code 플러그인 마켓플레이스를 통한 설치나 Git 저장소 직접 클론 방식을 모두 지원합니다.</p>
+
+<pre><code># Claude Code 마켓플레이스 설치
+/plugin marketplace add epoko77-ai/im-not-ai
+/plugin install humanize-korean@im-not-ai
+
+# Git 클론 및 스크립트 설치 (Claude Code & Codex CLI 공용)
+git clone https://github.com/epoko77-ai/im-not-ai.git
+cd im-not-ai
+./install.sh</code></pre>
+
+<p>Gemini CLI 환경에서는 <code>gemini extensions install https://github.com/epoko77-ai/im-not-ai.git</code> 명령으로 원격 설치할 수 있습니다. 자원 전역 설치 후에는 어디서나 자유롭게 스킬을 호출할 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">자연스러운 윤문 요청법</h2>
+
+<p>설치가 완료된 후에는 에이전트 대화창에서 자연스러운 문장으로 윤문을 요청하면 됩니다. 전용 명령어 형태와 자연어 프롬프트를 모두 알아듣습니다.</p>
+
+<pre><code># 슬래시 커맨드 사용 시
+/humanize-korean [윤문할 한국어 원고 내용 또는 파일 경로]
+
+# 자연어로 프롬프트 작성 시
+"이 원고의 번역투와 AI 티를 제거해줘:"
+"GPT 특유의 기계적인 어미와 관용구를 자연스럽게 고쳐줘."</code></pre>
+
+<p>특정 카테고리만 수정하거나 강도를 조정하고 싶다면 <code>"정밀 모드로 윤문해줘"</code>(--strict) 혹은 <code>"번역투 표현 위주로만 고쳐줘"</code>와 같은 세부 지시를 함께 전달할 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">산출물 구조와 4축 검증</h2>
+
+<p>윤문 작업이 시작되면 <code>_workspace/{실행날짜-번호}/</code> 경로에 과정 데이터와 결과물이 단계별로 기록됩니다. 원문 파일(01_input.txt)부터 진단 리포트(02_diagnosis.md), 최종 교정본(final.md)이 차례로 생성됩니다.</p>
+
+<p>윤문이 끝난 뒤에는 <b>verify_gates.py</b> 스크립트가 4가지 축으로 결과를 자동 검증합니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 24px 0;">
+  <thead>
+    <tr>
+      <th style="border:1px solid #dcdfe3;background:#f5f6f7;padding:10px 8px;text-align:left;">검증 축</th>
+      <th style="border:1px solid #dcdfe3;background:#f5f6f7;padding:10px 8px;text-align:left;">세부 검사 내용</th>
+      <th style="border:1px solid #dcdfe3;background:#f5f6f7;padding:10px 8px;text-align:left;">통과 및 안전 기준</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;"><b>문자 변경률</b></td>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;">원문 대비 수정된 글자 비율</td>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;">30% 이하 권장 (50% 초과 시 경고)</td>
+    </tr>
+    <tr>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;"><b>목표 달성도</b></td>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;">진단된 AI 패턴 수렴 여부</td>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;">z-score 정량 검증 통과</td>
+    </tr>
+    <tr>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;"><b>대구 유지</b></td>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;">필자의 의도적 대구 및 문형 보존</td>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;">구조적 훼손 방지</td>
+    </tr>
+    <tr>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;"><b>수치 보존</b></td>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;">숫자, 단위, 날짜 등 고유 데이터</td>
+      <td style="border:1px solid #dcdfe3;padding:10px 8px;">100% 원형 일치 필수</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>최종 교정본 하단에는 HTML 주석 형태로 메트릭 요약표(HUMANIZE-SUMMARY)가 포함되어 있어, 수정 전후의 통계 지표와 부여된 등급(A~D)을 한눈에 점검할 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">윤문 과정의 한계와 주의점</h2>
+
+<p>im-not-ai를 도입할 때 미리 알아두어야 할 점들이 있습니다. 먼저 도구의 핵심 목표는 <b>어투와 리듬의 교정</b>이지 사실관계를 새로 작성하거나 검증하는 것이 아닙니다. 원문의 왜곡된 내용이나 잘못된 수치를 자동으로 바로잡아 주지는 않습니다.</p>
+
+<p>그다음 전문 학술 용어나 규정 문구처럼 고정된 형식을 유지해야 하는 분야에서는 주의가 필요합니다. 지나친 능동태 전환이 법률/규정 문서의 엄밀성을 저해하지 않도록 도구 적용 후 사람이 최종 확인을 거쳐야 합니다.</p>
+
+<p>이어서 문맥상 꼭 필요한 강조 표현까지 일괄 삭제되지 않도록 주의해야 합니다. 경점이나 강조가 목적이라면 특정 카테고리 수정을 제외하도록 프롬프트를 지정하는 것이 안전합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">발행 전 수술적 검증 루틴</h2>
+
+<p>블로그 원고 발행 자동화 시스템에서 im-not-ai를 활용하는 추천 절차는 4단계로 구성됩니다.</p>
+
+<p>1단계: 초안 원고 작성 및 기본 구조 검증(validate.mjs)을 진행합니다. 코드 블록을 제외한 본문 글자수가 기준(2,500자)을 넘었는지 확인합니다.</p>
+
+<p>2단계: post.html 원고의 한국어 본문 텍스트에 im-not-ai 스킬을 적용합니다. 이때 pre, code 태그 안의 기술 코드는 완전히 제외하고 일반 문단만 윤문하도록 지정합니다.</p>
+
+<p>3단계: 윤문 완료 후 post.html 파일을 교체하고 다시 validate.mjs를 실행합니다. 수치나 글자수가 정상 범위에 있는지 재검증합니다.</p>
+
+<p>4단계: 검증이 통과되면 브라우저 자동화 스크립트로 제목, 이미지, 태그와 함께 발행을 진행합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">어떤 환경에서 빛나는가</h2>
+
+<p>im-not-ai는 기술 블로그 운영자, IT 칼럼니스트, 에이전트 기반 자동화 시스템 구축자에게 매우 유용한 도구입니다.</p>
+
+<p>특히 챗봇이나 AI 코딩 에이전트가 대량으로 생성해 낸 기술 문서나 튜토리얼 초안을 사람이 다듬는 과정에서 획기적인 시간 절감 효과를 제공합니다. 반복되는 번역투를 제거하는 데 들던 피로도가 대폭 줄어듭니다.</p>
+
+<p>오픈소스 생태계와의 호환성도 뛰어나 Claude Code 플러그인뿐만 아니라 독립적인 Python CLI 환경에서도 유연하게 통합할 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한글 AI 윤문의 미래</h2>
+
+<p>LLM 성능이 크게 향상되었음에도 한국어 특유의 매끄러운 어조와 리듬을 구현하는 데에는 여전히 섬세한 보정이 필요합니다. 무작정 전체 문장을 재작성하기보다, 문제 요소만 정밀하게 짚어내는 방식이 훨씬 안전하고 효율적입니다.</p>
+
+<p>im-not-ai는 최소한의 토큰과 엄격한 검증 게이트를 결합하여 AI 글쓰기의 가치와 완성도를 한 단계 끌어올렸습니다. 번역투와 AI 특유의 어색함으로 고민 중이라면 꼭 한번 적용해 보시길 권합니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;">참고: <a href="https://github.com/epoko77-ai/im-not-ai" target="_blank" style="color:#555;text-decoration:none;">im-not-ai</a> (MIT License, v2.3.2)</p>

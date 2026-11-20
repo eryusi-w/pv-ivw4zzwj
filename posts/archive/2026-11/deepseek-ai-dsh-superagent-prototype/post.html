@@ -1,0 +1,58 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 코딩 에이전트가 코드를 짜고 PR까지 열어주면 사람은 검토만 하면 될까? dsh-superagent-prototype은 이 그림을 실험하는 자율 에이전트 프로토타입입니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">최소한의 인간 개입으로 최대한의 가치를 내는 것을 목표로 한, GitHub·Feishu 연동으로 작업을 자율 수행하는 코딩 에이전트 프로토타입으로, MIT 라이선스에 현재 GitHub 스타 19,660개입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">자율 작업 수행 — 작업 항목을 열고 에이전트 세션에서 자체 디렉토리에서 일합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">GitHub·Feishu 연동 — 이슈·메신저에서 들어온 작업을 자동으로 처리합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">웹 패널 — 남은 작업과 사람 개입이 필요한 지점을 시각화합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<pre><code>git clone https://github.com/deepseek-ai/dsh-superagent-prototype.git</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">프로토타입 단계라 문서가 제한적입니다. README와 예제 설정을 따라 GitHub 연동부터 설정한 뒤, 작은 작업 하나를 맡겨 봅니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/deepseek-ai/dsh-superagent-prototype" target="_blank" style="color:#555;">deepseek-ai/dsh-superagent-prototype</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">19,660</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">TypeScript</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">MIT</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>설치 방식</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">저장소 클론</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">실험 프로젝트나 연구 목적으로 쓰고, 실무 투입은 구조를 보고 판단합니다.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — 저장소를 클론하고 의존성을 설치합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — GitHub 연동과 LLM 키를 설정합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — 테스트 리포지토리에 작은 이슈를 만들어 에이전트가 처리하게 합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 웹 패널에서 작업 흐름과 개입 지점을 확인합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">이름 그대로 프로토타입입니다. 안정성보다 개념 검증에 가깝고, 자율 실행이므로 잘못된 작업이 PR로 올라올 수 있습니다. 반드시 테스트 리포지토리에서만 돌리고, 실제 저장소에는 사람 검토를 거쳐야 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 코딩 에이전트를 연구하거나 자율 작업 구조를 실험하는 개발자에게 특히 유용합니다. 사람 개입 최소화 에이전트의 설계 방향을 보고 싶은 경우에 맞습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">이슈가 들어오면 에이전트가 알아서 작업하고 PR을 여는 구조를 보여주는 프로토타입입니다. 개념은 흥미롭지만 프로토타입답게 실험 용도로 한정하는 게 맞습니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/deepseek-ai/dsh-superagent-prototype" target="_blank" style="color:#555;text-decoration:none;">github.com/deepseek-ai/dsh-superagent-prototype</a></p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467074709" target="_blank" style="color:#2f5bd7;text-decoration:none;">OpenHands로 코딩 에이전트 실행 환경 만들기</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467072043" target="_blank" style="color:#2f5bd7;text-decoration:none;">deer-flow로 장기 작업 에이전트 돌리기</a></p>

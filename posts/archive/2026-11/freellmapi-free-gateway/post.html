@@ -1,0 +1,97 @@
+<!-- write.mjs가 소제목 위에 이미지를 넣는다. <img> 태그는 넣지 않는다. -->
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>문제 제기: 무료 티어를 손으로 쌓을 때 생기는 일</h2>
+<p>요즘 AI 랩마다 무료 티어를 내놓습니다. 월 몇백만 토큰, 하루 몇천 요청. 하나만으로는 장난감이지만, 서른 개를 합치면 월 약 74억 토큰의 추론 용량이 됩니다. 문제는 이걸 손으로 관리한다는 겁니다.</p>
+<p>서른네 개의 SDK, 서른네 개의 레이트 리밋, 서른네 군데의 실패 지점. 게다가 무료 티어 지형은 매주 바뀝니다. 새 모델이 나오고, 기존 모델이 사라지고, 한도가 바뀝니다. 손으로 추적할 수 있는 양이 아닙니다.</p>
+
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">
+  무료 티어를 하나의 OpenAI 호환 엔드포인트 뒤에 숨기고, 라우터가 알아서 고르게 하는 도구가 FreeLLMAPI입니다.
+</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>무엇인가: FreeLLMAPI</h2>
+<p><code>tashfeenahmed/freellmapi</code>는 34개 무료 LLM 제공자, 635개 모델 엔드포인트를 하나의 <code>/v1</code> API 뒤에 묶는 로컬 게이트웨이입니다. MIT 라이선스, GitHub 별 4.8만 개.</p>
+<p>핵심은 세 가지입니다. <strong>하나의 OpenAI 호환 엔드포인트</strong>로 모든 제공자를 통합하고, <strong>키를 암호화해 저장</strong>하며, <strong>라우터가 요청마다 최적 모델을 고르고</strong> 레이트 리밋에 걸리면 다음 제공자로 넘어갑니다. 키별 사용량도 추적해서 각 무료 한도를 넘지 않게 합니다.</p>
+<p>로컬 우선(local-first)·단일 사용자 설계입니다. 제공자 키는 SQLite에 암호화돼 저장되고, 요청은 내 머신에서 활성화한 업스트림으로만 나갑니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>설치: 스크립트 한 줄</h2>
+<p>Docker가 있으면 원라이너로 끝입니다.</p>
+<pre><code>curl -fsSL https://freellmapi.co/install.sh | bash</code></pre>
+<p>스크립트는 <code>~/freellmapi</code>를 만들고 암호화 키를 생성하고 이미지를 받아 컨테이너를 띄웁니다. 다시 실행해도 안전합니다 — <code>.env</code>와 키는 유지되고 컨테이너만 최신으로 업데이트됩니다.</p>
+<p>Windows는 데스크톱 <code>.exe</code> 설치 파일이 릴리스에 있습니다. macOS는 <code>.dmg</code>, Linux는 AppImage, Android는 Termux 가이드, Docker Compose도 지원합니다.</p>
+<p>설치 후 <code>http://localhost:3001</code>을 열고, <strong>Keys</strong> 페이지에서 제공자 키를 추가하고, <strong>Fallback Chain</strong> 순서를 정하고, 헤더의 통합 API 키를 복사합니다. 그 키가 OpenAI SDK가 가리키는 자격 증명입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>폴백 체인: 무료 티어를 견디게 하는 핵심</h2>
+<p>무료 티어의 가장 큰 적은 레이트 리밋입니다. 한 모델이 일일 한도에 걸리면 요청이 그냥 실패합니다. FreeLLMAPI의 폴백 체인은 이걸 자동으로 처리합니다 — 한 제공자가 막히면 다음 제공자로 넘어가고, 키별 사용량을 추적해서 한도 안에서만 쓰게 합니다.</p>
+<p>체인 순서는 대시보드에서 직접 정합니다. "이 작업엔 이 모델, 이 작업엔 저 모델"처럼 용도별로 나눌 수도 있고, 그냥 속도·품질 순으로 길게 늘어놓을 수도 있습니다. 다만 체인이 길수록 마지막엔 무료 티어가 아닌 유료 모델까지 내려갈 수 있으니, 어디까지 무료로 둘지는 직접 정해야 합니다.</p>
+<pre><code># OpenAI 호환 클라이언트 설정 예시
+OPENAI_BASE_URL=http://localhost:3001/v1
+OPENAI_API_KEY=YOUR_KEY</code></pre>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>지원 표면: 채팅부터 임베딩까지</h2>
+<p>단순 채팅이 아닙니다. OpenAI 스타일의 모든 표면을 지원합니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<thead>
+<tr style="background:#f5f7fa;">
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">엔드포인트</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>/v1/chat/completions</code>, <code>/v1/responses</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">일반 채팅, Codex CLI가 쓰는 responses API</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>/v1/completions</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">에디터 고스트 텍스트 자동완성</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>/v1/images/generations</code>, <code>/v1/videos/generations</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">이미지·영상 생성</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>/v1/audio/speech</code>, <code>/v1/audio/transcriptions</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">음성 합성·전사</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>/v1/embeddings</code>, <code>/v1/models</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">임베딩, 모델 목록</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>/v1/messages</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">Anthropic Messages API — Claude 계열 클라이언트용</td>
+</tr>
+</tbody>
+</table>
+<p>스트리밍·논스트리밍 모두 지원하고, 공식 SDK든 임의의 OpenAI 호환 클라이언트든 붙습니다. 라우터 자체가 MCP 서버 역할도 해서 에이전트가 세션 중에 모델 카탈로그를 들여다볼 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>코딩 에이전트 연결</h2>
+<p>Claude Code, Codex CLI, Gemini CLI, Cursor, Cline, Roo Code, OpenCode, Aider 등 주요 코딩 도구를 지원합니다. 설정 명령 한 줄이 라이브 카탈로그를 읽어 기존 설정을 백업하고 병합합니다.</p>
+<pre><code>npx freellmapi setup-claude --url http://localhost:3001 --api-key YOUR_KEY
+# Codex는 launch-codex</code></pre>
+<p><code>npx freellmapi launch</code>(Claude Code)와 <code>launch-codex</code>(Codex)는 자격 증명을 설정 파일에 남기지 않는 방식으로도 동작합니다. 키 관리도 터미널에서 됩니다 — 대시보드 세션 토큰으로 <code>npx freellmapi keys add|list|remove|test</code>를 씁니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>카탈로그 자동 갱신과 프리미엄</h2>
+<p>무료 티어 지형이 매주 바뀌는 문제를 해결하는 장치가 있습니다. 라우터가 서명된 모델 카탈로그를 <code>freellmapi.co</code>에서 스스로 가져와서, 새 무료 모델·한도 변경·호환성 수정이 <code>git pull</code> 없이 반영됩니다.</p>
+<p>다만 속도 차이가 있습니다. 무료 설치는 월간 스냅샷을 받아서 새 모델이 라이브 피드에 들어간 뒤 30일 뒤에야 받습니다. 프리미엄(연 19달러)은 당일 반영됩니다. 이 구분을 알고 선택해야 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>한계와 주의</h2>
+<p>README가 스스로 밝히는 한계가 정직합니다. 프런티어 모델은 없고, 지연 시간이 들쭉날쭉하며, SLA가 없습니다. 그리고 하루 후반부가 되면 상위 모델이 일일 한도에 걸려서 실효 지능이 떨어지고, UTC 자정에 리셋됩니다.</p>
+<p>또한 무료 티어는 언제든 사라질 수 있습니다. 제공자가 정책을 바꾸면 그 모델은 그냥 없어집니다. "무료로 영원히"가 아니라 "무료인 동안 최대한 뽑아 쓰는" 도구로 접근하는 게 맞습니다.</p>
+<p>키 관리는 사용자의 몫입니다. 제공자 키를 얼마나 많이 등록하느냐가 쓸 수 있는 용량을 결정하고, 각 키의 분실·탈취 책임도 사용자에게 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>도입 전 체크리스트</h2>
+<div style="background:#f0fdf4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#166534;">확인할 것 4가지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 제공자 — 실제로 쓸 수 있는 무료 티어가 몇 개인지, 키를 몇 개나 등록할지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 폴백 체인 — 어디까지 무료로 둘지, 유료로 넘어가는 지점을 어디로 할지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 용도 — 코딩 에이전트 백엔드로 쓸지, 일반 API 용도로 쓸지(품질 기대치가 다름)</p>
+<p style="margin:0;font-size:15px;line-height:1.6;color:#166534;">✓ 갱신 — 무료 스냅샷 30일 지연을 감수할지, 프리미엄이 필요한지</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>정리</h2>
+<p>FreeLLMAPI는 "무료 티어를 손으로 관리하는" 문제를 게이트웨이 하나로 해결한 프로젝트입니다. 34개 제공자를 하나의 OpenAI 호환 엔드포인트 뒤에 숨기고, 폴백 체인과 키별 사용량 추적으로 한도를 자동 관리합니다.</p>
+<p>오늘 해 볼 일은 간단합니다. Docker 원라이너로 띄우고 Keys 페이지에 무료 티어 키 두세 개만 등록해 보세요. 폴백 체인이 실제로 다음 제공자로 넘어가는 걸 보면 이 도구의 가치가 바로 체감됩니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">
+참고: <a href="https://github.com/tashfeenahmed/freellmapi" target="_blank" style="color:#555;text-decoration:none;">tashfeenahmed/freellmapi</a> (MIT, GitHub 별 4.8만, 2026-11 기준)
+</p>

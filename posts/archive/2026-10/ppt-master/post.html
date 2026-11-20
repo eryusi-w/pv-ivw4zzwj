@@ -1,0 +1,111 @@
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">발표 자료 만들기, 더 이상 고생하지 마세요</h2>
+
+<p>보고서 한 편을 발표 자료로 바꾸는 일은 생각보다 오래 걸립니다. 내용을 요약하고, 장을 나누고, 표와 차트를 다시 그리고, 마지막에는 대본까지 정리해야 합니다. 정작 중요한 결정은 문서에 already 적혀 있는데, 그 결정을 남에게 설명하는 데 하루가 지나가 버립니다.</p>
+
+<p>그래서 AI에게 "이 문서로 PPT 만들어줘"라고 부탁해 보았습니다. 결과는 대개 예쁜 이미지 몇 장뿐이었습니다. 슬라이드 한 장 한 장이 그림이어서 글꼴 하나를 바꾸려 해도 다시 생성해야 하고, 숫자를 고치려면 전체를 새로 뽑아야 했습니다. 결국 손으로 다시 만드는 시간은 줄어들지 않았습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">ppt-master, 진짜 파워포인트 파일을 만듭니다</h2>
+
+<p><b>ppt-master</b>는 이 지점을 정면으로 해결합니다. PDF, DOCX, 마크다운, 웹페이지, 혹은 주제 한 줄을 AI 채팅창에 넣으면 슬라이드 구조를 잡고, 도형·차트·표·애니메이션을 파워포인트 기본 개체로 만들어 <b>.pptx 파일</b>로 내보냅니다. 2025년 12월에 공개되었습니다. 2026년 10월 기준 GitHub 스타 7만 개를 넘었으며, 라이선스는 MIT입니다.</p>
+
+<p>핵심은 "AI가 만든 그림"이 아니라 <b>AI가 만든 파워포인트</b>라는 점입니다. 슬라이드 마스터와 레이아웃 상속, 조정 핸들이 살아 있는 도형과 커넥터, 데이터가 연결된 차트와 표, 페이지 전환과 개체 애니메이션, 발표자 노트를 읽어 넣은 음성 내레이션까지 모두 OOXML 개체로 저장됩니다. 슬라이드 마스터와 네이티브 도형까지 그대로 남습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">이미지 PPT와 무엇이 다른가</h2>
+
+<p>차이는 파일을 열어 본 순간 드러납니다. 흔한 AI PPT 도구는 슬라이드를 통짜 이미지로 붙여 넣습니다. ppt-master는 텍스트 상자, 도형, 커넥터를 각각 개체로 넣기 때문에, 파워포인트의 선택 도구로 클릭해서 바로 고칠 수 있습니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 24px 0;">
+  <thead>
+    <tr>
+      <th style="border:1px solid #dcdfe3;background:#f5f6f7;padding:10px 8px;">항목</th>
+      <th style="border:1px solid #dcdfe3;background:#f5f6f7;padding:10px 8px;">이미지형 AI PPT</th>
+      <th style="border:1px solid #dcdfe3;background:#f5f6f7;padding:10px 8px;">ppt-master</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="border:1px solid #dcdfe3;padding:10px 8px;">슬라이드 구성</td><td style="border:1px solid #dcdfe3;padding:10px 8px;">통짜 이미지</td><td style="border:1px solid #dcdfe3;padding:10px 8px;">도형·텍스트 개체</td></tr>
+    <tr><td style="border:1px solid #dcdfe3;padding:10px 8px;">글꼴·색 수정</td><td style="border:1px solid #dcdfe3;padding:10px 8px;">다시 생성</td><td style="border:1px solid #dcdfe3;padding:10px 8px;">클릭해서 수정</td></tr>
+    <tr><td style="border:1px solid #dcdfe3;padding:10px 8px;">차트</td><td style="border:1px solid #dcdfe3;padding:10px 8px;">그림</td><td style="border:1px solid #dcdfe3;padding:10px 8px;">편집 가능한 데이터 차트</td></tr>
+    <tr><td style="border:1px solid #dcdfe3;padding:10px 8px;">전환·애니메이션</td><td style="border:1px solid #dcdfe3;padding:10px 8px;">없음</td><td style="border:1px solid #dcdfe3;padding:10px 8px;">네이티브 OOXML 효과</td></tr>
+    <tr><td style="border:1px solid #dcdfe3;padding:10px 8px;">발표자 노트</td><td style="border:1px solid #dcdfe3;padding:10px 8px;">없음</td><td style="border:1px solid #dcdfe3;padding:10px 8px;">노트 + 음성 내레이션</td></tr>
+  </tbody>
+</table>
+
+<p>차트는 기본값이 "편집 가능한 도형"입니다. 테마 색이 어긋나지 않고, 어떠한 뷰어에서나 똑같이 보입니다. 엑셀 데이터로 직접 수정해야 한다면 <b>--native-charts-and-tables</b> 옵션을 붙여, 데이터가 연결된 차트·표 개체로 따로 내보낼 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">동작 원리, 4단계</h2>
+
+<p>진행 순서는 단순합니다. 소스를 읽고, 논리 구조를 세우고, 페이지를 SVG로 설계하고, 마지막에 PPTX로 컴파일합니다. 사용자가 채팅창에서 보는 것은 첫 단계와 마지막 단계뿐입니다.</p>
+
+<p>중간 산출물이 SVG인 이유가 있습니다. 벡터 좌표를 그대로 읽어 DrawingML 도형으로 변환하므로, 화면에서 본 배치와 파워포인트 안의 배치가 어긋나지 않습니다. 홍보용 이미지가 아니라 실제 개체가 나오는 이유입니다.</p>
+
+<p>기본값은 <b>자유 디자인</b>이라 템플릿이 없어도 됩니다. 회사 덱의 디자인을 그대로 쓰고 싶다면 기존 .pptx를 주고 브랜드 템플릿으로 정리하게 하거나, "이 덱을 새 내용으로 채워 달라"고 요청해 디자인을 유지한 채 내용만 바꾸는 경로도 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">파이썬 하나로 설치</h2>
+
+<p>새로 배워야 할 것은 딱 하나, 파이썬입니다. 3.10에서 3.14 사이 버전을 설치하고 저장소를 내려받은 뒤 의존성을 한 번 설치하면 끝입니다. Node나 도커는 필요 없습니다.</p>
+
+<pre><code>git clone https://github.com/hugohe3/ppt-master.git
+cd ppt-master
+pip install -r requirements.txt
+python -c "import pptx; import fitz; print('All core dependencies OK')"</code></pre>
+
+<p>윈도우에서 가장 많이 막히는 지점은 하나입니다. 파이썬 설치 화면에서 <b>"Add python.exe to PATH"</b>를 반드시 체크해야 합니다. 이걸 놓치면 이후 모든 명령이 "Python was not found"로 실패합니다. 설치 후 PowerShell에서 python --version이 3.10 이상으로 나오는지 먼저 확인하세요.</p>
+
+<p>마지막 줄이 All core dependencies OK를 출력하면 준비 끝입니다. Git이 없다면 저장소 페이지의 Code → Download ZIP으로 받아 압축을 풀어도 되고, npx skills add hugohe3/ppt-master 경로로 스킬 형태로만 설치할 수도 있습니다. 이 경우에도 requirements.txt 설치는 따로 해야 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">채팅 세 줄로 첫 번째 덱 만들기</h2>
+
+<p>이제 폴더를 AI 도구로 엽니다. 클로드 코드, 코덱스, 커서, VS Code 에이전트 중 이미 쓰는 것이 있으면 그걸 쓰면 됩니다. 이 프로젝트에서 그 도구의 역할은 "파일을 읽고 쓸 수 있는 채팅창" 하나뿐입니다.</p>
+
+<pre><code># 1) 소스를 폴더에 넣고 경로를 알려준다
+projects/q3-report/sources/report.pdf 파일로 PPT 만들어줘
+
+# 2) 확인 질문이 번거로우면 한 번에 끝낸다
+Quickly generate a 5-page deck from projects/q3-report/sources/report.pdf — no need to confirm with me
+
+# 3) 텍스트를 그대로 붙여도 된다
+다음 내용으로 PPT 만들어줘: (보고서 본문 붙여넣기)</code></pre>
+
+<p>기본 흐름은 만들기 전에 두 번 확인합니다. 첫 번째는 목적·청중·화면 비율, 두 번째는 장수·비주얼 시스템·제작 방식입니다. 이 왕복이 귀찮으면 "no need to confirm with me"를 붙이면 됩니다. 대신 한 번에 지나가니, 마음에 들 때까지 다시 돌리는 방식으로 쓰게 됩니다.</p>
+
+<p>결과는 프로젝트 폴더 아래 <b>exports/</b>에 타임스탬프가 붙은 .pptx로 떨어집니다. 같은 폴더의 <b>svg_final/</b>에는 페이지별 미리보기가 남아, 파워포인트를 열지 않고도 구성이 맞는지 바로 확인할 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">애니메이션과 발표자 노트까지</h2>
+
+<p>기본 내보내기는 fade 페이지 전환만 넣고, 개체 애니메이션은 넣지 않습니다. 발표할 때 요소를 하나씩 띄우고 싶다면 옵션으로 켭니다. 효과는 203가지 기본 프리셋 중에서 고를 수 있고, 시작 방식과 속도도 지정할 수 있습니다.</p>
+
+<pre><code># 개체 애니메이션 자동 배치
+python3 skills/ppt-master/scripts/svg_to_pptx.py projects/q3-report -a auto
+
+# 클릭할 때마다 하나씩, 느리게
+python3 skills/ppt-master/scripts/svg_to_pptx.py projects/q3-report -a auto --animation-trigger on-click --animation-stagger 0.8
+
+# 발표자 노트를 한국어 음성으로 (edge-tts, API 키 불필요)
+python3 skills/ppt-master/scripts/notes_to_audio.py projects/q3-report --voice ko-KR-SunHiNeural</code></pre>
+
+<p>내레이션은 발표자 노트를 슬라이드별 음성으로 바꿔 PPTX 안에 심습니다. 기본 엔진인 edge-tts는 한국어를 포함해 90개 안팎의 로케일을 지원하고 별도 API 키가 필요 없습니다. 음성이 들어간 덱은 파워포인트의 "비디오로 내보내기"만으로, 자막 없는 발표 영상이 됩니다.</p>
+
+<p>채팅으로 부탁해도 됩니다. "이 덱에 나레이션 넣어서 다시 내보내줘", "3페이지 차트를 데이터 차트로 바꿔줘"처럼 말하면 에이전트가 해당 스크립트를 골라 실행합니다. 명령을 외울 필요는 없고, 위 코드는 직접 돌려 보고 싶을 때 쓰는 지름길입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">결과물 확인과 미리보기</h2>
+
+<p>만드는 동안 브라우저 미리보기가 함께 열립니다. 기본 주소는 localhost:5050이고, 이미 쓰고 있으면 다음 빈 포트로 옮겨 갑니다. 페이지가 그려지는 과정을 실시간으로 보면서, 잘못된 장은 바로 바로 잡을 수 있습니다.</p>
+
+<p>미리보기에서는 AI 없이도 고칠 수 있습니다. 요소를 선택해 글자·색·크기를 바꾸고, 끌어서 위치를 옮기고, Ctrl+Z로 되돌립니다. AI에게 맡기고 싶으면 요소를 클릭해 요청을 적어 두고, "적용"을 누른 뒤 채팅에서 "내 주석 반영해줘"라고 하면 됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한계와 주의할 점</h2>
+
+<p>가장 먼저 알아야 할 것은 이 도구가 "만능 요술"이 아니라는 점입니다. 저장소에서도 직접 그렇게 적어 둡니다. 워크플로를 제공하는 것은 도구이고, 결과의 상한은 모델이 정합니다. README는 큰 컨텍스트를 가진 모델(키미 K3나 클로드 계열)과 이미지 생성 모델을 함께 쓰는 것을 권장합니다. 싼 모델로 돌리면 손볼 곳이 그만큼 늘어납니다.</p>
+
+<p>두 번째는 뷰어 차이입니다. 네이티브 차트·표 개체는 파워포인트, 키노트, 리브레오피스, WPS에서 조금씩 다르게 보일 수 있습니다. 수식은 파워포인트 외 앱에서 편집이 지원되지 않고, SmartArt는 의도적으로 지원하지 않는 항목도 있습니다. 배포용으로 쓸 덱이라면 파워포인트에서 한 번 열어 확인하는 절차가 필요합니다.</p>
+
+<p>세 번째는 라이선스와 데이터입니다. 프로젝트 자체는 MIT이지만, PyMuPDF는 AGPL-3.0이라, 이 의존성을 포함해 재배포한다면 별도 확인이 필요합니다. 모델 호출과 직접 켠 검색·이미지·음성 서비스를 빼면 나머지 과정은 내 PC에서 돌아가고, 결과물은 내 폴더에 남습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 맞나요</h2>
+
+<p>매주 같은 형태의 보고서를 발표 자료로 바꾸는 사람, 회사 템플릿을 유지한 채 내용만 갈아끼우고 싶은 사람, 발표 대본과 음성까지 한 번에 만들고 싶은 사람에게 잘 맞습니다. 반대로 한 장짜리 슬라이드에 손으로 정성을 쏟는 작업이라면 굳이 쓸 이유가 없습니다.</p>
+
+<p>시작은 가볍게 하는 편이 좋습니다. 파이썬 설치, 저장소 내려받기, 3장짜리 테스트 덱 생성까지가 10분 안쪽입니다. 그 결과물을 파워포인트에서 열어 도형을 직접 클릭해 보면, 이 도구가 무엇을 대신해 주고何が 남는지 바로 감이 옵니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;">참고: <a href="https://github.com/hugohe3/ppt-master" target="_blank" style="color:#555;text-decoration:none;">ppt-master</a> (MIT, Python 3.10~3.14, 2026년 10월 30일 기준 스타 7만 개) — 설치·명령·옵션은 저장소 README와 docs/getting-started.md, docs/animations.md, docs/audio-narration.md, docs/windows-installation.md를 요약했습니다.</p>

@@ -1,0 +1,61 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">클로드 코드로 어제 고친 버그를 오늘 또 고치게 되는 경험, 다들 해보셨을 겁니다. 세션이 끝나면 에이전트는 모든 걸 잊고, 다음 세션은 처음부터 같은 파일을 다시 읽고 같은 실수를 반복합니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">claude-mem은 이 문제를 옆에서 지켜보는 두 번째 에이전트로 해결합니다. 작업하는 동안 무슨 일이 있었는지 기록하고, AI로 압축해 저장한 뒤, 다음 세션이 시작될 때 관련 내용만 골라 넣어 줍니다. GitHub 스타 약 11만 개, Apache-2.0 라이선스, 현재 버전 15.18.4입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">세션 간 자동 기록 — 작업 에이전트가 코드를 고치고 명령을 실행하는 동안 옆의 observer가 관찰 내용을 스트리밍으로 기록합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">AI 압축 저장 — 기록을 그대로 쌓지 않고 압축해서 ~/.claude-mem에 저장하므로 용량이 빠르게 불지 않습니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">관련 컨텍스트만 주입 — 다음 세션은 짧은 인덱스로 시작하고, 필요할 때만 상세 내용을 검색(MCP 검색 도구 제공)해서 가져옵니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<pre><code>npx claude-mem install</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">설치 프로그램이 머신의 에이전트를 찾아 어떤 것을 설정할지 묻습니다. 그다음 브라우저에서 claude-mem에 로그인(이메일 매직링크)하고 메모리 제공자를 고릅니다 — claude-mem observer(30일 무료 체험, 결제수단 등록), 본인 OpenRouter·Gemini 키, 또는 Anthropic 플랜입니다. 로그인 없이 진행하려면 <code>--provider</code> 플래그나 <code>CLAUDE_MEM_ONLINE_OPTIN=false</code>를 씁니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/thedotmack/claude-mem" target="_blank" style="color:#555;">thedotmack/claude-mem</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">약 117,000</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">TypeScript</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">Apache-2.0</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>요구사항</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">Node ^20.19 또는 ≥22.12</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">설치 후에는 평소처럼 작업하면 됩니다. 기록은 첫 프롬프트부터 쌓이고, 같은 프로젝트에서 두 번째 세션을 열면 첫 세션의 메모리가 자동으로 들어옵니다.</p>
+
+<pre><code>git clone https://github.com/thedotmack/claude-mem.git</code></pre>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — <code>npx claude-mem install</code>을 실행하고 에이전트 선택·로그인·메모리 제공자를 정합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — Claude Code·Codex·Cursor·OpenCode 등 세션을 기록하는 에이전트로 평소 작업을 합니다. Copilot CLI·Goose·Roo Code·Warp는 검색만 되고 기록은 안 됩니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — 다음 날 같은 프로젝트를 열면 이전 맥락이 자동 주입되고, 더 필요한 내용은 MCP 검색 도구로 찾습니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 메모리 데이터는 ~/.claude-mem에 로컬로 저장됩니다. 클라우드 동기화는 opt-in이고, 익명 사용 분석은 기본 켜짐(<code>npx claude-mem telemetry disable</code>로 해제).</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">주의할 점이 두 가지 있습니다. 첫째, <code>npm install -g claude-mem</code>은 SDK만 설치할 뿐 플러그인 훅과 워커를 등록하지 않습니다 — 반드시 <code>npx claude-mem install</code>이나 <code>/plugin</code> 명령으로 설치해야 합니다. 둘째, observer 제공자는 30일 무료 체험 후 유료 구독이고, 체험 종료 시 자동으로 Anthropic 플랜 방식으로 폴백됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">같은 프로젝트를 며칠에 걸쳐 이어서 작업하는 개발자, 에이전트가 어제 결정한 걸 매번 다시 설명해야 하는 게 귀찮은 사람에게 맞습니다. context-mode·headroom처럼 컨텍스트를 "줄이는" 도구와 달리, claude-mem은 세션 "사이"의 기억을 담당한다는 점에서 보완 관계입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">옆에서 지켜보는 observer 에이전트가 작업을 기록·압축해 다음 세션에 필요한 것만 돌려주는 메모리 시스템입니다. 설치 한 줄로 시작할 수 있고, 로컬 저장이 기본이라 프라이버시 걱정도 크지 않습니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/thedotmack/claude-mem" target="_blank" style="color:#555;text-decoration:none;">github.com/thedotmack/claude-mem</a> · Apache-2.0</p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467147988" target="_blank" style="color:#2f5bd7;text-decoration:none;">Claude Code에 공유 메모리를 붙이는 ruflo</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224461392988" target="_blank" style="color:#2f5bd7;text-decoration:none;">AI 에이전트 컨텍스트 관리를 위한 context-mode</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224461389799" target="_blank" style="color:#2f5bd7;text-decoration:none;">AI 에이전트 컨텍스트 폭증으로부터 해방하는 headroom</a></p>

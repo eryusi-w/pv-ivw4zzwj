@@ -1,0 +1,58 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">이미지나 영상 생성 AI를 쓰다 보면 콘텐츠 필터에 걸리거나, 구독료가 부담되는 경우가 많습니다. Open-Generative-AI는 이런 제한 없이 모델을 직접 골라 쓸 수 있는 셀프호스팅 스튜디오입니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">600개 이상의 AI 모델을 한 화면에서 실행할 수 있는 오픈소스 생성형 미디어 스튜디오로, MIT 라이선스에 현재 GitHub 스타 31,826개, 주 언어는 JavaScript입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">600개 이상 모델 지원 — Flux, Midjourney 계열, Kling, Sora, Veo 등 이미지·영상 모델을 한곳에서 고릅니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">필터 없는 생성 — 플랫폼의 검열 없이 원하는 프롬프트를 그대로 넣습니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">완전한 셀프호스팅 — MIT 라이선스라 상업적 활용까지 자유롭고, 결과물이 내 서버에 남습니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<pre><code>git clone https://github.com/Anil-matcha/Open-Generative-AI.git && cd Open-Generative-AI && npm install</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Node.js 환경에서 npm install 후 프로젝트를 실행하면 로컬 웹 인터페이스가 열립니다. 모델마다 필요한 API 키나 로컬 런타임 설정은 README를 따라 개별로 넣습니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/Anil-matcha/Open-Generative-AI" target="_blank" style="color:#555;">Anil-matcha/Open-Generative-AI</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">31,826</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">JavaScript</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">MIT</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>설치 방식</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">저장소 클론 + npm</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">모든 모델을 한 번에 켜지 말고, 자주 쓰는 모델 두세 개부터 연결합니다.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — 저장소를 클론하고 npm install로 의존성을 설치합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — 사용할 모델의 API 키나 로컬 런타임을 환경 변수에 설정합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — 브라우저에서 이미지 한 장을 생성해 모델별 결과 차이를 비교합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 마음에 드는 조합을 팀과 공유하거나, 립싱크·이미지→영상 변환 기능을 붙입니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">셀프호스팅이라 결과물과 프롬프트가 내 서버에 남는 대신, GPU 자원과 API 비용은 직접 부담합니다. 클라우드 API를 쓰는 모델은 해당 서비스의 키가 필요하고, 로컬 모델은 VRAM이 충분해야 합니다. 초기 모델 설정이 다소 복잡하니 문서의 단계별 가이드를 따라가는 편이 빠릅니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">크리에이터, 개발자, AI 콘텐츠 제작자에게 특히 유용합니다. 구독형 서비스의 필터나 제한 없이 실험하고 싶은 사람, 여러 모델을 비교하며 작업 흐름을 만들고 싶은 팀에 맞습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">600개가 넘는 모델을 한 인터페이스에서 돌릴 수 있는 드문 셀프호스팅 스튜디오입니다. 모델 두세 개로 시작해 점차 늘리는 방식이 부담이 적습니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/Anil-matcha/Open-Generative-AI" target="_blank" style="color:#555;text-decoration:none;">github.com/Anil-matcha/Open-Generative-AI</a></p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467074012" target="_blank" style="color:#2f5bd7;text-decoration:none;">셀프호스팅 이미지·영상 생성 스튜디오</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467209779" target="_blank" style="color:#2f5bd7;text-decoration:none;">이미지 프롬프트를 코드처럼 관리하는 법</a></p>

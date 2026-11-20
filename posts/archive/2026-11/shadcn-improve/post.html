@@ -1,0 +1,66 @@
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">문제 제기</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 코딩 도구를 쓰다 보면 모델 비용이 은근히 커집니다. 감사는 비싼 모델이 하고 실행은 싼 모델이 하는 improve의 방식을 정리했습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">무엇인가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">코드베이스를 감사해 다른 에이전트가 실행할 구현 계획을 작성하는 에이전트 스킬입니다. 비싼 모델은 판단에만 쓰고 실행은 저렴한 모델에 맡기는 비용 분리 구조가 핵심입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 기능</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">고성능 모델이 코드베이스를 감사하고 가치 있는 작업을 선별</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">실행용 계획서를 마크다운으로 작성해 어떤 에이전트든 이어받기 가능</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">Agent Skills 형식이라 npx 한 줄로 설치</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">스스로 구현하지 않고 계획만 만들도록 설계</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 첫 실행</h2>
+
+<pre><code>npx skills add shadcn/improve</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">현재 릴리즈나 설치 지침이 없어 설치할 수 없습니다; 프로젝트 업데이트를 기다려야 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">기본 사용법</h2>
+
+<pre><code>git clone https://github.com/shadcn/improve.git</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">대규모 코드베이스를 관리하는 개발자들이 AI를 활용해 품질을 높이면서 비용을 절감할 때</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">스펙 한눈에</h2>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/shadcn/improve" target="_blank" style="color:#555;">shadcn/improve</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">-</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">-</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">N/A</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>홈페이지</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">-</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한계와 주의</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">문서 부족, 릴리즈 없음, 높은 복잡도로 인한 초기 사용 장벽</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">추천 이유</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">모델 비용을 '판단'과 '실행' 단계로 나눠 쓰는 실용적인 구조</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">shadcn이 만든 검증된 에이전트 스킬</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">계획이 일반 마크다운이라 특정 도구에 종속되지 않음</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">설치가 npx skills add 한 줄로 끝남</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 코딩 에이전트로 대규모 코드베이스를 다루는 개발자에게 특히 유용합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">지켜볼 만함 — 혁신적인 기능을 가지고 있지만, 정보 부족과 릴리즈 없음으로 인해 즉시 사용은 어려울 수 있음</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/shadcn/improve" target="_blank" style="color:#555;text-decoration:none;">github.com/shadcn/improve</a></p>

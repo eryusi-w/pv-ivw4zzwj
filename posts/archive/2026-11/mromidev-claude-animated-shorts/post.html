@@ -1,0 +1,55 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Claude Code에 "cartoon short 스킬로 ~에 대한 쇼츠를 만들어줘"라고 한 줄만 치면 55~70초 세로형 애니메이션 쇼츠가 나옵니다. AI 영상 생성기가 아니라 <strong>three.js + Remotion으로 직접 렌더링</strong>하는 방식입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.7;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">2D 캐릭터가 살아있는 3D 월드에서 움직이는 스토리형 쇼츠 — 인물선·렌즈블러·카메라 무빙 포함</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">three.js + Remotion 기반 <strong>로컬 렌더링</strong> — 외부 AI 영상 API 없이 내 PC에서 완성</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">주제→스크립트→보이스→샷 플랜→스틸→렌더→QA까지 파이프라인이 SKILL.md 하나에 정리</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.7;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">저장소를 <code>~/.claude/skills/cartoon-3d-short/</code>에 복사하면 끝입니다. 필요한 것은 Remotion(+@remotion/three), Node, Python 3, ffmpeg입니다.</p>
+
+<pre><code>git clone https://github.com/mromidev/claude-animated-shorts.git
+# 폴더를 ~/.claude/skills/cartoon-3d-short/ 로 복사</code></pre>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/mromidev/claude-animated-shorts" target="_blank" style="color:#2f5bd7;">mromidev/claude-animated-shorts</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">약 3,300</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">MIT</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>실행</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">Claude Code에서 스킬 호출</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.7;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Claude Code에서 이렇게 요청하면 됩니다.</p>
+
+<pre><code>Use the cartoon short skill and make a short about [주제].</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">이후 흐름은 정해져 있습니다 — 주제와 사실 정리 → 스크립트 → 보이스 → 샷 플랜(story.ts) → 스틸 확인 → 렌더 → 프레임 단위 QA → 최종 2K 영상과 사운드 믹스. 에이전트가 중간 산출물을 검수합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.7;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>REMOTION_TMP 필수</strong> — Remotion이 번들마다 public/(약 1.3GB)을 임시 폴더에 복사하므로 큰 드라이브를 지정하세요</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>레퍼런스는 스타일 참고용</strong> — 포함된 프레임·리포트는 "-look"을 맞추는 용도이고, 스토리·캐릭터·보이스는 직접 만들어야 합니다</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>렌더 비용</strong> — AI API가 아니라 로컬 렌더링이라 GPU·시간이 듭니다. 짧은 테스트부터 확인하세요</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.7;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">유튜브 쇼츠·인스타 릴스를 직접 만들고 싶은 크리에이터, Claude Code를 이미 쓰는 분에게 적합합니다. 별도 AI 영상 구독 없이 애니메이션 영상을 뽑아보고 싶은 분도 후보입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.7;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Claude Code + 이 스킬이면 "한 줄 요청 → 55~70초 애니메이션 쇼츠" 파이프라인을 무료(MIT)로 재현할 수 있습니다. Remotion 환경과 REMOTION_TMP만 미리 잡아두세요.</p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224476825493" target="_blank" style="color:#2f5bd7;text-decoration:none;">Vrew로 숏폼 만들기, 대본만 넣으면 영상 완성</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224476806741" target="_blank" style="color:#2f5bd7;text-decoration:none;">Claude Code 시작하기, 설치부터 첫 명령까지</a></p>

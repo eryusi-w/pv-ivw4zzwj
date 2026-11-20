@@ -1,0 +1,58 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 코딩 에이전트가 만든 코드는 동작은 하는데 복잡도가 폭발하기 쉽습니다. ub-mode는 AI 에이전트에 Robert C. Martin(Uncle Bob)의 엔지니어링 원칙을 강제하는 스킬 파일입니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 에이전트가 코드를 작성·수정할 때 소프트웨어 엔지니어링 원칙을 적용하고, 결정론적 품질 게이트로 복잡도·중복·테스트 커버리지를 검증하는 도구로, MIT 라이선스에 현재 GitHub 스타 7,217개입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">엔지니어링 원칙 스킬 — SKILL.md 형태로 에이전트에게 원칙을 주입합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">CRAP 점수 검증 — 함수 복잡도와 테스트 커버리지를 자동으로 측정합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">중복·변이 테스트 — 구조적 중복 탐지와 테스트 품질 검증을 지원합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<pre><code>npx skills add unclebob/ub-mode</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Claude Code·Codex 같은 에이전트의 스킬 디렉토리에 설치하면, 이후 코드 작업 시 원칙이 자동 적용됩니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/unclebob/ub-mode" target="_blank" style="color:#555;">unclebob/ub-mode</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">7,217</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">—</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">MIT</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>설치 방식</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">npx skills</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">설치 후 평소처럼 에이전트에게 코드를 시키되, 결과 코드의 구조와 테스트를 확인하는 습관을 붙입니다.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — npx로 스킬을 설치하고 에이전트가 인식하는지 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — 작은 리팩터링 작업을 시켜 생성 코드의 함수 길이와 복잡도를 봅니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — CRAP 점수·중복 검사 결과를 보고 위반 부분을 지적합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 테스트가 부족하면 테스트 작성을 요구해 커버리지를 올립니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">품질 게이트가 결정론적이라도 원칙 적용이 모든 코드베이스에 과할 수 있습니다. 급한 실험 코드나 프로토타입에는 오히려 속도를 떨어뜨릴 수 있으니, 유지보수할 코드에 집중해 쓰는 게 좋습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 코딩 에이전트로 장기 유지보수할 코드를 만드는 개발자에게 특히 유용합니다. 에이전트가 만든 코드의 품질이 들쭉날쭉한 게 불만인 경우에 맞습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">에이전트에게 "잘 짜라"가 아니라 원칙과 검증 도구를 주는 접근입니다. 생성 속도보다 유지보수 품질을 우선하는 팀에 잘 맞습니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/unclebob/ub-mode" target="_blank" style="color:#555;text-decoration:none;">github.com/unclebob/ub-mode</a></p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467214029" target="_blank" style="color:#2f5bd7;text-decoration:none;">AI가 게으른 시니어처럼 짜게 만드는 스킬</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467205971" target="_blank" style="color:#2f5bd7;text-decoration:none;">설계는 코끼리, 검토는 금붕어로 나누는 이유</a></p>

@@ -1,0 +1,104 @@
+<!-- write.mjs가 소제목 위에 이미지를 넣는다. <img> 태그는 넣지 않는다. -->
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>문제 제기</h2>
+<p>"AI 에이전트를 만들어 보고 싶다"는 마음은 있는데 어디서 시작할지 막막합니다. 튜토리얼 하나는 챗봇 하나를 보여 주고, 다른 하나는 멀티에이전트 프레임워크를 요구합니다. 개념은 알겠는데 내 문제에 맞는 구현이 안 보이는 거죠.</p>
+<p>GenAI_Agents(NirDiamant/GenAI_Agents)는 이 간극을 메우려는 저장소입니다. GitHub 별 2만 5천 개, 포크 4천 2백 개. 기본 대화 봇부터 멀티에이전트 시스템까지 50개가 넘는 구현과 튜토리얼을 카테고리별로 모아 뒀습니다.</p>
+
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">
+  에이전트 하나를 통째로 배우는 게 아니라, 필요한 패턴 하나씩 가져다 쓰는 저장소입니다.
+</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>무엇이 들어 있나</h2>
+<p>에이전트 구현은 카테고리와 프레임워크 두 축으로 정리돼 있습니다. LangChain, LangGraph, AutoGen, OpenAI, PydanticAI, CrewAI, LightRAG까지 섞여 있고, 프레임워크 없이 순수 Python으로만 된 것도 많습니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<thead>
+<tr style="background:#f5f7fa;">
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">분류</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">Beginner</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">Simple Conversational Agent, Question Answering, Data Analysis</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">Business</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">Essay Grading, Travel Planning, PM Agent, Contract Analysis, E2E Testing</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">Creative</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">GIF Animation, Music Compositor, Murder Mystery Game, Business Meme</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">Analysis</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">Memory-Enhanced Chat, Self-Improving Agent, Internet Search, Self-Healing Codebase</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">QA</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">LangGraph System Testing, Human-in-the-Loop, Trace-Based Evaluation</td>
+</tr>
+</tbody>
+</table>
+<p>2026년 10월 업데이트로 대부분의 노트북이 LangChain 1.x와 LangGraph 1.x에서 import되게 정리됐고, gpt-3.5-turbo·gpt-4o·DALL-E 3·Gemini 1.5 같은 폐기된 모델 ID는 현재 것으로 교체됐습니다. 다만 노트북마다 자기 API 키가 필요하고, 전부가 실제 서비스와 끝까지 검증된 것은 아닙니다.</p>
+<div style="background:#f0f6ff;border:1px solid #d6e4ff;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0;font-size:15px;line-height:1.6;color:#2c4a7c;"><strong>사용 조건</strong> — 각 예제는 독립 실행형 노트북입니다. requirements.txt로 의존성을 깔고, 쓰는 프로바이더의 API 키를 넣어야 돌아갑니다. 프레임워크를 안 쓰는 예제는 Python과 SDK 하나면 됩니다.</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>2026 코어 패턴부터 시작</h2>
+<p>README가 "에이전트가 처음이거나 2024년 노트북에서 돌아온 사람"을 위해 따로 골라 둔 장이 있습니다. <em>AI Agents Made Simple</em> 책의 챕터 순서를 따라 하나의 패턴씩 가르치는 노트북들입니다.</p>
+<ol style="margin:0 0 24px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>라우팅이 먼저</strong> — One-Step Decision Router: 에이전트가 필요한지부터 판단</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>에이전트 루프</strong> — Agent From Scratch: The While Loop, 최소 구현</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>워크플로우가 에이전트보다 먼저</strong> — Gated Contract Review</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>모델을 위해 설계된 도구</strong> — Designing Tools for Agents</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>온디맨드 스킬</strong> — Skills From Scratch</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>컨텍스트 엔지니어링</strong> — Context Engineering From Scratch</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>트레이스 기반 평가</strong> — Trace-Based Agent Evaluation</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>휴먼 인 더 루프</strong> — Human-in-the-Loop Approval Agent</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>비용 계산</strong> — Read vs Write: What One AI Answer Costs</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>계획 후 실행</strong> — Plan Then Execute From Scratch</li>
+<li style="margin:0;line-height:1.6;"><strong>리플렉션과 사고 예산</strong> — Reflection, Thinking Budgets</li>
+</ol>
+<p>이 노트북들의 특징은 채점 기준이 있다는 겁니다. 심어 둔 정답(planted answers)으로 매 실행을 채점하고, 패턴이 못 고친 것도 같이 보고합니다. 프레임워크가 바뀌어도 계속 도는 순수 Python 예제가 많아, LangChain 없이 개념만 가져가도 됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>설치와 첫 실행</h2>
+<p>저장소는 Python 프로젝트입니다. requirements.txt가 있고, 노트북을 열어 셀을 위에서부터 실행하면 됩니다. API 키는 환경 변수나 노트북 안에서 설정합니다.</p>
+<pre><code>git clone https://github.com/NirDiamant/GenAI_Agents.git
+cd GenAI_Agents
+pip install -r requirements.txt
+
+# 예: 에이전트 루프 최소 구현부터
+# all_agents_tutorials/ 아래 해당 노트북을 Jupyter로 실행</code></pre>
+<p>처음이라면 2026 코어 패턴의 2번, <code>Agent From Scratch: The While Loop</code>부터 여는 게 좋습니다. 프레임워크 없이 while 루프 하나로 에이전트의 뼈대를 보여 주기 때문에, 이후 어떤 프레임워크를 써도 구조가 잡힙니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>어떤 예제를 고를까</h2>
+<p>목적이 명확하면 고르기 쉽습니다. 업무 자동화면 Business와 Analysis, 창작이면 Creative, 품질 검증이면 QA 카테고리입니다. 다만 카테고리 이름보다 <strong>프레임워크 열</strong>을 먼저 보는 게 낫습니다. 이미 쓰는 스택과 같은 프레임워크의 예제를 고르면 이식 비용이 확 줄어듭니다.</p>
+<p>반대로 "에이전트가 뭔지 모르겠다"면 카테고리가 아니라 2026 코어 패턴 장을 순서대로 가세요. 책 챕터 순서라 앞의 개념이 뒤의 전제가 됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>관련 프로젝트</h2>
+<p>같은 작성자의 자매 저장소가 있습니다. RAG Techniques는 검색 증강 생성 노트북 40개 이상, Agent Memory Techniques는 에이전트 메모리(벡터 스토어, 그래프, Mem0, Zep) 노트북 30개, Agents Towards Production은 프로덕션급 에이전트를 코드 중심으로 다루는 튜토리얼입니다. 에이전트를 넘어 RAG나 메모리까지 파려면 이쪽으로 넘어가면 됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>누구에게 맞나</h2>
+<p>에이전트를 처음 만들어 보는 사람, 프레임워크를 골라야 하는 사람, 이미 LangGraph로 뭔가 짜다가 구조를 다시 잡고 싶은 사람 모두에게 쓸모가 있습니다. 다만 프레임워크 경험이 아예 없는 상태에서 50개를 순서 없이 훑으면 오히려 혼란만 커집니다. 코어 패턴 장을 뼈대로 삼는 게 이 저장소의 의도된 사용법입니다.</p>
+<p>프로덕션에 바로 올릴 코드를 찾는 사람이라면 이 저장소보다 자매 프로젝트인 Agents Towards Production 쪽이 가깝습니다. 여기는 개념과 구현 패턴을 익히는 자리입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>한계와 주의</h2>
+<p>README 스스로 밝히듯, 2024년에 기여된 사용 사례 노트북이 대부분이고 2026년 10월에 일괄 정리된 상태입니다. import는 되지만 "모든 노트북이 라이브 서비스와 끝까지 실행 검증된 것은 아니다"라고 명시돼 있습니다. API 키 비용도 각자 부담이고, 폐기된 모델 ID는 교체됐어도 새로 생긴 모델 선택은 직접 확인해야 합니다.</p>
+<p>수량에 속지 않는 게 좋습니다. 50개가 넘는다고 50개를 다 읽을 필요는 없고, 필요한 패턴 두세 개만 깊게 파는 편이 낫습니다. 반대로 프레임워크별 예제가 한 폴더에 섞여 있어, LangGraph 예제만 추리고 싶으면 카테고리가 아니라 프레임워크 열로 걸러야 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>도입 전 체크리스트</h2>
+<div style="background:#f0fdf4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#166534;">확인할 것 4가지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 목적 — 업무·창작·분석 중 어디에 쓸지 정하고 카테고리로 좁히기</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 스택 — 이미 쓰는 프레임워크(LangGraph 등) 열로 예제 필터링</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 비용 — 노트북별 API 키 필요, 실행 비용은 각자 부담</p>
+<p style="margin:0;font-size:15px;line-height:1.6;color:#166534;">✓ 검증 — "import 됨"과 "끝까지 실행됨"은 다름, README 고지 확인</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>정리</h2>
+<p>GenAI_Agents는 에이전트 구현 모음집이자, 2026년 기준으로 정리된 학습 경로입니다. 50개를 다 볼 필요 없이, 2026 코어 패턴으로 개념을 잡고 내 문제에 맞는 카테고리 하나를 파면 됩니다.</p>
+<p>오늘 해 볼 일은 <code>Agent From Scratch: The While Loop</code> 노트북 하나를 여는 겁니다. while 루프 하나가 에이전트의 전부라는 걸 보면, 나머지 50개가 다 어디서 나온 건지 보입니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">
+참고: <a href="https://github.com/NirDiamant/GenAI_Agents" target="_blank" style="color:#555;text-decoration:none;">GenAI_Agents</a> (README 기준 2026-11)
+</p>

@@ -1,0 +1,101 @@
+<p>회의에서 "우리 데이터는 외부로 못 나가요"라는 말이 나오면, 대화가 대개 두 갈래로 갈립니다. 보안팀은 로컬 모델을 요구하고, 개발팀은 "로컬 LLM은 성능이 안 나와요"라고 반박하죠. 그런데 요즘은 이 간극이 많이 좁혀졌습니다. GPU 한 장이면 30억 파라미터 모델도 쾌적하게 돌고, API 하나만 열어두면 기존 앱에 그대로 붙습니다.</p>
+<p>오늘 소개할 <strong>Ollama</strong>는 이 "내 컴퓨터에서 LLM 돌리기"를 사실상 명령 한 줄로 만들어 버린 도구입니다. GitHub 별이 18만 개를 넘긴, 로컬 LLM 쪽의 사실상 표준 런타임이죠.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">로컬에서 LLM을 돌려야 하는 순간</h2>
+<p>왜 굳이 내 컴퓨터에서 모델을 돌릴까요? 이유는 대부분 세 가지입니다.</p>
+<ul>
+<li><strong>데이터가 밖으로 나가면 안 될 때</strong> — 의료 기록, 계약서, 내부 소스코드처럼 외부 API에 보내기 어려운 데이터</li>
+<li><strong>비용</strong> — 호출량이 많으면 API 요금이 만만치 않습니다. 로컬은 전기세만 듭니다</li>
+<li><strong>끊김 없는 응답</strong> — 네트워크나 제공자 장애와 무관하게 동작합니다</li>
+</ul>
+<p>물론 로컬 모델이 클라우드 최상위 모델을 따라잡지는 못합니다. 코딩·추론이 중요한 작업은 여전히 클라우드가 낫고, 로컬은 "충분히 좋은 답"이 필요한 대다수 작업을 커버합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">Ollama는 무엇을 대신해 주나</h2>
+<p>Ollama는 모델 가중치를 내려받아 로컬에서 실행해 주는 <strong>런타임</strong>입니다. 내부적으로는 llama.cpp 계열 백엔드를 씁니다.</p>
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">직접 llama.cpp를 쓰면 모델별로 변환 스크립트와 서버 실행이 제각각입니다. Ollama는 그걸 <code>ollama run</code> 한 줄로 통일했습니다.</blockquote>
+<p>핵심은 세 가지입니다.</p>
+<ul>
+<li><strong>설치 한 줄</strong> — macOS·Linux·Windows·Docker 모두 명령 하나</li>
+<li><strong>모델 레지스트리</strong> — <code>ollama.com/library</code>에서 검증된 모델을 바로 실행</li>
+<li><strong>REST API</strong> — <code>localhost:11434</code>에 OpenAI와 비슷한 형태의 API를 엽니다</li>
+</ul>
+<p>라이선스는 MIT입니다. 런타임이 MIT라는 것이고, 돌리는 모델 자체의 라이선스는 모델마다 다르니 그건 따로 확인해야 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치: 운영체제별 한 줄</h2>
+<p>공식 설치 스크립트가 가장 빠릅니다.</p>
+<pre><code># macOS · Linux
+curl -fsSL https://ollama.com/install.sh | sh
+
+# Windows (PowerShell)
+irm https://ollama.com/install.ps1 | iex</code></pre>
+<p>Docker를 쓰는 환경이라면 공식 이미지가 있습니다.</p>
+<pre><code>docker run -d -p 11434:11434 --name ollama ollama/ollama</code></pre>
+<p>설치 후 <code>ollama</code>를 실행하면 됩니다. 처음 실행하면 모델 선택이나 기존 에이전트 연결을 안내합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">첫 모델 실행하기</h2>
+<p>모델은 명령으로 바로 받습니다. 가볍게 시작하려면 Gemma 4가 README의 기본 예시입니다.</p>
+<pre><code>ollama run gemma4</code></pre>
+<p>처음 실행하면 가중치를 내려받는데, 모델 크기에 따라 수백 MB에서 수 GB까지 걸립니다. 이후에는 터미널 채팅처럼 대화할 수 있고, <code>/bye</code>로 종료합니다.</p>
+<p>다른 모델도 같은 방식입니다. 라이브러리에서 이름만 바꾸면 됩니다.</p>
+<pre><code>ollama run qwen3
+ollama run llama3.1</code></pre>
+<p>다운받은 모델 목록은 <code>ollama list</code>, 삭제는 <code>ollama rm &lt;모델명&gt;</code>입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">코딩 에이전트와 연결하기</h2>
+<p>요즘 Ollama의 행보가 흥미로운 부분입니다. <code>ollama launch</code>로 이미 쓰는 코딩 에이전트를 로컬 모델에 연결할 수 있습니다.</p>
+<pre><code>ollama launch claude</code></pre>
+<p>지원 목록에는 Claude Code, Codex, Copilot CLI, OpenCode, Droid 등이 있습니다. 설정을 일일이 만지는 대신 Ollama가 각 도구의 설정을 대신 잡아 줍니다.</p>
+<p>개인 비서 용도로는 OpenClaw 연동이 있습니다. WhatsApp·Telegram·Slack·Discord에서 대화하는 형태로 로컬 모델을 쓸 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">REST API로 앱에 붙이기</h2>
+<p>이미 돌고 있는 서버에 붙이는 게 Ollama의 진짜 강점입니다. 로컬 추론 서버로서 <code>localhost:11434</code>에 API를 엽니다.</p>
+<pre><code>curl http://localhost:11434/api/chat -d '{
+  "model": "gemma4",
+  "messages": [{"role": "user", "content": "질문"}],
+  "stream": false
+}'</code></pre>
+<p>Python과 JavaScript SDK도 공식 제공합니다.</p>
+<pre><code>pip install ollama</code></pre>
+<pre><code>from ollama import chat
+
+response = chat(model='gemma4', messages=[
+  {'role': 'user', 'content': 'Why is the sky blue?'}
+])
+print(response.message.content)</code></pre>
+<p>OpenAI 호환 엔드포인트도 있어서 LiteLLM 같은 게이트웨이를 거쳐 기존 코드 수정 없이 붙일 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">모델 라이브러리와 커스텀 모델</h2>
+<p><code>ollama.com/library</code>에는 수백 개 모델이 올라와 있습니다. 태그로 크기와 양자화를 고를 수 있어, "이 GPU에 들어가는 가장 큰 모델"을 찾기 쉽습니다.</p>
+<p>자체 모델을 쓰려면 <code>Modelfile</code>로 파라미터와 시스템 프롬프트를 정의해 커스텀 모델을 만듭니다. GGUF 변환 모델을 import하는 경로도 문서에 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">하드웨어와 성능 읽는 법</h2>
+<p>로컬 추론의 성능은 거의 VRAM 크기가 결정합니다. 대략적인 감각은 이렇습니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<tr><th style="border:1px solid #ddd;padding:8px;background:#f7f9fa;">VRAM</th><th style="border:1px solid #ddd;padding:8px;background:#f7f9fa;">현실적으로 돌릴 수 있는 모델</th></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">8GB</td><td style="border:1px solid #ddd;padding:8px;">3~7B 양자화 모델, 간단한 채팅·요약</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">12~16GB</td><td style="border:1px solid #ddd;padding:8px;">7~8B 풀급, 코딩 보조 수준</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">24GB+</td><td style="border:1px solid #ddd;padding:8px;">14B급과 대형 양자화 모델</td></tr>
+</table>
+<p>GPU가 없으면 CPU로도 돌아가지만 토큰 속도가 크게 떨어집니다. Apple Silicon은 통합 메모리를 그대로 쓰므로 상대적으로 유리합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한계와 주의</h2>
+<ul>
+<li><strong>최상위 모델과의 격차</strong> — 클라우드 프론티어 모델 대비 코딩·복잡 추론은 약합니다</li>
+<li><strong>동시 접속</strong> — 가정용 GPU 한 대로는 동시 사용자 수가 제한됩니다</li>
+<li><strong>기본 바인딩</strong> — API가 열리면 인증 없이 접근할 수 있으니 외부 노출은 신중해야 합니다</li>
+<li><strong>모델 라이선스</strong> — Ollama는 MIT지만 Llama 등 일부 모델은 사용 조건이 따로 있습니다</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">도입 전 체크리스트</h2>
+<ul>
+<li>VRAM 또는 통합 메모리가 목표 모델 크기를 감당하는가</li>
+<li>API를 외부에 열 계획이라면 프록시나 인증을 앞에 둘 것인가</li>
+<li>돌릴 모델의 라이선스가 업무 사용을 허용하는가</li>
+<li>기존 클라이언트가 OpenAI 호환 엔드포인트를 지원하는가</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+<p>Ollama는 "로컬 LLM"이라는 낯선 영역을 <code>ollama run</code> 한 줄로 만들어 준 도구입니다. 프라이버시가 필요한 데이터, 고정비를 줄이고 싶은 호출량, 끊김 없는 내부 서비스 — 이 세 조건이 겹치면 도입 가치가 큽니다. 반대로 최첨단 코딩 에이전트의 두뇌로 쓰기엔 아직 클라우드 모델이 우위입니다. 용도를 나눠 쓰는 게 현실적인 답이죠.</p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224476099433" target="_blank" style="color:#2f5bd7;text-decoration:none;">671B 오픈 LLM을 직접 돌리는 법 (DeepSeek-V3)</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224476100560" target="_blank" style="color:#2f5bd7;text-decoration:none;">CPU·GPU로 MoE 모델을 서빙하는 엔진 (FreeToken)</a></p>
+<p style="font-size:15px;color:#666;">참고: <a href="https://github.com/ollama/ollama" target="_blank">github.com/ollama/ollama</a> (MIT, v0.x)</p>

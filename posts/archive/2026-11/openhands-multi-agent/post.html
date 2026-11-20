@@ -1,0 +1,67 @@
+<p>코딩 에이전트가 하나씩 생길 때마다 겪는 문제: Claude Code는 터미널, Codex는 또 다른 CLI, OpenHands는 웹 — 각각 따로 띄우고 따로 관리해야 합니다. 회사에서 에이전트가 늘수록 "누가 뭘 하고 있는지"가 안 보입니다.</p>
+<p><strong>OpenHands Agent Canvas</strong>는 이 문제를 겨냥한 셀프 호스팅 제어 센터입니다. README의 정의대로 "에이전트를 만드는 라이브러리와, 그 에이전트를 실행하는 서버"를 한 화면에서 굴립니다. GitHub 별 9만 개, MIT입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">Agent Canvas는 무엇인가</h2>
+<p>OpenHands가 이제 Agent Canvas라는 이름으로 재편됐습니다. 코딩 에이전트와 자동화를 위한 <strong>셀프 호스팅 개발자 제어 센터</strong>입니다.</p>
+<p>핵심은 에이전트 종속성이 없다는 점입니다. OpenHands 자체 에이전트는 물론, Claude Code·Codex·Gemini·Pi·OpenCode 등 <strong>ACP(Agent-Client Protocol) 호환 에이전트</strong>면 무엇이든 같은 화면에 붙입니다.</p>
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">로컬에서 돌리든, Docker 컨테이너든, VM이든, 회사 인프라 안이든 — 백엔드가 달라도 프론트엔드는 하나입니다. 백엔드를 갈아끼워도 화면은 그대로입니다.</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치: npm 한 줄부터 Docker까지</h2>
+<p>가장 간단한 방법은 npm 글로벌 설치입니다. Node.js 24 이상과 uv가 필요합니다.</p>
+<pre><code>npm install -g @openhands/agent-canvas
+agent-canvas</code></pre>
+<p>이 명령은 로컬 스택 전체를 띄웁니다. 프론트엔드와 백엔드를 나누고 싶으면 플래그로 분리합니다.</p>
+<pre><code>agent-canvas --frontend-only   # 정적 프론트엔드 + 인그레스
+agent-canvas --backend-only    # 에이전트 서버 + 자동화 백엔드</code></pre>
+<p>Docker로 올리려면:</p>
+<pre><code>docker run -it --rm -p 127.0.0.1:8000:8000 -e AGENT_CANVAS_ALLOW_LAN_SESSION_KEY=true -v "$HOME/.openhands:/home/openhands/.openhands" -v "${PROJECTS_PATH}:/projects" ghcr.io/openhands/agent-canvas:1.36.0</code></pre>
+<p>접속 주소는 <code>http://localhost:8000</code>입니다. Docker 이미지는 <code>/canvas</code> 경로를 씁니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">샌드박스 없이 돌리면 위험하다</h2>
+<p>README가 분명히 경고합니다. <strong>Option 1(샌드박스 없음)은 agent-server가 설치된 머신에서 직접 실행되어 에이전트가 파일시스템 전체에 접근</strong>합니다.</p>
+<p>안전하게 쓰려면 Option 2(Docker 샌드박스)나 Option 3(대화마다 별도 Docker 컨테이너)을 선택해야 합니다.</p>
+<pre><code>npm install -g @openhands/agent-canvas
+OH_CONVERSATION_RUNTIME=docker agent-canvas</code></pre>
+<p>이 설정은 대화마다 독립된 Docker 컨테이너를 띄웁니다. 워크스페이스와 대화 기록은 컨테이너가 교체돼도 유지되고, 같은 호스트 워크스페이스를 쓰는 대화끼리는 파일을 공유하므로 충돌 방지를 위해 별도 디렉터리나 worktree를 쓰는 게 좋습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">자동화: 에이전트를 스케줄로 돌리기</h2>
+<p>Agent Canvas의 진짜 가치는 자동화입니다. 보고서를 Slack에 올리거나, GitHub 이슈를 작업으로 분해하거나, 정기 점검을 예약으로 돌릴 수 있습니다.</p>
+<ul>
+<li><strong>스케줄·웹훅 트리거</strong> — 정해진 시간이나 외부 이벤트에 자동 실행</li>
+<li><strong>Slack·GitHub·Linear 연동</strong> — 이슈 생성, PR 리뷰 요청 등을 자동화로 연결</li>
+<li><strong>자체 호스팅</strong> — 노트북이 꺼져도 서버에서 계속 돕니다</li>
+</ul>
+<p>README는 "서버에 올리는 게 가장 강력하다"고 권합니다. 에이전트가 노트북 덮개를 닫아도 계속 일하고, Slack·GitHub 같은 서드파티에서 트리거할 수 있기 때문입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">모델과 에이전트 선택</h2>
+<p>LLM은 자유입니다. OpenHands 자체 모델이든, Claude·GPT·Gemini 등 어떤 프로바이더든 연결할 수 있고, LLM 프로필로 용도별로 바꿀 수 있습니다.</p>
+<p>에이전트도 자유입니다. ACP를 지원하는 에이전트라면 같은 Canvas에 등록해 씁니다. 한 화면에서 OpenHands 에이전트와 Claude Code 세션을 나란히 돌리는 것도 가능합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">보안과 권한</h2>
+<p>자체 호스팅 도구이므로 보안은 사용자 책임입니다. README도 SELF_HOSTING.md에서 보안 강화를 다루고, 로컬 바인딩은 기본이 loopback(127.0.0.1)이며 <code>--host 0.0.0.0</code>으로 열면 자동 주입되는 세션 키가 노출되지 않도록 설계돼 있습니다.</p>
+<ul>
+<li>로컬 사용: 기본 loopback 바인딩 유지</li>
+<li>팀 공유: 전용 서버 + 인증 필수</li>
+<li>파일 접근: Docker 샌드박스로 범위 제한</li>
+<li>외부 트리거: 웹훅 서명·시크릿 검증 설정</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">백엔드를 갈아끼우는 법</h2>
+<p>Agent Canvas의 실용적인 장점 중 하나가 백엔드 전환입니다. 같은 프론트엔드에서 로컬 Docker, 회사 VM, 클라우드 백엔드 사이를 오갈 수 있습니다.</p>
+<p>예를 들어 코드 리뷰 에이전트는 팀 공유 서버에서, 실험적인 에이전트는 내 노트북에서 돌리되, 화면은 하나로 유지하는 식입니다. 백엔드 추가는 UI에서 바로 할 수 있고, 전환해도 작업 맥락이 끊기지 않습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">OpenHands와 다른 점</h2>
+<p>기존 OpenHands가 "에이전트를 만드는 프레임워크"에 가까웠다면, Agent Canvas는 <strong>에이전트들을 굴리는 운영 화면</strong>입니다. 라이브러리와 서버를 분리해, 에이전트 엔진은 갈아끼우고 UI·자동화·백엔드 관리는 공통으로 씁니다.</p>
+<p>Claude Code·Codex처럼 이미 잘 만들어진 CLI 에이전트도 Canvas에 올려 관리할 수 있어, "에이전트 종교"에 얽매이지 않는 구성이 강점입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한계와 주의</h2>
+<ul>
+<li><strong>자체 호스팅 부담</strong> — 서버 운영·보안·업데이트는 직접 해야 합니다</li>
+<li><strong>Docker 의존</strong> — 샌드박스 모드는 Docker가 필수입니다</li>
+<li><strong>초기 설정</strong> — LLM 프로필·백엔드·권한을 조직에 맞게 잡는 데 시간이 듭니다</li>
+<li><strong>ACP 호환성</strong> — 모든 에이전트가 ACP를 지원하는 건 아니므로 사전 확인이 필요합니다</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+<p>OpenHands Agent Canvas는 코딩 에이전트를 "도구"에서 "운영 대상"으로 끌어올리는 시도입니다. 여러 에이전트를 한 화면에서 관리하고, 자동화로 상시 가동하며, 백엔드를 자유롭게 바꿀 수 있다는 점이 실용적입니다. 다만 셀프 호스팅의 책임이 크므로, 보안 설정과 샌드박스 구성을 제대로 이해하고 도입하는 게 전제입니다.</p>
+<p style="font-size:15px;color:#666;">참고: <a href="https://github.com/OpenHands/OpenHands" target="_blank">github.com/OpenHands/OpenHands</a> (MIT)</p>

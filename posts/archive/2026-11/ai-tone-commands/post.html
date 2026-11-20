@@ -1,0 +1,53 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI가 쓴 글은 "~할 수 있습니다", "매우 중요한", "다양한 측면에서" 같은 표현으로 금방 티가 납니다. AI 문체 제거 명령어는 이런 흔적을 지우는 프롬프트와 도구입니다. 실제로 검색 유입이 있는 키워드라 별도 글로 정리했습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.7;margin:0 0 16px 0;">AI 문체가 생기는 이유</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">모델은 평균적인 문체를 학습하기 때문에, 지시가 없으면 안전하고 평범한 문장으로 수렴합니다. "친근하게", "전문적으로" 같은 추상 지시만으로는 한계가 있어, 구체적인 금지 표현이나 대체 표현을 명시해야 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.7;margin:0 0 16px 0;">바로 쓸 수 있는 명령어 예시</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">아래 명령어를 프롬프트 끝에 붙이면 문체를 바꿀 수 있습니다. 도구 없이도 바로 효과가 있습니다.</p>
+
+<pre><code>다음 글을 고쳐줘.
+- "~할 수 있습니다", "~것입니다" 같은 정중한 어미를 줄여
+- "매우", "다양한", "중요한" 같은 수식어를 빼
+- 한 문장에 한 가지 생각만 담아
+- 마지막 문단의 요약을 삭제해</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">핵심은 긍정 지시("자연스럽게 써줘")보다 부정·구체 지시("~하지 마, ~로 바꿔")가 잘 먹힌다는 점입니다. "AI스럽지 않게"라는 모호한 지시보다 "이 표현을 쓰지 마"가 훨씬 정확합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.7;margin:0 0 16px 0;">전용 도구·스킬 쓰기</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">명령어를 매번 쓰기 귀찮다면 전용 도구가 있습니다. 이미 이 블로그에서 다룬 im-not-ai는 AI 특유의 문체를 걷어내는 도구이고, caveman은 의도적으로 거친 말투로 토큰을 아끼는 도구입니다. 용도가 다르니 목적에 맞게 고르세요.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">방식</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">적합한 경우</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>명령어 직접 입력</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">한두 번 고칠 때, 빠르고 간단하게</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>im-not-ai</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">AI 티가 나는 문장을 자연스럽게 다듬을 때</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>caveman</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">토큰 절약이 우선일 때, 거친 말투 허용 시</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.7;margin:0 0 16px 0;">효과적으로 쓰는 팁</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">원문을 먼저 읽고 "어떤 표현이 AI스러운지" 직접 표시해 두세요.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">한 번에 전체를 고치지 말고 문단별로 나눠 지시하세요.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">고친 뒤 원문과 비교해 의미가 바뀌지 않았는지 확인하세요.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.7;margin:0 0 16px 0;">주의할 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">문체를 없애는 것과 사실을 바꾸는 것은 다릅니다. 명령어가 내용까지 바꾸지 않도록 "의미는 유지하고 표현만 바꿔"라는 조건을 꼭 붙이세요. 법률·의학처럼 정확성이 중요한 글은 사람이 최종 검토해야 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.7;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 문체 제거 명령어는 특별한 도구 없이도 프롬프트 한 단락으로 시작할 수 있습니다. 효과가 없으면 표현 목록을 더 구체적으로, 필요하면 전용 도구로 넘어가면 됩니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: 이 글은 개념 정리이며 특정 도구의 설치 방법은 다루지 않습니다.</p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224461333858" target="_blank" style="color:#2f5bd7;text-decoration:none;">한글 AI 티를 매끄럽게 걷어내는 im-not-ai</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224459082902" target="_blank" style="color:#2f5bd7;text-decoration:none;">AI 토큰 줄이는 원시인 말투 도구 caveman</a></p>

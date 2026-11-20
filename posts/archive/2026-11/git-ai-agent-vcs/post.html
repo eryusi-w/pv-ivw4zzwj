@@ -1,0 +1,129 @@
+<!-- write.mjs가 소제목 위에 이미지를 넣는다. <img> 태그는 넣지 않는다. -->
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>문제 제기</h2>
+<p>AI 코딩 에이전트가 일하는 방식은 사람과 다릅니다. 사람은 저장소를 통째로 clone하고 몇 시간을 작업한 뒤 한 번 push하죠. 에이전트는 짧은 작업 수천 개가 같은 브랜치에 몇 초 간격으로 land하려 합니다.</p>
+<p>이 규모에서는 풀 clone, 머지 큐, 클라이언트 측 이력 탐색이 병목이 됩니다. Git 자체가 나빠진 게 아니라, Git이 사람의 작업 리듬에 맞춰 설계됐기 때문입니다.</p>
+
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">
+  수천 개의 단명 작업이 같은 브랜치에 동시에 land하려 할 때, Git은 병목이 됩니다.
+</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>무엇인가</h2>
+<p>git-ai(feder-cr/git-ai)는 이 문제를 정면으로 다루는 오픈소스 버전 관리 시스템입니다. GitHub 별 1천 개, 포크 104개, 현재 버전 0.4.2, MIT 라이선스입니다. 코드베이스는 Go로 작성돼 있습니다.</p>
+<p>배경이 흥미롭습니다. Anthropic이 코딩 에이전트용 버전 관리 시스템 <strong>Scion</strong>을 만들고 <a href="https://www.anthropic.com/engineering/redesigning-source-control" target="_blank" style="color:#555;">"소스 컨트롤 재설계"</a>라는 글로 설계를 공개했습니다. Scion은 Anthropic 내부용이라 외부에서 쓸 수 없고, git-ai는 그 공개된 설계를 누구나 돌릴 수 있게 독립 구현한 프로젝트입니다. Anthropic과 제휴 관계는 없습니다.</p>
+<p>핵심 원칙은 <strong>벤더 중립</strong>입니다. 서버가 언어 모델을 호출하지 않고, 모든 AI 기능은 어떤 프로바이더와도 — 아니면 아무것도 없이도 — 동작합니다.</p>
+<div style="background:#f0f6ff;border:1px solid #d6e4ff;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0;font-size:15px;line-height:1.6;color:#2c4a7c;"><strong>이름 정리</strong> — 저장소 안에서는 확장 기능을 "Graft"라고 부릅니다. <code>[graft]</code> 설정 섹션, <code>graft</code> CLI, <code>internal/graft</code>가 그 흔적입니다.</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>소스 컨트롤을 API로</h2>
+<p>git-ai의 출발점은 하나입니다. 클라이언트가 항상 온라인 상태를 유지하고, 필요한 것만 가져가게 만들면 병목 대부분이 사라집니다. blame, 경로 이력, ancestry 같은 질문은 서버가 계산해서 캐시합니다. 코드 검색도 인덱스 없이 서버에서 돌립니다.</p>
+<ul style="margin:0 0 24px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>항상 온라인 클라이언트</strong> — <code>graft clone</code>과 <code>graft sparse</code>가 요청한 경로만 구체화합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>소스 컨트롤이 API</strong> — blame·이력·검색이 서버 측 파생 데이터로 계산되고 커밋당 한 번만 캐시됩니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>머지 큐 없는 랜딩</strong> — <code>UserLand</code>가 변경을 현재 tip에 리베이스하고 compare-and-swap으로 반영합니다. 한 브랜치의 동시 land는 참조 업데이트 하나로 묶입니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.6;"><strong>체인지셋 로그</strong> — 수용된 모든 참조 업데이트가 조밀하고 순서 있는 로그에 기록되고, 클라이언트가 실시간으로 watch합니다.</li>
+</ul>
+<p>밑바닥에는 평범한 Git 저장소가 깔려 있습니다. 클라이언트의 로컬 Git 저장소는 어느 노드든 재구축할 수 있는 캐시 역할입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>충돌 해결과 검증</h2>
+<p>land가 충돌하면 어떻게 할지가 이 시스템의 핵심 질문입니다. git-ai는 <strong>리졸버</strong>를 사용자가 고르게 합니다. 아무 LLM 프로바이더나 쓸 수 있고, 결정론적 도구를 쓸 수도, 쓰지 않을 수도 있습니다. 이 프로토콜은 버전 관리되고 벤더 중립입니다.</p>
+<p>모델의 해결안은 어디까지나 <strong>제안</strong>입니다. 사용자가 설정한 <code>verify.command</code>가 실제로 land될 트리에서 통과할 때만 스스로 land하고, 아니면 에이전트에게 충돌 패키지와 제안을 넘깁니다. 결정론적 규칙은 이 조건 없이 설정대로 검증됩니다.</p>
+<p>land 이후에도 장치가 있습니다. <code>graft-verify</code>가 tip을 테스트하고, 실패를 이분 탐색해 망가뜨린 변경을 찾아 revert합니다. 에이전트들은 체인지셋 스트림을 구독해 자기 컴포넌트에 중요한 변화만 보고하고, Slack으로도 알릴 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>저장소 구조</h2>
+<p>저장 상태는 데이터베이스와 오브젝트 스토리지에 나뉘어 있습니다. 변경 하나가 쓰기 전 로그(WAL)의 체인지셋이고, 참조마다 compare-and-swap이 붙습니다. 팩은 콘텐츠 주소 방식으로 오브젝트 스토리지(file, S3, GCS, Azure)에 둡니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<thead>
+<tr style="background:#f5f7fa;">
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">구성 요소</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">SQLite / PostgreSQL</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">체인지셋 WAL, 참조, 체인지로그, 리뷰</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">오브젝트 스토리지</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">콘텐츠 주소 팩 (file, S3, GCS, Azure)</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">로컬 Git 저장소</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">캐시 — 어느 노드든 재구축 가능</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">서버 노드</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">캐시이므로 노드를 늘려 스케일 아웃</td>
+</tr>
+</tbody>
+</table>
+<p>에이전트 보안도 일급 기능입니다. 에이전트별 토큰, RPC 허용 목록, 브랜치 정책이 각 에이전트가 할 수 있는 일을 결정합니다. 리뷰도 에이전트 친화적이라, 코멘트만 바뀐 변경은 로직 변경보다 적은 승인을 요구할 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>설치와 첫 실행</h2>
+<p>Linux 또는 macOS가 필요하고, Go 1.26, C 툴체인, Meson, Ninja가 깔려 있어야 합니다. 빌드는 번들된 Git을 컴파일하기 때문입니다. Windows는 공식 지원 대상이 아닙니다.</p>
+<pre><code>git clone https://github.com/feder-cr/git-ai.git
+cd git-ai
+make build                    # server, CLI, tools → _build/bin
+
+# 서버 + 캐시 데몬 + 에이전트 2개 + land까지 한 번에
+examples/graft/quickstart.sh
+
+./_build/bin/graft            # CLI</code></pre>
+<p>자체 서버를 띄우려면 <code>examples/graft/config.toml</code>을 고쳐 <code>_build/bin/gitaly serve config.toml</code>로 시작합니다. 저장소 상태를 데이터베이스와 오브젝트 스토리지로 옮기려면 <code>[graft.storage]</code> 섹션을 추가하고, <code>shadow</code> 모드로 저장소를 가져온 뒤 <code>authoritative</code>로 전환합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>벤치마크</h2>
+<p>README는 50개 에이전트가 한 브랜치에 변경 5개씩, 총 250개를 land하는 시나리오를 공개합니다. 20%는 의도적으로 충돌을 일으킵니다. "classic"은 배칭을 끈 같은 서버로, 에이전트마다 리베이스와 재시도를 최대 20회까지 반복하는 방식입니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<thead>
+<tr style="background:#f5f7fa;">
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">50 에이전트, 250 변경</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">classic</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">gitai</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">land된 변경</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">100~106</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">200</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">변경당 시도 횟수</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">26.5~28.7</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">1.0</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">분당 land</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">264~385</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">1,487~1,944</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">p99 지연</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">4.4~5.2초</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">1.9~2.7초</td>
+</tr>
+</tbody>
+</table>
+<p>gitai가 land하지 못한 50개는 계획된 충돌로, 리졸버 없이 에이전트에게 되돌아갑니다. 결정론적 리졸버(<code>resolve.toml</code>)를 붙이면 충돌이 모두 해결돼 250개 전부가 land됩니다. 16코어 한 대에서 측정한 값이고, 0.4.0 기준으로 재측정되지는 않았습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>한계와 주의</h2>
+<p>솔직한 상태 표기가 좋습니다. 현재 버전은 0.4.2이고, 구현된 기능은 단위·E2E·멀티노드·크래시·퍼즈 테스트로 덮여 있지만 <strong>모든 테스트가 한 대의 머신에서 돌아갑니다</strong>. 여러 노드가 하나의 데이터베이스와 버킷을 공유하는 구성까지만 검증됐고, 별도 머신의 노드는 테스트되지 않았습니다.</p>
+<p>S3, GCS, Azure 버킷도 테스트되지 않았고(file과 인메모리만 검증), 팩 GC는 있지만 기본으로 꺼져 있습니다(<code>gc = "auto"</code> 또는 <code>graft storage gc</code>). 1.0 이전이라 인터페이스는 아직 바뀔 수 있습니다. 에이전트 수백 개 규모의 실서비스에 바로 올리기보다, quickstart로 구조를 확인한 뒤 도입 범위를 정하는 게 안전합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>도입 전 체크리스트</h2>
+<div style="background:#f0fdf4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#166534;">확인할 것 4가지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 환경 — Linux/macOS, Go 1.26, C 툴체인, Meson, Ninja 필요</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 스토리지 — SQLite/PG + 오브젝트 스토리지 구성을 shadow 모드로 먼저</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 리졸버 — verify.command 설정 여부와 충돌 정책 결정</p>
+<p style="margin:0;font-size:15px;line-height:1.6;color:#166534;">✓ 한계 — 멀티머신 미검증, S3/GCS/Azure 미검증, 1.0 전 인터페이스 변경 가능</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>정리</h2>
+<p>git-ai는 "Git을 더 빠르게"가 아니라 "에이전트 수천 개가 동시에 일하는 세계의 소스 컨트롤"을 다시 설계한 프로젝트입니다. 서버 중심, 항상 온라인, CAS 랜딩, 체인지셋 로그까지 Scion의 공개 설계를 MIT로 구현했고, 서버가 모델을 부르지 않는 벤더 중립 설계가 이 프로젝트의 성격을 가장 잘 보여 줍니다.</p>
+<p>오늘 해 볼 일은 <code>examples/graft/quickstart.sh</code> 하나입니다. 서버와 캐시, 에이전트 두 개, land 한 번이 임시 디렉터리에서 돌아가는 걸 보면 이 시스템이 실제로 어떻게 움직이는지 감이 잡힙니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">
+참고: <a href="https://github.com/feder-cr/git-ai" target="_blank" style="color:#555;text-decoration:none;">git-ai</a> (MIT License, v0.4.2)
+</p>

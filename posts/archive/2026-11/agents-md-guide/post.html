@@ -1,0 +1,60 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Claude Code, Cursor, Codex, Copilot — AI 코딩 도구가 늘면서 "이 프로젝트에서 지켜야 할 규칙"을 매번 프롬프트로 설명하기가 버거워졌습니다. AGENTS.md는 이 문제를 푸는 공통 규약입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">AGENTS.md란</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AGENTS.md는 코딩 에이전트에게 프로젝트 규칙을 알려주는 마크다운 파일 규약입니다. "에이전트를 위한 README"라는 표현처럼, 사람용 README와 별도로 에이전트가 읽을 지침을 한 파일에 모읍니다. OpenAI Codex를 시작으로 Cursor, GitHub Copilot, Google Jules, Factory, Amp 등 60개 이상의 도구와 6만 개가 넘는 오픈소스 프로젝트가 채택했습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">왜 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">에이전트는 세션이 바뀌면 맥락을 잃습니다. "이 프로젝트는 TypeScript strict 모드야", "테스트는 vitest를 써", "커밋 메시지는 한국어로" 같은 규칙을 매번 설명하면 토큰도 낭비되고 누락도 생깁니다. AGENTS.md에 적어두면 도구가 자동으로 읽어 규칙이 유지됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실제로 쓰는 법</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">프로젝트 루트에 AGENTS.md를 만들고 마크다운으로 규칙을 적으면 됩니다. 복잡한 문법이 아니라 일반 텍스트라 어떤 에이전트든 읽을 수 있습니다.</p>
+
+<pre><code># AGENTS.md
+
+## 프로젝트 개요
+- Next.js + TypeScript 앱
+- 패키지 매니저: pnpm
+
+## 코드 규칙
+- 테스트는 vitest, 커버리지 80% 이상
+- 커밋 메시지는 한국어, conventional commits
+
+## 금지 사항
+- main 브랜치에 직접 push 금지
+- .env 파일 커밋 금지</code></pre>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">잘 쓰는 팁</h2>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">권장</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>길이</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">짧게 — 핵심 규칙만, 길면 오히려 무시됨</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>위치</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">프로젝트 루트, 하위 폴더별 세부 규칙도 가능</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>내용</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">명령어·금지사항·검증 방법 위주로</td></tr>
+</tbody>
+</table>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">"무엇을 하지 마"보다 "무엇을 어떻게 해"가 효과적입니다. 예를 들어 "console.log 쓰지 마"보다 "로깅은 logger 유틸을 써"가 더 잘 따라옵니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한계와 주의점</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">AGENTS.md는 "읽는" 규약일 뿐 강제 장치가 아닙니다 — CI·린트·pre-commit과 병행해야 합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">너무 길면 컨텍스트를 잡아먹습니다 — 필요한 규칙만 남기세요.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">민감 정보(API 키, 내부 URL)는 절대 넣지 마세요 — 저장소에 그대로 올라갑니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AGENTS.md는 여러 AI 코딩 도구가 공통으로 읽는 규칙 파일입니다. 프로젝트 루트에 짧고 명확한 지침을 적어두면 세션이 바뀌어도 일관된 결과를 얻을 수 있습니다. README처럼 "에이전트용 안내서"라고 생각하면 됩니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: agents.md (오픈 포맷, 60k+ 프로젝트 채택)</p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224476102629" target="_blank" style="color:#2f5bd7;text-decoration:none;">Claude Code 공식 플러그인 모음 (claude-plugins)</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224476089554" target="_blank" style="color:#2f5bd7;text-decoration:none;">AI 코딩 에이전트의 슈퍼파워 모음 (superpowers)</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224476152547" target="_blank" style="color:#2f5bd7;text-decoration:none;">AI 에이전트 입문, 개념부터 만드는 순서까지</a></p>

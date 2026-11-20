@@ -1,0 +1,80 @@
+<p>낯선 코드베이스에 투입되면 가장 먼저 하는 일이 "어디부터 봐야 하지?"입니다. grep으로 심볼을 찾고, 파일을 열고, import를 따라가며 구조를 머릿속에 그립니다. 이 과정이 매번 반복되고, AI 에이전트도 마찬가지로 매 세션마다 파일을 다시 읽습니다.</p>
+<p><strong>Graphify</strong>는 이 탐색 비용을 줄이는 도구입니다. 코드베이스와 문서를 <strong>지식 그래프</strong>로 바꿔, 에이전트가 파일을 하나씩 검색하는 대신 그래프를 질의하게 만듭니다. GitHub 별 14만 개를 넘긴, YC 출신 프로젝트입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">Graphify는 무엇인가</h2>
+<p>코드·문서·SQL 스키마·설정·PDF·이미지·영상까지 한 프로젝트의 모든 자료를 <strong>쿼리 가능한 지식 그래프</strong>로 변환합니다. 노드는 개념(함수·클래스·문서 섹션), 엣지는 관계(호출·상속·참조)입니다.</p>
+<p>사용법은 코딩 어시스턴트 안에서 <code>/graphify .</code> 한 줄입니다. Claude Code, Cursor, Codex, Gemini CLI, GitHub Copilot 등 20개 이상의 어시스턴트를 지원합니다.</p>
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">README의 핵심 주장: "코드 맵은 무료로, 완전 로컬로." 코드는 tree-sitter AST로 파싱해 LLM 없이 결정론적으로 처리하고, 아무것도 외부로 나가지 않습니다.</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">코드와 문서의 처리 방식이 다르다</h2>
+<p>Graphify의 설계에서 가장 중요한 구분입니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<tr><th style="border:1px solid #ddd;padding:8px;background:#f7f9fa;">대상</th><th style="border:1px solid #ddd;padding:8px;background:#f7f9fa;">처리 방식</th><th style="border:1px solid #ddd;padding:8px;background:#f7f9fa;">외부 전송</th></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">코드</td><td style="border:1px solid #ddd;padding:8px;">tree-sitter AST 파싱, LLM 없음</td><td style="border:1px solid #ddd;padding:8px;">없음 (완전 로컬)</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">문서·PDF·이미지·영상</td><td style="border:1px solid #ddd;padding:8px;">어시스턴트 모델 또는 설정한 API 키로 의미 분석</td><td style="border:1px solid #ddd;padding:8px;">모델 백엔드로 전송</td></tr>
+</table>
+<p>코드는 프라이버시가 완벽히 지켜지고, 비정형 문서만 의미 분석이 필요합니다. 사내 문서를 넣을 때는 이 차이를 알고 설정하세요.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 스킬 등록</h2>
+<p>Python 3.10 이상과 uv(또는 pipx)가 필요합니다.</p>
+<pre><code>uv tool install graphifyy
+graphify install</code></pre>
+<p><code>graphify install</code>이 설치된 어시스턴트를 감지해 스킬을 등록합니다. 이후 어시스턴트에서:</p>
+<pre><code>/graphify .</code></pre>
+<p>실행하면 프로젝트를 스캔해 세 개의 파일을 만듭니다.</p>
+<pre><code>graphify-out/
+├── graph.html       브라우저에서 여는 인터랙티브 그래프
+├── GRAPH_REPORT.md  핵심 개념·놀라운 연결·추천 질문 요약
+└── graph.json       전체 그래프 데이터 (재질의용)</code></pre>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">세 가지 산출물의 역할</h2>
+<p>각 파일이 다른 용도입니다.</p>
+<ul>
+<li><strong>graph.html</strong> — 시각적 탐색. 노드를 클릭하고, 커뮤니티별로 필터링하고, 검색합니다</li>
+<li><strong>GRAPH_REPORT.md</strong> — 사람이 먼저 읽는 요약. 주요 개념과 예상 못 한 연결을 보여줍니다</li>
+<li><strong>graph.json</strong> — 기계가 읽는 전체 데이터. 파일을 다시 안 읽고도 질의할 수 있습니다</li>
+</ul>
+<p>graph.json에는 <code>graph.schema_version</code>과 <code>graph.graphify_version</code>이 들어 있어, 버전이 다른 그래프를 구분할 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">그래프에 질문하는 세 가지 방법</h2>
+<p>CLI 명령으로 직접 질의할 수 있습니다.</p>
+<pre><code>graphify explain "APIRouter"   # 개념의 정의·연결·출처
+graphify path "FastAPI" "ModelField"   # 두 노드 사이 최단 경로
+graphify query "인증 흐름은 어떻게 되나"   # 자연어 질문 → 하위 그래프</code></pre>
+<p>실제 출력 예시가 README에 있습니다. <code>explain</code>은 노드의 출처(파일·줄), 소속 커뮤니티, 연결 수와 각 엣지의 관계 유형을 보여줍니다. <code>path</code>는 두 개념 사이의 경로를 hop 단위로 표시하고, 가장 약한 고리의 신뢰도를 전체 신뢰도로 삼습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">EXTRACTED와 INFERRED: 모든 엣지의 출처</h2>
+<p>Graphify의 차별점은 <strong>엣지마다 신뢰도 태그</strong>가 붙는다는 겁니다.</p>
+<ul>
+<li><strong>EXTRACTED</strong> — 소스에 명시된 관계. import 문, 상속 선언, 직접 호출</li>
+<li><strong>INFERRED</strong> — 그래프가 해석해 연결한 관계. 이름 유사성, 간접 참조 등</li>
+</ul>
+<p>이 구분 덕분에 "직접 읽은 사실"과 "추론한 연결"을 구분할 수 있습니다. 에이전트가 답변할 때도 이 태그를 근거로 삼아, 확실한 관계와 추측을 섞지 않게 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">벡터 검색과 다른 점</h2>
+<p>Graphify는 임베딩·벡터 DB를 쓰지 않습니다. 대신 <strong>실제 그래프를 순회</strong>합니다.</p>
+<p>벡터 검색은 "비슷한 문서"를 찾지만, 그래프는 "이 함수가 어디서 호출되고, 이 클래스가 무엇을 상속하는지"를 구조적으로 답합니다. README의 LOCOMO 벤치마크에서 recall@10 0.497로 mem0(0.048)·supermemory(0.149)보다 높다고 주장합니다.</p>
+<p>다만 용도가 다릅니다. 벡터 검색은 의미적 유사성을, 그래프는 구조적 관계를 담당합니다. 둘을 병용하는 게 이상적입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">Graphify Cloud와 유료 확장</h2>
+<p>오픈소스 CLI는 로컬 1회성 스캔입니다. 상시 운영이 필요하면 Graphify Cloud가 있습니다.</p>
+<ul>
+<li>모노레포·크로스 레포 지원</li>
+<li>형식 검증(formal verification)과 코드 리뷰</li>
+<li>Sentry·Jira 등 커넥터로 이슈·인시던트를 같은 그래프에</li>
+<li>"에이전트 토큰 소비 80% 절감" 주장</li>
+</ul>
+<p>무료 체험 14일. CLI만으로도 대부분의 개인·소규모 팀 사용에는 충분합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한계와 주의</h2>
+<ul>
+<li><strong>언어 지원 범위</strong> — tree-sitter가 지원하는 약 40개 언어만 코드로 파싱됩니다. 나머지는 제외될 수 있습니다</li>
+<li><strong>비용</strong> — 문서의 의미 분석은 모델 호출이 필요해 토큰 비용이 발생합니다</li>
+<li><strong>갱신</strong> — 코드가 바뀌면 그래프도 다시 만들어야 최신 상태를 유지합니다</li>
+<li><strong>대규모 저장소</strong> — 처음 생성 시간이 깁니다. 변경분 갱신 습관이 필요합니다</li>
+<li><strong>추론 엣지</strong> — INFERRED 관계는 틀릴 수 있으니 중요한 판단은 EXTRACTED만 근거로 삼으세요</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+<p>Graphify는 "코드베이스를 매번 처음부터 읽는" 문제를, 한 번 그래프로 만들어 계속 재사용하는 방식으로 바꿉니다. 코드는 완전 로컬로 파싱하고, 문서만 모델을 쓰며, 엣지마다 출처를 표시한다는 점이 신뢰할 수 있는 설계입니다. 에이전트와 함께 일하는 개발자라면, 프로젝트에 한 번 돌려 볼 가치가 충분합니다.</p>
+<p style="font-size:15px;color:#666;">참고: <a href="https://github.com/Graphify-Labs/graphify" target="_blank">github.com/Graphify-Labs/graphify</a> (Apache-2.0)</p>

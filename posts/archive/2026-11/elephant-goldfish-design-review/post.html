@@ -1,0 +1,133 @@
+<!-- write.mjs가 소제목 위에 이미지를 넣는다. <img> 태그는 넣지 않는다. -->
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>문제 제기: 같은 눈으로 설계와 검토를 하면 생기는 일</h2>
+<p>AI 에이전트에게 설계를 맡기고, 이어서 "검토해 줘"라고 하면 어떻게 될까요? 같은 대화 안에서 이어지는 검토는 대체로 형식적입니다. 설계할 때 전제했던 것들이 대화 맥락에 그대로 남아 있어서, 검토자도 그 전제를 그대로 받아들이기 때문입니다.</p>
+<p>사람이 팀에서 코드 리뷰를 따로 두는 이유와 같습니다. 설계한 사람은 자기 설계의 맹점을 못 봅니다. 에이전트도 마찬가지인데, 문제는 에이전트는 "다른 사람"이 없다는 점입니다.</p>
+
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">
+  설계는 컨텍스트를 다 아는 코끼리가 하고, 검토는 컨텍스트를 모르는 금붕어가 합니다. 그 비대칭이 이 도구의 전부입니다.
+</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>무엇인가: Elephant-Goldfish Model</h2>
+<p><code>google/elephant-goldfish-model</code>(EGM)은 구글이 공개한 오픈소스 에이전트 플러그인입니다. Apache 2.0 라이선스, GitHub 별 1.3만 개. "공식 지원 구글 제품은 아니다"라고 명시돼 있습니다.</p>
+<p>컨셉은 단순하고 날카롭습니다. 수천 명의 구글 엔지니어가 쓰는 이 플러그인은, 깊은 컨텍스트를 가진 에이전트(코끼리)가 명세를 쓰고, 컨텍스트가 전혀 없는 새 서브에이전트들(금붕어)이 그 명세를 스트레스 테스트하게 합니다. 코드 작성 전에 가정과 사각지대를 드러내는 게 목적입니다.</p>
+<p>Dave Rensin의 에세이 "Elephants, Goldfish, and the New Golden Age of Software Engineering"에서 따온 이름입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>역할 분담: 코끼리·금붕어·사람</h2>
+<p>EGM이 정의하는 세 역할은 이렇습니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<thead>
+<tr style="background:#f5f7fa;">
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">역할</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">가진 것</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">하는 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>코끼리(Elephant)</strong></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">프로젝트 전체 컨텍스트, 요구사항, 이전 결정</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">문제를 탐색하고 명세 초안을 작성</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>금붕어(Goldfish)</strong></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">문서와 그 문서가 참조하는 소스만, 이전 대화 없음</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">빠진 가정, 불명확한 요구, 구현 위험을 찾음</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><strong>사람</strong></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">목표와 제약 중 진짜 중요한 것</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">트레이드오프를 결정하고, 설계를 승인하고, 무엇을 만들지 정함</td>
+</tr>
+</tbody>
+</table>
+<p>핵심은 금붕어가 <strong>이전 대화를 모른다</strong>는 점입니다. 설계자가 당연하게 여기고 넘어간 전제가, 새 컨텍스트에서는 드러납니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>설치: 에이전트별로 다르다</h2>
+<p>EGM은 Claude Code, Codex CLI, Antigravity, ChatGPT/Codex 데스크톱 등 여러 하네스를 지원합니다. 설치 명령이 각각 다릅니다.</p>
+<pre><code># Claude Code
+claude plugin marketplace add google/elephant-goldfish-model
+claude plugin install egm@egm
+
+# Codex CLI
+codex plugin marketplace add google/elephant-goldfish-model
+codex plugin add egm@egm
+
+# Antigravity CLI
+agy plugin install https://github.com/google/elephant-goldfish-model</code></pre>
+<p>ChatGPT·Codex 데스크톱은 게시된 플러그인 페이지에서 설치합니다. 설치 후 새 세션을 시작해야 스킬이 잡힙니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>첫 사용: 브레인스토밍부터 리뷰까지</h2>
+<p>전형적인 흐름은 세 단계입니다.</p>
+<pre><code># 1. 아이디어를 스트레스 테스트 → concepts_brief.md
+/egm-brainstorm 이 프로젝트에 웹훅 전송을 추가해 줘
+
+# 2. 브리프를 설계 문서로 → design_draft.md (섹션마다 피드백)
+/egm-draft
+
+# 3. 새 금붕어들이 검토 → 지적 사항을 골라 반영 여부 결정
+/egm-review design_draft.md</code></pre>
+<p>브레인스토밍 단계에서 이미 새 리뷰어들이 제안을 검증하고, 합의된 방향이 <code>concepts_brief.md</code>에 저장됩니다. 드래프트는 섹션마다 사람의 피드백을 받으며 진행되고, 리뷰는 설계 적합성·명확성·코드와의 정합성·구현 계획을 다섯 단계로 나눠 봅니다. 승인되면 <code>docs/designs/</code> 아래에 명세가 보관됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>스킬 일곱 개: 필요한 것만 골라 쓴다</h2>
+<p>EGM은 전체 순서를 강제하지 않습니다. 상황에 맞는 스킬만 따로 쓸 수 있습니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<thead>
+<tr style="background:#f5f7fa;">
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">스킬</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>egm-brainstorm</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">아이디어를 검증하고 컨셉 브리프 작성</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>egm-draft</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">브리프나 메모를 설계 문서로 변환</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>egm-review</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">설계 문서를 새 에이전트들로 다섯 단계 검토</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>egm-resolve</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">리뷰 지적을 하나씩 검토하고 변경 합의</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>egm-bootstrap</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">기존 코드베이스의 문서를 새로 만들거나 갱신</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;"><code>egm-review-loop</code> / <code>egm-drift-report</code></td>
+<td style="border:1px solid #e5e8eb;padding:10px;">특정 검토 작업용 리뷰어 그룹 실행, 체크인된 문서와 현재 코드의 차이 비교</td>
+</tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>리뷰의 다섯 단계: 금붕어가 보는 것</h2>
+<p><code>egm-review</code>는 설계 문서를 새 에이전트들이 다섯 단계로 나눠 검토합니다. README가 밝히는 축은 설계 자체의 타당성, 문서의 명확성, 기존 코드와의 정합성, 구현 계획의 현실성입니다.</p>
+<p>각 리뷰어는 이전 대화 없이 문서와 그 문서가 참조하는 소스만 읽습니다. 그래서 "이 부분은 당연하니까 넘어가자"가 통하지 않습니다. 문서에 적히지 않은 가정은 금붕어에게는 그냥 빠진 요구사항입니다. 지적 사항은 전부 나온 뒤에 사람이 고르고, 반영 여부를 <code>egm-resolve</code>로 하나씩 합의합니다.</p>
+<p>또한 설치 시 플러그인 전체를 넣어야 스킬이 리뷰어 프롬프트와 문서 표준을 읽을 수 있습니다. 부분 설치는 리뷰 품질을 떨어뜨립니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>한계와 주의</h2>
+<p>가장 중요한 제약: <strong>금붕어 리뷰는 새 서브에이전트 컨텍스트가 필요합니다.</strong> 에이전트가 fresh subagent를 만들 수 없으면 EGM은 리뷰를 중단합니다. 세션 안에서 그냥 "다른 관점으로 봐 줘"라고 하는 것과는 다릅니다.</p>
+<p>둘째, 리뷰가 테스트나 사람 판단을 대체하지 않습니다. 명세가 아무리 깔끔해도 구현이 틀릴 수 있고, 트레이드오프 결정은 여전히 사람 몫입니다. 셋째, README는 "작은 명확한 버그 수정에는 일반 워크플로를 쓰라"고 선을 긋습니다. 설계 결정이 필요한 기능에 쓰는 도구입니다.</p>
+<p>하네스별 지원 상태도 다릅니다. agy CLI 버전에 따라 접두사 동작이 다르다는 알려진 이슈(#196, #220)가 문서에 정리돼 있으니, 자기 환경에서 명령이 안 먹히면 문서를 확인하세요.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>도입 전 체크리스트</h2>
+<div style="background:#f0fdf4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#166534;">확인할 것 4가지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 하네스 — 쓰는 에이전트가 fresh subagent를 만들 수 있는지(리뷰의 전제)</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 대상 — 설계 결정이 필요한 기능인지(버그 수정엔 과함)</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 문서 — <code>docs/designs/</code>에 명세가 쌓이는 구조를 팀이 받아들일지</p>
+<p style="margin:0;font-size:15px;line-height:1.6;color:#166534;">✓ 승인 — 금붕어 지적을 사람이 골라 반영하는 절차를 거칠지</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>정리</h2>
+<p>Elephant-Goldfish는 "설계한 에이전트가 자기 설계를 검토하는" 순환의 오류를, 컨텍스트를 비운 새 에이전트로 끊어 낸 도구입니다. 코끼리가 명세를 쓰고, 금붕어가 전제 없는 눈으로 공격하고, 사람이 결정합니다.</p>
+<p>오늘 해 볼 일은 간단합니다. Claude Code에 플러그인을 설치하고, 진행 중인 기능 하나를 <code>/egm-brainstorm</code>으로 던져 보세요. 대화에 없던 가정이 문서에서 드러나는 순간을 볼 수 있습니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">
+참고: <a href="https://github.com/google/elephant-goldfish-model" target="_blank" style="color:#555;text-decoration:none;">google/elephant-goldfish-model</a> (Apache-2.0, GitHub 별 1.3만, 공식 지원 구글 제품 아님, 2026-11 기준)
+</p>

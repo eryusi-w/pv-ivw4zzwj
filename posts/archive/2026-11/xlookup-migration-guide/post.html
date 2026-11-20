@@ -1,0 +1,62 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">VLOOKUP은 엑셀의 국민 함수지만, 한계가 있습니다. 왼쪽 열만 찾고, 열 번호를 외워야 하고, 열을 삽입하면 깨집니다. XLOOKUP은 이 문제를 해결한 새 함수입니다. VLOOKUP에서 바꾸는 법을 정리했습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">XLOOKUP이 다른 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">XLOOKUP은 VLOOKUP의 단점을 해결한 함수입니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<tr><th style="border:1px solid #ddd;padding:8px;background:#f5f7fa;text-align:left;">기능</th><th style="border:1px solid #ddd;padding:8px;background:#f5f7fa;text-align:left;">VLOOKUP</th><th style="border:1px solid #ddd;padding:8px;background:#f5f7fa;text-align:left;">XLOOKUP</th></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">찾는 방향</td><td style="border:1px solid #ddd;padding:8px;">왼쪽→오른쪽만</td><td style="border:1px solid #ddd;padding:8px;">양방향 가능</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">열 지정</td><td style="border:1px solid #ddd;padding:8px;">열 번호(3 등)</td><td style="border:1px solid #ddd;padding:8px;">열 자체를 지정</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">없을 때</td><td style="border:1px solid #ddd;padding:8px;">#N/A 오류</td><td style="border:1px solid #ddd;padding:8px;">기본값 지정 가능</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">정확히 일치</td><td style="border:1px solid #ddd;padding:8px;">4번째 인수 필요</td><td style="border:1px solid #ddd;padding:8px;">기본이 정확히 일치</td></tr>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">기본 사용법</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">XLOOKUP의 기본 구조는 "찾을 값, 찾을 범위, 가져올 범위"입니다.</p>
+
+<pre><code>=XLOOKUP(찾을값, 찾을범위, 가져올범위)
+
+예: A열의 사원번호로 C열의 이름을 찾기
+=XLOOKUP(A2, 사원번호범위, 이름범위)</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">VLOOKUP과 비교하면 이렇게 바뀝니다.</p>
+
+<pre><code>VLOOKUP: =VLOOKUP(A2, B:D, 2, FALSE)
+XLOOKUP: =XLOOKUP(A2, B:B, C:C)</code></pre>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">없을 때 기본값 주기</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">XLOOKUP의 가장 편한 기능 중 하나가 "없으면 이렇게 표시"입니다.</p>
+
+<pre><code>=XLOOKUP(A2, B:B, C:C, "없음")
+# 찾는 값이 없으면 #N/A 대신 "없음" 표시</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">이걸로 IFERROR를 따로 쓸 필요가 없어집니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">양방향 검색</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">VLOOKUP은 왼쪽 열만 찾지만, XLOOKUP은 어느 방향이든 찾습니다. 오른쪽 열의 값으로 왼쪽 열의 값을 가져올 수 있습니다.</p>
+
+<pre><code>이름으로 사원번호 찾기 (오른쪽→왼쪽)
+=XLOOKUP(이름, 이름범위, 사원번호범위)</code></pre>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">마이그레이션 팁</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">기존 VLOOKUP을 XLOOKUP으로 바꿀 때 참고하세요.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">찾을 범위를 열 전체가 아닌 필요한 열만 지정하면 더 빠릅니다</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">"정확히 일치"가 기본이므로 FALSE를 외울 필요가 없습니다</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">여러 결과가 있으면 마지막/첫 번째/필터링 옵션도 있습니다</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">XLOOKUP은 VLOOKUP의 모든 장점을 가져오고 단점을 없앤 함수입니다. 새로 배우는 것보다 "VLOOKUP 쓰던 걸 XLOOKUP으로 바꾸는 것"이 더 쉽습니다. 열 번호 외우기·#N/A 처리 고민이 사라집니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: Microsoft Excel 공식 함수 문서 기준입니다.</p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224476196771" target="_blank" style="color:#2f5bd7;text-decoration:none;">직장인 엑셀 함수 10선, 이것만 알면 됩니다</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224476211238" target="_blank" style="color:#2f5bd7;text-decoration:none;">엑셀 피벗테이블 입문, 데이터 정리 10분 만에</a></p>

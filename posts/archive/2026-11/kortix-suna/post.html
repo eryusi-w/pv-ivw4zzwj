@@ -1,0 +1,58 @@
+<p>Suna는 "일반 업무를 통째로 맡기는 AI 에이전트"로 알려진 오픈소스 프로젝트입니다. 그런데 최근 저장소를 보면 이름이 <strong>Kortix CompanyOS</strong>로 바뀌고 제품 방향도 커졌습니다. 개인용 에이전트에서 "회사의 AI 커맨드 센터"로 — README가 스스로를 그렇게 부릅니다.</p>
+<p>이번 글은 Kortix(옛 Suna)가 무엇이고, 실제로 회사 업무에 어떻게 쓰는지 정리합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">Suna에서 Kortix로: 무엇이 바뀌었나</h2>
+<p>kortix-ai/suna 저장소의 README는 이제 CompanyOS를 설명합니다. 오픈소스·확장 가능·멀티플레이어·주권(sovereign) 실행을 내세우며, 핵심 메시지는 "항상 켜져 있고, 이벤트로 시작하고, 병렬로 돌고, 회사의 메모리를 공유하는 에이전트"입니다.</p>
+<p>이전 Suna가 "작업 하나를 끝까지 하는 에이전트"였다면, CompanyOS는 <strong>회사의 상시 운영체제</strong>에 가깝습니다. 스케줄·웹훅·커넥터 이벤트·승인된 변경 요청이 사람 없이도 에이전트를 깨웁니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 개념: 세션과 컴퓨터</h2>
+<p>구조의 뼈대는 <strong>세션</strong>입니다. 사용자가 My Kortix와 대화하면, 각 작업이 자기만의 클라우드 컴퓨터에서 도는 전용 세션으로 넘어갑니다.</p>
+<ul>
+<li>세션마다 격리된 컴퓨터 — 터미널·브라우저·실시간 데스크톱 화면 제공</li>
+<li>컴퓨터는 마지막 대화 후 15~20분 지나면 잠들고, 다음 메시지나 이벤트에 전체 히스토리와 함께 깨어남</li>
+<li>상태는 컴퓨터가 아니라 repo·Drive·/workspace·세션 레코드에 저장</li>
+</ul>
+<p>즉 "컴퓨터는 disposable, 상태는 persistent" — 이 분리가 스케일 아웃의 핵심입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">이벤트로 시작되는 작업</h2>
+<p>사람이 타이핑하지 않아도 에이전트가 시작됩니다. 트리거는 스케줄, 서명된 웹훅, 커넥터 이벤트, 앱 이벤트, 머지된 변경 요청입니다.</p>
+<p>코드 레벨 필터가 노이즈를 먼저 걸러 모델 호출 전에 차단하고, 세션은 자기 작업의 이벤트를 구독하며, 에이전트는 멈추기 전에 스스로 체크인을 예약합니다. "매일 아침 경쟁사 소식을 정리해 슬랙에 올려줘" 같은 반복 업무가 이런 트리거로 돌아갑니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">My Kortix와 스웜</h2>
+<p>사용자가 상대하는 건 <strong>My Kortix</strong> 하나입니다. 즉시 답하고, 글쓰기·리서치·코드·앱 작업은 전담 에이전트에게 백그라운드로 넘기고, 결과를 보고합니다. 후속 질문은 같은 에이전트의 세션으로 가서 이미 아는 맥락을 이어받습니다.</p>
+<p>규모를 키우는 장치가 스웜입니다. 세션이 백그라운드로 작업을 넘기고, 여러 에이전트를 조율하는 워크플로를 돌리고, 세션끼리 메시지를 보냅니다. 하나의 설정으로 수천 개 에이전트가 병렬로 돌 수 있다고 README는 말합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">긴 작업: 컨텍스트가 차도 멈추지 않는다</h2>
+<p>CompanyOS의 독특한 설계가 <strong>롱 호라이즌</strong> 처리입니다. 컨텍스트가 차면 요약하지 않고 새 컨텍스트로 이어가되, 세션의 전체 기록을 단어 단위로 검색해 필요한 원문을 찾아옵니다.</p>
+<p>요약은 정보 손실을 만듭니다. "기록을 검색해 그대로 가져온다"는 방식은 오래 걸리는 작업에서 정확도를 지키는 대가로 컨텍스트 효율을 택한 설계입니다. 목표(Outcome) 기능도 있습니다 — 완료 정의를 두고 깨는 세션이 검증 세션에 확인받을 때까지 반복합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">커넥터·앱·모델</h2>
+<p>실무 연결은 세 갈래입니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<tr><th style="border:1px solid #ddd;padding:8px;background:#f7f9fa;">영역</th><th style="border:1px solid #ddd;padding:8px;background:#f7f9fa;">내용</th></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">커넥터</td><td style="border:1px solid #ddd;padding:8px;">3,000+ 앱 + MCP·OpenAPI·GraphQL·HTTP. 도구별 Allow/Ask/Block</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">앱</td><td style="border:1px solid #ddd;padding:8px;">에이전트가 사이트·내부도구를 만들어 고정 URL로 호스팅. 그룹당 최대 20대</td></tr>
+<tr><td style="border:1px solid #ddd;padding:8px;">모델</td><td style="border:1px solid #ddd;padding:8px;">Kortix 관리형·자체 키·ChatGPT/Claude 구독. LLM 게이트웨이로 예산·권한 통제</td></tr>
+</table>
+<p>자격 증명은 서버에 남고 머신에는 들어가지 않는다는 점이 보안상 중요합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">팀과 통제</h2>
+<p>회사용답게 권한 체계가 있습니다. 역할·그룹·리소스별 권한, 사람이 승인하는 변경 요청, 승인 규칙, 감사 로그, SAML 2.0 SSO·SCIM 2.0, 프로젝트별 암호화 키로 보호되는 시크릿.</p>
+<p>"에이전트가 main에 직접 push"가 아니라 변경 요청을 거치는 구조라, 자율성과 통제를 동시에 잡으려는 의도가 보입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실행 위치와 라이선스</h2>
+<p>Kortix Cloud, 자사 VPC, 온프레미스 어디서든 돌릴 수 있습니다. "회사 전체가 하나의 git repo"라는 표현처럼, 에이전트·스킬·메모리·커넥터 설정이 전부 코드로 관리됩니다.</p>
+<p>라이선스는 <strong>Elastic License 2.0</strong>입니다. 소스는 열려 있지만 "호스티드 서비스로 제3자에게 제공"하는 것이 제한됩니다. 즉 내부 업무 자동화엔 자유롭지만, 이걸 SaaS로 재판매하는 모델은 안 됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">도입 전 체크리스트</h2>
+<ul>
+<li>Elastic License 2.0의 "호스티드 서비스 제공 금지" 조항이 우리 사용 방식에 걸리지 않는가</li>
+<li>Kortix Cloud를 쓸지, VPC/온프레스로 가져갈지 — 데이터 위치와 규정 요구사항 대조</li>
+<li>3,000+ 커넥터 중 실제 필요한 서비스가 MCP·OpenAPI로 연결 가능한가</li>
+<li>변경 요청 승인 워크플로가 우리 리뷰 문화와 맞는가</li>
+<li>pi 기반 커스텀 에이전트 작성 역량이 팀에 있는가</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+<p>Kortix(옛 Suna)는 "회사의 AI 커맨드 센터"라는 야심에 걸맞게, 세션·트리거·스웜·영속 상태를 한 시스템으로 묶었습니다. 개인 비서가 아니라 조직 운영 인프라를 노린다는 점에서 이전 Suna와는 결이 다릅니다. 다만 Elastic License와 클라우드 의존 구조는 도입 전 반드시 따져봐야 할 조건입니다.</p>
+<p style="font-size:15px;color:#666;">참고: <a href="https://github.com/kortix-ai/suna" target="_blank">github.com/kortix-ai/suna</a> (Elastic License 2.0)</p>

@@ -1,0 +1,60 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Claude Code는 강력하지만 플러그인이 없으면 기본 기능만으로 한계가 있습니다. claude-plugins-official은 Anthropic이 직접 관리하는 공식 플러그인 디렉토리입니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Claude Code용 고품질 플러그인을 모은 공식 마켓플레이스로, Apache-2.0 라이선스에 현재 GitHub 스타 46,233개입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">공식 관리 플러그인 — Anthropic이 품질을 검증한 플러그인만 올라옵니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">내부·외부 플러그인 — Anthropic 제작과 파트너 제작을 모두 포함합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">CLI 설치 명령 — /plugin install 한 줄로 설치합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<pre><code>/plugin install {plugin-name}@claude-plugins-official</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Claude Code 안에서 /plugin 명령으로 디렉토리를 열어 원하는 플러그인을 고르고, 설치 명령을 실행하면 됩니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/anthropics/claude-plugins-official" target="_blank" style="color:#555;">anthropics/claude-plugins-official</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">46,233</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">Python</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">Apache-2.0</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>설치 방식</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">Claude Code /plugin 명령</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">처음엔 자주 쓰는 작업 영역(리뷰, 문서, 테스트)과 맞는 플러그인 하나만 설치해 봅니다.</p>
+
+<pre><code>git clone https://github.com/anthropics/claude-plugins-official.git</code></pre>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — Claude Code에서 /plugin을 열어 카탈로그를 둘러봅니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — 현재 작업에 필요한 플러그인 하나를 골라 설치합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — 플러그인이 제공하는 명령과 동작을 실제 작업에 적용해 봅니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 쓸모없는 플러그인은 제거해 컨텍스트를 가볍게 유지합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">플러그인을 많이 설치할수록 컨텍스트와 동작 범위가 커져 응답이 느려지거나 예상 밖 동작이 생길 수 있습니다. 공식 디렉토리라도 개별 플러그인의 품질 차이는 있으니, 설치 후에는 실제로 뭘 하는지 확인하며 쓰는 게 좋습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Claude Code를 실무에서 쓰는 개발자와 팀에게 특히 유용합니다. 기본 기능만으로는 부족한 반복 작업을 플러그인으로 확장하고 싶은 경우에 맞습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Claude Code의 공식 플러그인 스토어입니다. 검증된 플러그인만 있으니 탐색 비용이 낮고, 필요한 것만 골라 설치하면 됩니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/anthropics/claude-plugins-official" target="_blank" style="color:#555;text-decoration:none;">github.com/anthropics/claude-plugins-official</a></p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467214029" target="_blank" style="color:#2f5bd7;text-decoration:none;">AI가 게으른 시니어처럼 짜게 만드는 스킬</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467205971" target="_blank" style="color:#2f5bd7;text-decoration:none;">설계는 코끼리, 검토는 금붕어로 나누는 이유</a></p>

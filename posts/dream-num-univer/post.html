@@ -1,0 +1,70 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI와 의사소통하는 동시에 반복적인 문서·시트 작업까지 자동화하고 싶으신가요? 기존 office SDK는 무게가 무거워서 에이전트가 다루기 어렵고, 클라우드 의존도가 높아 자체 호스팅 시 보안 관리가 번거롭습니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;"><strong>univer</strong>(dream-num/univer)은 Open Source Office SDK로, 빠진 설치 절차 없이 AI 에이전트가 문서를 생성·수정할 수 있는 핵심 엔진을 제공합니다. GitHub 스타 25,000+를 확보한 실전용 도구입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>AI 에이전트 친화적</strong> — Facade API로 문서 구조를 이해하고, 명령(Mutation)으로 안전하게 편집합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>클라이언트 사이드 편집</strong> — 웹 SDK로 브라우저에서 직접 작업, 서버 없이도Sheets·Docs·Slides를 작성합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>확장 가능한 플러그인</strong> — 피처 플러그인으로 필터·차트·식을 자유롭게 추가하고, AgentRun과 연동해 워크플로우 자동화가 가능합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<pre><code>npm install @univerjs/sheets-core @univerjs/design @univerjs/ui
+npx univer run --port 5173</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Apache-2.0 라이선스의 오픈소스입니다. 설치 후 <a href="https://docs.univer.ai" target="_blank" style="color:#555;">공식 문서</a>에서 빠른 시작 가이드를 확인하세요.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/dream-num/univer" target="_blank" style="color:#555;">dream-num/univer</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">25,046</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">TypeScript</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">Apache-2.0</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>설치 방식</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">npm 패키지 설치</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">처음부터 크게 붙이지 말고, 아래 순서로 작은 작업 하나에만 적용합니다.</p>
+
+<pre><code>npm create univer@latest my-univer-app
+cd my-univer-app
+npx univer dev</code></pre>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — npm 플러그인으로 univer SDK를 프로젝트에 추가합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — Sheets Core 프리셋로 기본 문서 편집 기능을 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — 코드를 수정하고 <code>npx univer dev</code>로 HMR로 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 필요한 기능을 플러그인으로 확장하고 배포합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">버전 간 호환성을 위해 <code>@univerjs/*</code> 패키지는 같은 버전으로 묶어 설치하고, 피처 플러그인은 프리셋에 맞게 선택하세요.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">AI 에이전트가 문서 작업을 자동화하려는 개발자·엔지니어에게 필수적입니다. 특히 AgentRun, Claude Code, Codex와 연동해 워크플로우 자동화를 구축하는 경우에 유용합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;"><strong>univer</strong>은 AI 에이전트가 문서를 이해하고 편집할 수 있도록 하는 Open Source Office SDK입니다. 빠른 시작 후 작은 기능부터 확장해 보세요.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/dream-num/univer" target="_blank" style="color:#555;text-decoration:none;">github.com/dream-num/univer</a></p>
+
+<hr>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;"><strong>함께 읽으면 좋은 관련 글</strong></p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;"><a href="https://blog.naver.com/ryusi79/224452615923">AI 에이전트 실무 자동화를 위한 유용한 도구 3가지</a> — 2026.11.13</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><a href="https://blog.naver.com/ryusi79/224452615924">AgentRun으로 코드 리뷰 비용 36배 절감</a> — 2026.11.10</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><a href="https://blog.naver.com/ryusi79/224452615925">Claude Code와 연동하는 방법, 실전 예시</a> — 2026.11.08</li>
+</ul>

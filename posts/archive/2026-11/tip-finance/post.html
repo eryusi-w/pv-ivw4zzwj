@@ -1,0 +1,107 @@
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">어떤 상황인가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">이 글은 "금융과 법률 정보를 확인하는 일" 상황에서 바로 쓸 수 있는 오픈소스 AI 도구 3가지를 정리했습니다. 좋은 도구는 계속 나오지만, 무엇을 언제 써야 하는지 한눈에 보기 어렵습니다. 아래 3가지는 같은 목적(도메인: 금융·법률)의 도구지만 강점과 약점이 서로 다릅니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">이 상황에 쓰는 도구 3가지</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">먼저 세 도구를 한 줄로 소개합니다. 자세한 강점과 약점은 다음 절에서 봅니다.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>daily_stock_analysis</strong> — LLM을 활용해 다중 시장 주식 데이터와 실시간 뉴스를 분석하여 투자 결정을 돕는 자동화 시스템입니다. 개인 투자자나 금융 애널리스트가 저비용으로 정기적인 시장 인사이트를 얻는 데 유용합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>kairos</strong> — 실시간으로 가입, 로그인, 결제 등 금융 트랜잭션의 사기 및 위험을 AI 모델로 판정하고 결정 근거를 기록하는 오픈소스 플랫폼입니다. 기존 상용 사기 방지 솔루션의 대안으로, 코딩 에이전트로 모델을 튜닝할 수 있어 금융 보안 실무자에게 유용합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;"><strong>Kronos</strong> — Kronos는 금융 시장 언어 모델로, 금융 데이터 이해·생성을 위한 범용 foundation model이다. 금융 분석가·트레이더·연구자에게 인사이트 제공에 유용합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">도구별 강점과 약점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;"><strong>daily_stock_analysis</strong> — 매일 아침 주식 시장 동향과 주요 뉴스를 AI로 요약받아 투자 판단에 활용하는 경우.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">강점: LLM을 활용한 자동화된 주식 분석 파이프라인을 구축할 수 있는 구조를 제공합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">약점: 라이선스 미기재 및 문서 부재로 상업적 사용이나 신뢰성 검증이 어렵습니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">한줄평: 지켜볼 만함 — 스타 0개, README 및 문서가 없어 안정성과 유지보수 상태가 불확실합니다.</li>
+</ul>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;"><strong>kairos</strong> — 핀테크 스타트업이나 금융기관에서 실시간 사기 탐지 및 리스크 관리 시스템을 구축할 때.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">강점: 상용 솔루션 대비 데이터 주권을 확보하고 AI 에이전트로 모델 성능을 지속적으로 최적화할 수 있음.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">약점: 실시간 금융 데이터 처리 인프라 구축 및 모델 튜닝에 대한 전문 지식이 필요함.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">한줄평: 써볼 만함 — 상용 솔루션 대비 유연한 AI 튜닝 기능이 매력적이며 오픈소스 라이선스(Apache-2.0)로 부담이 적음</li>
+</ul>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;"><strong>Kronos</strong> — 금융 데이터 분석·예측 모델링에 활용.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">강점: 금융 시장 언어 이해에 특화된 고성능 foundation model.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">약점: 설치·사용 문서가 부족하고, 모델 규모가 커 리소스 요구가 큼.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">한줄평: 써볼 만함 — 모델 무게와 라이선스 명확성 필요</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한눈에 비교</h2>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">도구</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">스타</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">언어</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">라이선스</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">한줄평</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/ZhuLinsen/daily_stock_analysis" target="_blank" style="color:#555;">daily_stock_analysis</a></td><td style="border:1px solid #e5e8eb;padding:10px;">0</td><td style="border:1px solid #e5e8eb;padding:10px;">Python</td><td style="border:1px solid #e5e8eb;padding:10px;">N/A</td><td style="border:1px solid #e5e8eb;padding:10px;">지켜볼 만함 — 스타 0개, README 및 문서가 없어 안정성 미확인</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/finic-ai/kairos" target="_blank" style="color:#555;">kairos</a></td><td style="border:1px solid #e5e8eb;padding:10px;">244</td><td style="border:1px solid #e5e8eb;padding:10px;">TypeScript</td><td style="border:1px solid #e5e8eb;padding:10px;">Apache-2.0</td><td style="border:1px solid #e5e8eb;padding:10px;">써볼 만함 — 상용 솔루션 대비 유연한 AI 튜닝 기능이 매력적</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/shiyu-coder/Kronos" target="_blank" style="color:#555;">Kronos</a></td><td style="border:1px solid #e5e8eb;padding:10px;">0</td><td style="border:1px solid #e5e8eb;padding:10px;">Python</td><td style="border:1px solid #e5e8eb;padding:10px;">N/A</td><td style="border:1px solid #e5e8eb;padding:10px;">써볼 만함 — 모델 무게와 라이선스 명확성 필요</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">추천 조합</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">세 도구를 한 번에 다 쓰기보다, 아래 순서로 하나씩 붙이는 편이 안전합니다.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">고르기 — "금융과 법률 정보를 확인하는 일"에서 가장 자주 반복되는 작업 하나를 정합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">붙이기 — 그 작업에 맞는 도구 하나만 설치해 작은 범위에서 써 봅니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">확인 — 결과를 눈으로 비교하고, 괜찮으면 다음 도구로 넓힙니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">도구 고르는 기준</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">유지보수 — 최근 커밋과 릴리스가 활발한지 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">라이선스 — 상업적 사용과 재배포 조건을 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">설치 난이도 — 런타임·의존성이 현재 환경과 맞는지 봅니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">문서 품질 — 시작 가이드와 예제가 있는지 봅니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">처음 쓸 때 확인할 것</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">요구 사항 — 런타임 버전과 OS 제약을 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">권한 — API 키와 접근 권한을 최소로 둡니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">데이터 — 입력한 내용이 외부로 나가는지 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">되돌리기 — 문제가 생겼을 때 끄거나 지울 수 있는지 봅니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">주의할 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">오픈소스 도구는 언제든 방향이 바뀔 수 있습니다. 도입 전에 라이선스와 유지보수 주기를 확인하고, 민감한 코드나 데이터는 권한을 좁혀 테스트한 뒤 확대하세요.</p>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">daily_stock_analysis — 라이선스 미기재 및 문서 부재로 상업적 사용이나 신뢰성 검증이 어렵습니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">kairos — 실시간 금융 데이터 처리 인프라 구축 및 모델 튜닝에 대한 전문 지식이 필요함</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">Kronos — 설치·사용 문서가 부족하고, 모델 규모가 커 리소스 요구가 큼</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">파이썬 기반 AI/데이터 분석에 익숙한 개인 투자자 및 퀀트 개발자, 금융 보안 엔지니어, 데이터 사이언티스트, 핀테크 개발자, 금융 데이터 과학자·트레이더·AI 연구자에게 특히 유용합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">"금융과 법률 정보를 확인하는 일"에는 daily_stock_analysis, kairos, Kronos 세 가지를 먼저 보면 됩니다. 하나를 골라 작은 작업부터 붙이고, 결과가 괜찮으면 다음 도구로 넓히세요.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/ZhuLinsen/daily_stock_analysis" target="_blank" style="color:#555;text-decoration:none;">github.com/ZhuLinsen/daily_stock_analysis</a></p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/finic-ai/kairos" target="_blank" style="color:#555;text-decoration:none;">github.com/finic-ai/kairos</a></p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/shiyu-coder/Kronos" target="_blank" style="color:#555;text-decoration:none;">github.com/shiyu-coder/Kronos</a></p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224469344154" target="_blank" style="color:#2f5bd7;text-decoration:none;">2026년 투자, 지금 무엇을 보고 움직여야 할까</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224475770521" target="_blank" style="color:#2f5bd7;text-decoration:none;">반도체·TQQQ·비트코인, 지금 사도 될까 판단 기준</a></p>

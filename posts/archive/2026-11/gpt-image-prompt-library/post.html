@@ -1,0 +1,110 @@
+<!-- write.mjs가 소제목 위에 이미지를 넣는다. <img> 태그는 넣지 않는다. -->
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>문제 제기</h2>
+<p>AI 이미지 생성에서 프롬프트는 대화 속에 흩어져 사라집니다. 잘 나온 결과물의 프롬프트를 나중에 찾으려 해도 채팅 기록을 뒤져야 하고, 팀원이 같은 결과를 재현할 방법이 없습니다. 프롬프트가 자산이 되려면 코드처럼 관리돼야 합니다.</p>
+<p>awesome-gpt-image-2(freestylefly)는 이 문제를 "Prompt as Code"라는 이름으로 정면으로 다루는 저장소입니다. GitHub 별 3만 5천 개, 포크 3천 4백 개, MIT 라이선스. GPT Image 2와 2.5용 프롬프트와 사례를 체계화해 모아 뒀습니다.</p>
+
+<blockquote style="margin:0 0 30px 0;padding:16px 22px;background:#f7f9fa;border-left:4px solid #2f5bd7;color:#333;">
+  산문으로 쓴 프롬프트를 구조화된 프로토콜로 압축해, 에이전트와 자동화가 재사용할 수 있게 만든 저장소입니다.
+</blockquote>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>Prompt as Code가 뜻하는 것</h2>
+<p>프로젝트의 비전은 명확합니다. GPT Image 2가 널리 쓰이게 되면서 AI 이미지 생성의 질문이 "그릴 수 있는가"에서 "안정적이고 제어 가능하고 재사용 가능한가"로 바뀌었다는 겁니다. 이 저장소는 흩어진 커뮤니티 사례를 재사용 가능한 자산으로 바꾸는 시도입니다.</p>
+<p>핵심은 <strong>원자 스키마</strong>입니다. 프롬프트를 주제(subject), 조명, 재질, 레이아웃, 시각적 디테일 같은 조합 가능한 부분으로 쪼갭니다. 산문 한 덩어리가 아니라 부품 목록이 되는 거죠. 이렇게 하면 배치 생성, 템플릿 시스템, 프로덕션 워크플로우에서 구조가 산문보다 훨씬 유용합니다.</p>
+<div style="background:#f0f6ff;border:1px solid #d6e4ff;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0;font-size:15px;line-height:1.6;color:#2c4a7c;"><strong>언어 참고</strong> — README의 원문은 중국어 간체가 먼저고 영어·일본어가 뒤따릅니다. 이 글은 영어 README 기준으로 정리했습니다.</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>544개 사례 앨범</h2>
+<p>저장소의 중심은 갤러리입니다. 현재 544개 사례가 카테고리별로 정리돼 있고, 각 사례에는 원본 이미지와 전체 프롬프트, 생성 기록이 붙어 있습니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<thead>
+<tr style="background:#f5f7fa;">
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">카테고리</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">사례 수</th>
+<th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">Posters &amp; Typography</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">90</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">포스터, 타이포그래피, 레이아웃</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">Photography &amp; Realism</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">78</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">인물, 필름 질감, 상업 사진</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">UI &amp; Interfaces</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">73</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">앱, 웹, 대시보드, 소셜 캡처</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">Illustration &amp; Art</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">59</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">일러스트, 화풍, 재질 실험</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">Charts &amp; Infographics</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">53</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">인포그래픽, 기술 해설, 데이터 구조</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">Products &amp; E-commerce</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">42</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">제품 컷, 패키지, 상세 페이지</td>
+</tr>
+<tr>
+<td style="border:1px solid #e5e8eb;padding:10px;">기타 6개 카테고리</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">149</td>
+<td style="border:1px solid #e5e8eb;padding:10px;">브랜드, 건축, 캐릭터, 문서, 역사 등</td>
+</tr>
+</tbody>
+</table>
+<p>사용법은 단순합니다. Featured Cases에서 원하는 결과물 유형을 고르고, 전체 갤러리에서 비슷한 사례를 찾은 뒤, <strong>구조를 먼저, 스타일 단어는 나중에</strong> 가져옵니다. 마지막으로 템플릿 페이지에 자기 업무 변수를 채워 넣습니다.</p>
+<p>라이브 사이트(gpt-image2.canghe.ai)에서는 Google 로그인 후 실제 생성까지 테스트할 수 있고, 프롬프트를 복사하고 카테고리로 필터링할 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>GPT Image 2.5 스포트라이트</h2>
+<p>저장소는 GPT Image 2.5도 다룹니다. Sunburst(이미지 생성과 정밀 편집)와 Flare(빠른 일상 생성) 두 모델을 소개하고, 같은 프롬프트로 비교하는 드래그 가능한 인터페이스를 제공합니다. Lemon 캠페인, Rio 디오라마, Manhattan 수채화, Bichon Shop 아이콘 등 4개 실제 재현 사례가 들어 있습니다.</p>
+<p>다만 스포트라이트는 독립 섹션입니다. 기존 2용 사례·템플릿·스킬은 그대로고, 이 업데이트가 2.5 실시간 생성을 추가한 건 아닙니다. 원본 생성 조건과 정확한 모델 ID는 미검증으로 표시돼 있어, 데모와 원본을 구분해서 봐야 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>에이전트 스킬</h2>
+<p>이 저장소의 독특한 점은 프롬프트 라이브러리를 <strong>에이전트 스킬로 패키징</strong>했다는 겁니다. <code>gpt-image-2-style-library</code> 스킬이 사이트와 같은 <code>data/style-library.json</code> 데이터를 써서, 스타일·템플릿·카테고리·씬 태그를 고르는 일을 대신해 줍니다.</p>
+<pre><code># Claude Code, Codex, Cursor 등 지원 도구용
+npx skills add freestylefly/awesome-gpt-image-2 \
+  --skill gpt-image-2-style-library --agent claude-code codex \
+  --global --yes --copy
+
+# 또는 Claude Code 플러그인 마켓플레이스
+/plugin marketplace add freestylefly/awesome-gpt-image-2
+/plugin install gpt-image-2-style-library@awesome-gpt-image-2</code></pre>
+<p>설치 후 "Codex에 대한 인포그래픽 프롬프트를 만들어 줘"처럼 요청하면 스킬이 라이브러리에서 적절한 스타일을 골라 줍니다. npm CLI(<code>gpt-image-2-style-library install all</code>)로도 설치할 수 있고, 설치 후 에이전트 세션을 재시작해야 합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>20+ 산업용 템플릿</h2>
+<p>사례 앨범과 별도로 <code>docs/templates.md</code>에 템플릿 라이브러리가 있습니다. 카테고리별로 4개 페이지에 나뉘어 있고, 각각 핵심 역량이 적혀 있습니다 — UI는 컴포넌트와 계층 구조, 인포그래픽은 모듈·화살표·데이터 구조, 제품은 판매 포인트와 상세 페이지 구조 같은 식입니다.</p>
+<p>"Industrial prompt templates and pitfalls guide" 문서에는 전체 템플릿 텍스트와 흔한 함정이 정리돼 있습니다. 사례를 보고 구조를 따라 한 뒤, 템플릿에 자기 변수를 채우는 흐름이 이 저장소의 사용법 전부입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>라이선스와 출처</h2>
+<p>저장소 자체는 MIT입니다. 다만 내용물은 다릅니다. 사례와 이미지는 YouMind, OpenNana 같은 공개 커뮤니티 프롬프트 라이브러리에서 수집·정리한 것으로, 저작권은 원저자나 플랫폼에 있습니다. CC BY 4.0 같은 라이선스를 따르고 원문 링크를 보존하려 노력하지만, <strong>상업적 사용은 원저자의 허락이 필요</strong>하다고 명시돼 있습니다.</p>
+<p>학습과 연구 목적으로 구조화해 둔 것이지, 콘텐츠의 소유권을 주장하는 게 아닙니다. 업무에 쓰기 전에 각 사례의 출처와 라이선스를 확인하는 절차가 필요합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>한계와 주의</h2>
+<p>544개 사례가 많아 보이지만 전부가 같은 품질은 아닙니다. 커뮤니티 제출물이 계속 쌓이는 구조라 최신 사례일수록 검증이 얇을 수 있고, 2.5 스포트라이트처럼 "원본 조건 미검증" 표시가 붙은 항목도 있습니다. 프롬프트를 그대로 복사해 쓰기보다 구조를 참고하는 용도로 쓰는 게 안전합니다.</p>
+<p>이 저장소는 GPT Image 2/2.5에 특화돼 있다는 점도 알아 둘 필요가 있습니다. 다른 이미지 모델(Flux, SDXL 등)에는 프롬프트 문법이 다르므로, 범용 프롬프트 기법이라기보다 특정 모델의 사례집에 가깝습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>도입 전 체크리스트</h2>
+<div style="background:#f0fdf4;border:1px solid #BBF7D0;border-radius:8px;padding:16px 20px;margin:0 0 24px 0;">
+<p style="margin:0 0 10px 0;font-size:15px;font-weight:bold;color:#166534;">확인할 것 4가지</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 용도 — GPT Image 2/2.5 전용 사례집인지, 범용 기법을 찾는 건지 구분</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 라이선스 — 사례는 커뮤니티 수집물, 상업적 사용은 원저자 확인</p>
+<p style="margin:0 0 6px 0;font-size:15px;line-height:1.6;color:#166534;">✓ 스킬 — 에이전트에 설치하면 스타일 라이브러리를 자동 참조</p>
+<p style="margin:0;font-size:15px;line-height:1.6;color:#166534;">✓ 구조 — 산문 복사가 아니라 카테고리·템플릿 구조를 가져오기</p>
+</div>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;"><span style="display:inline-block;width:6px;height:22px;background:#2f5bd7;border-radius:3px;margin-right:10px;vertical-align:-2px;"></span>정리</h2>
+<p>이 저장소의 가치는 사례 수가 아니라 "프롬프트를 코드처럼 다루는" 관점입니다. 원자 스키마로 쪼개고, 카테고리로 정리하고, 에이전트 스킬로 패키징해서, 흩어진 프롬프트를 재사용 가능한 자산으로 바꿉니다.</p>
+<p>오늘 해 볼 일은 갤러리에서 마음에 드는 사례 하나를 열어 구조를 보는 겁니다. 프롬프트를 통째로 베끼지 말고, 주제·조명·재질·레이아웃이 어떻게 분리돼 있는지 확인해 보세요. 그게 Prompt as Code의 전부입니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">
+참고: <a href="https://github.com/freestylefly/awesome-gpt-image-2" target="_blank" style="color:#555;text-decoration:none;">awesome-gpt-image-2</a> (MIT License, 사례·이미지는 커뮤니티 출처)</p>

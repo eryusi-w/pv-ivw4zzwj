@@ -1,0 +1,69 @@
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">코드 리뷰와 보안 감사의 간격</h2>
+<p>보안 리뷰는 대개 사람의 경험에 기댑니다. 어떤 사람은 인증 경계를 먼저 보고, 어떤 사람은 입력 검증부터 봅니다. 같은 코드를 봐도 지적이 겹치지 않고, 빠뜨린 영역은 아무도 모릅니다.</p>
+<p>Cloudflare가 공개한 security-audit-skill은 이 편차를 줄이려는 시도입니다. 감사 절차를 여섯 단계로 고정하고, 발견 사항마다 근거를 요구합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">security-audit-skill이 하는 일</h2>
+<p>코딩 에이전트를 보안 감사자로 바꾸는 스킬입니다. 저장소를 병렬 에이전트로 나눠 정찰하고, 후보 취약점을 모은 뒤, 별도 에이전트가 그 주장을 코드와 대조해 검증합니다. 라이선스는 MIT입니다.</p>
+<p>핵심은 "주장"과 "확인된 사실"을 분리한다는 점입니다. 근거가 없는 후보는 취약점 목록에 올리지 않고, 검증 대기 기록으로 따로 남깁니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">여섯 단계 감사 절차</h2>
+<p>단계는 정찰, 헌팅, 검증, 구조화 출력, 독립 검증, 보고로 이어집니다. 각 단계가 파일을 남기므로, 어느 지점에서 결론이 났는지 추적할 수 있습니다.</p>
+<table style="width:100%;border-collapse:collapse;font-size:15px;">
+<tr><th style="border:1px solid #e5e8eb;padding:10px;background:#f7f9fa;text-align:left;">단계</th><th style="border:1px solid #e5e8eb;padding:10px;background:#f7f9fa;text-align:left;">하는 일</th><th style="border:1px solid #e5e8eb;padding:10px;background:#f7f9fa;text-align:left;">산출물</th></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">1 정찰</td><td style="border:1px solid #e5e8eb;padding:10px;">구조·신뢰 경계·입력면 파악</td><td style="border:1px solid #e5e8eb;padding:10px;">architecture.md</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">2 헌팅</td><td style="border:1px solid #e5e8eb;padding:10px;">커버리지 원장 기준 병렬 탐색</td><td style="border:1px solid #e5e8eb;padding:10px;">coverage-ledger.json</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">3 검증</td><td style="border:1px solid #e5e8eb;padding:10px;">후보마다 경계·영향 확인</td><td style="border:1px solid #e5e8eb;padding:10px;">findings</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">4 보고</td><td style="border:1px solid #e5e8eb;padding:10px;">기계 판독 가능 형식으로 정리</td><td style="border:1px solid #e5e8eb;padding:10px;">REPORT.md</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;">5 재검증</td><td style="border:1px solid #e5e8eb;padding:10px;">별도 에이전트가 사실 확인</td><td style="border:1px solid #e5e8eb;padding:10px;">검증 로그</td></tr>
+</table>
+<p>표에 적힌 산출물은 저장소가 정한 파일명입니다. 결과를 사내 시스템으로 옮길 때 이 형식을 그대로 쓰면 후처리 스크립트를 따로 만들지 않아도 됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치: skills CLI</h2>
+<p>설치는 Skills CLI로 합니다. 전역 설치 여부만 정하면 되고, 프로젝트별로 넣으려면 <code>--global</code>을 빼면 됩니다.</p>
+<pre><code># 현재 프로젝트에 설치
+npx skills add https://github.com/cloudflare/security-audit-skill \
+  --skill security-audit
+
+# 모든 프로젝트에 설치
+npx skills add https://github.com/cloudflare/security-audit-skill \
+  --skill security-audit \
+  --global
+
+# 설치 확인
+npx skills --help</code></pre>
+<p>설치 후에는 새 세션을 열어 스킬이 목록에 보이는지 확인합니다. 스킬은 기본적으로 안내 모드로 동작하고, 전체 감사는 명시적으로 요청할 때만 시작합니다.</p>
+<p>감사 스킬을 쓰려면 병렬 서브에이전트를 지원하는 에이전트가 필요합니다. 서브에이전트가 없는 환경에서는 단계가 순차로 줄어들어 시간이 길어집니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실행: 감사 요청 방법</h2>
+<p>감사는 저장소를 연 상태에서 요청합니다. 결과 폴더를 지정하지 않으면 홈 디렉터리 아래에 실행 번호가 붙은 폴더를 만듭니다.</p>
+<pre><code># 기본 요청
+security audit this codebase
+
+# 범위와 출력 위치를 지정
+find security vulnerabilities in ./src
+output to ~/audits/my-project</code></pre>
+<p>범위를 좁히면 시간이 줄어듭니다. 전체 저장소를 한 번에 돌리면 토큰 사용량이 커지므로, 먼저 인증과 결제처럼 위험도가 높은 경로부터 감사하는 편이 효율적입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">결과 읽는 법</h2>
+<p>보고서는 심각도 순으로 정렬되지만, 심각도의 기준은 증명된 영향입니다. 인증 없이 코드 실행이나 전체 저장소 접근이 가능한 경우만 최상위로 분류하고, 권장 사례 미적용은 취약점으로 세지 않습니다.</p>
+<p>이 기준이 실무에서 중요한 이유는 소음 때문입니다. "쓰이지 않는 변수"나 "헤더 누락" 같은 항목이 취약점 목록에 섞이면, 진짜 위험한 항목이 그 사이에 묻힙니다. 근거를 요구하는 절차는 이 소음을 걸러내는 장치입니다.</p>
+<p>검증 대기 목록도 함께 읽어야 합니다. 확정은 아니지만 확인할 가치가 있는 항목이 남아 있으므로, 그 목록이 다음 감사의 시작점이 됩니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">커버리지 원장의 의미</h2>
+<p>커버리지 원장은 "어디를 봤고 어디를 안 봤는지"를 기록한 파일입니다. 보안 감사에서 가장 위험한 상태는 취약점이 없는 것이 아니라, 확인하지 않은 영역을 확인했다고 착각하는 것입니다.</p>
+<p>원장이 있으면 두 번째 실행에서 이전에 본 경로를 건너뛰고 남은 영역으로 갈 수 있습니다. 반복 실행이 누적되는 구조라는 점이 이 스킬의 실용적인 장점입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">한계와 주의할 점</h2>
+<p>먼저 정적 감사입니다. 배포 설정, 시크릿 관리, 인프라 권한처럼 저장소 밖에 있는 사실은 다루지 못합니다. 운영 환경 점검은 별도 단계가 필요합니다.</p>
+<p>이 한계는 의외로 자주 무시됩니다. 저장소에 비밀번호가 없어도 환경변수 관리가 느슨하면 같은 문제가 생깁니다. 감사 결과를 "안전"으로 읽지 말고 "소스 단계에서 확인된 것"으로 읽어야 합니다.</p>
+<p>그다음 결과는 후보 목록입니다. 실제 악용 가능성은 실행 환경에서 확인해야 하고, 그 판단은 사람이 합니다. 보고서를 그대로 보안 공지로 옮기면 과장이 됩니다.</p>
+<p>이어서 비용입니다. 병렬 에이전트를 여러 번 돌리므로 큰 저장소에서는 사용량이 빠르게 늘어납니다. 파일 범위와 예산을 먼저 정하는 편이 좋습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">운영에 붙이는 방법</h2>
+<p>릴리스 전 검사로 붙이는 구성이 현실적입니다. 매 배포마다 전체 감사를 돌리는 대신, 변경된 디렉터리만 대상으로 돌리고 결과를 PR 코멘트로 남깁니다.</p>
+<p>CI에서 실행할 때는 실패 조건을 정해야 합니다. 확정 취약점이 하나라도 있으면 실패, 검증 대기만 있으면 경고하는 식으로 나누면 파이프라인이 멈추는 일을 줄일 수 있습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리: 근거 없는 지적은 소음</h2>
+<p>보안 도구의 가치는 지적 개수가 아니라 신뢰도입니다. 근거를 요구하는 절차는 느려 보이지만, 잘못된 경고에 시간을 쓰는 비용을 줄여 줍니다.</p>
+<p>도입한다면 작은 서비스 하나로 시작해 보고서 형식이 팀에 맞는지 먼저 확인하세요. 형식이 맞으면 그다음에 범위를 넓히면 됩니다.</p>
+<p style="font-size:15px;color:#666;">참고: <a href="https://github.com/cloudflare/security-audit-skill" target="_blank" style="color:#555;text-decoration:none;">security-audit-skill</a> (MIT)</p>

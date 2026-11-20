@@ -1,0 +1,60 @@
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">터미널에서 코딩 보조를 받으려면 매번 같은 도구를 켜고 꺼야 하고, 문서 검색은 따로 해야 합니다. openclaw은 이런 잡다한 작업을 자연어 명령 하나로 묶는 개인용 AI 에이전트입니다.</p>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">운영체제와 플랫폼에 관계없이 코드 작성·실행, 문서 검색·요약을 수행하는 개인용 AI 어시스턴트로, MIT 라이선스에 현재 GitHub 스타 393,391개, 주 언어는 TypeScript입니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">핵심 특징 3가지</h2>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">자연어 명령 — "이 파일 고쳐줘", "이 문서 요약해줘"처럼 말로 지시합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">코드 실행·디버깅 — 생성한 코드를 바로 실행하고 오류를 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">문서 검색·요약 — 로컬 문서와 웹 자료를 찾아 핵심만 정리합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">설치와 빠른 실행</h2>
+
+<pre><code>npm i -g @openclaw/openclaw</code></pre>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">Node.js가 필요합니다. 설치 후 터미널에서 실행하면 대화형 인터페이스가 열리고, 첫 실행 때 사용할 모델과 API 키를 설정합니다.</p>
+
+<table style="width:100%;border-collapse:collapse;font-size:15px;margin:0 0 16px 0;">
+<thead>
+<tr style="background:#f5f7fa;"><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">항목</th><th style="border:1px solid #e5e8eb;padding:10px;text-align:left;">값</th></tr>
+</thead>
+<tbody>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>저장소</strong></td><td style="border:1px solid #e5e8eb;padding:10px;"><a href="https://github.com/openclaw/openclaw" target="_blank" style="color:#555;">openclaw/openclaw</a></td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>스타</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">393,391</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>주 언어</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">TypeScript</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>라이선스</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">MIT</td></tr>
+<tr><td style="border:1px solid #e5e8eb;padding:10px;"><strong>설치 방식</strong></td><td style="border:1px solid #e5e8eb;padding:10px;">npm 전역 설치</td></tr>
+</tbody>
+</table>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">실전 활용 시나리오</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">처음엔 읽기 전용 작업(검색·요약)부터 시켜 보고, 익숙해지면 코드 수정으로 넓힙니다.</p>
+
+<pre><code>git clone https://github.com/openclaw/openclaw.git</code></pre>
+
+<ul style="margin:0 0 16px 0;padding-left:22px;">
+<li style="margin:0 0 8px 0;line-height:1.7;">1단계 — npm으로 설치하고 첫 실행에서 모델·키를 설정합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">2단계 — 평소 자주 찾는 문서 폴더를 지정해 검색·요약을 시켜 봅니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">3단계 — 작은 스크립트 하나를 만들어 달라고 해서 결과를 직접 실행해 확인합니다.</li>
+<li style="margin:0 0 8px 0;line-height:1.7;">4단계 — 반복되는 지시는 별칭이나 플러그인으로 저장해 재사용합니다.</li>
+</ul>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">직접 쓰기 전 알면 좋은 점</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">로컬 실행이라 대화 내용이 외부로 나가지 않는 장점이 있지만, Node.js 환경 설정이 필요합니다. 코드를 직접 실행하는 만큼 잘못된 명령이 실제로 돌아갈 수 있으니, 처음에는 작업 폴더를 분리해 두는 게 안전합니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">누구에게 필요한가</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">개발자, 프론트엔드/백엔드 엔지니어, 데이터 과학자에게 특히 유용합니다. 터미널에 머무르면서 검색·코딩·실행을 한 창에서 처리하고 싶은 사람에게 맞습니다.</p>
+
+<h2 style="font-size:24px;line-height:1.5;margin:0 0 16px 0;">정리</h2>
+
+<p style="font-size:15px;line-height:1.7;margin:0 0 16px 0;">여러 도구를 오가던 잡일을 자연어 명령으로 묶어 주는 개인용 에이전트입니다. 읽기 작업부터 시작해 점차 실행 권한을 넓히는 순서가 안전합니다.</p>
+
+<p style="font-size:15px;color:#666;margin-top:34px;line-height:1.5;">참고: <a href="https://github.com/openclaw/openclaw" target="_blank" style="color:#555;text-decoration:none;">github.com/openclaw/openclaw</a></p>
+
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467069276" target="_blank" style="color:#2f5bd7;text-decoration:none;">AI 코딩 도구 고르는 기준과 첫 실행</a></p>
+<p style="font-size:15px;line-height:1.8;margin:0 0 10px 0;">🔗 함께 읽으면 좋은 관련 가이드: <a href="https://blog.naver.com/ryusi79/224467075274" target="_blank" style="color:#2f5bd7;text-decoration:none;">폰에서 코딩 에이전트 조종하는 T3 Code</a></p>
